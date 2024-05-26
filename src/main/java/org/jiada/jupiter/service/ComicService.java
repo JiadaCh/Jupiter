@@ -7,7 +7,6 @@ import org.jiada.jupiter.entity.Editorial;
 import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.ComicRepository;
 import org.jiada.jupiter.repository.EditorialRepository;
-import org.jiada.jupiter.repository.GeneroRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
