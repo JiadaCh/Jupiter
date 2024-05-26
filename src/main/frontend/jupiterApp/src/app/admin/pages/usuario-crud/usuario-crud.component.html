@@ -1,0 +1,282 @@
+<div class="card">
+  <!--
+    mostrar mensajes de error/warn/successful
+    -->
+  <p-toast />
+  <!--
+    barra de herramientas
+    -->
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        pRipple
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (click)="openNew()" />
+      <p-button
+        pRipple
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        (click)="deleteSelectedUsuarios()"
+        [disabled]="!selectedUsuarios || !selectedUsuarios.length" />
+    </ng-template>
+  </p-toolbar>
+  <!--
+    tabla  del objeto
+    -->
+  <p-table
+    #dt2
+    [value]="usuarios()"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    [paginator]="true"
+    selectionMode="single"
+    [(selection)]="selectedUsuarios"
+    [(ngModel)]="selectedColumns"
+    [columns]="selectedColumns"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <p-multiSelect
+        display="chip"
+        [options]="cols"
+        [(ngModel)]="selectedColumns"
+        optionLabel="header"
+        selectedItemsLabel="{0} columns selected"
+        [style]="{'min-width': '200px'}"
+        placeholder="Choose Columns" />
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr >
+        <th style="width: 4rem;">
+          <p-tableHeaderCheckbox/>
+        </th>
+        <th style="width:8%">Id</th>
+        <th style="width:15%">Correo</th>
+        <th style="width:8%">Usuario</th>
+        <th style="width:8%">Rol</th>
+        <th style="width:auto">Dirección</th>
+        <th style="width:auto">
+          Perfil
+        </th>
+        <th style="width:auto">Acción</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="correo"
+            inputmode
+            placeholder="Buscar por correo"
+            ariaLabel="Filter correo" />
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="nombre"
+            inputmode
+            placeholder="Buscar por Usuario"
+            ariaLabel="Filter usuario" />
+        </th>
+        <th></th>
+        <th>
+          <p-columnFilter field="tipo" matchMode="equals" [showMenu]="false" >
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown
+                [ngModel]="value"
+                [options]="rol"
+                (onChange)="filter($event.value)"
+                placeholder="Select One"
+                [showClear]="true">
+                <ng-template let-option pTemplate="item">
+                  <p-tag
+                    [value]="option"></p-tag>
+                </ng-template>
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th></th>
+        <th>
+        </th>
+        <th></th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario let-columns="columns">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="usuario" />
+        </td>
+        <td>
+          {{ usuario.id }}
+        </td>
+        <td>
+          {{ usuario.correo }}
+        </td>
+        <td>
+          {{ usuario.nombre }}
+        </td>
+        <td>
+          {{ usuario.rol }}
+        </td>
+        <td>
+          {{ usuario.direccion }}
+        </td>
+        <td>
+          <p-image [src]="usuario.imagen" [alt]="usuario.usuario" width="100"  [preview]="true"></p-image>
+        </td>
+        <td>
+          <p-button
+            pRipple
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="info"
+            (click)="editUsuario(usuario)" />
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (click)="deleteUsuario(usuario)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ usuarios() ? usuarios().length : 0 }} usuarios.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center text-4xl">No se ha encontrado usuarios.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <!--
+  crear/editar el objeto
+  -->
+  <p-dialog
+    [(visible)]="usuarioDialog"
+    [style]="{ width: '600px' }"
+    header="Detalle de Usuario"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="flex justify-content-around">
+        <p-image [src]="usuario.imagen" [alt]="usuario.nombre"  [preview]="true"></p-image>
+      </div>
+
+      <div class="field">
+        <label for="nombre">Usuario</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="usuario.nombre"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted() && !usuario.nombre">
+          Usuario is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="correo">Correo</label>
+        <input
+          type="email"
+          pInputText
+          id="correo"
+          [(ngModel)]="usuario.correo"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted() && !usuario.correo">
+          Correo is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="rol">Rol</label>
+
+        <p-dropdown
+          [(ngModel)]="usuario!.rol"
+          inputId="rol"
+          id="rol"
+          required
+          [options]="rol">
+          <ng-template pTemplate="selectedItem">
+            <p-tag
+              [value]="usuario!.rol"></p-tag>
+          </ng-template>
+          <ng-template let-option pTemplate="item">
+            <p-tag
+              [value]="option"></p-tag>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+
+      <div class="field">
+        <label for="direccion">Dirección</label>
+        <input
+          type="text"
+          pInputText
+          id="direccion"
+          [(ngModel)]="usuario.direccion"
+          autofocus />
+      </div>
+
+
+      <p-fileUpload
+        (onSelect)="onUpload($event)"
+        [multiple]="false"
+        uploadIcon
+        accept="image/*"
+        label="Seleccionar imagen"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        maxFileSize="1000000">
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">
+              {{ file.name }} - {{ file.size }} bytes
+            </li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="saveUsuario()" />
+    </ng-template>
+  </p-dialog>
+
+  <!--
+    confirmación de eleminar
+    -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

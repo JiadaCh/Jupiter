@@ -1,5 +1,6 @@
 package org.jiada.jupiter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,21 +19,28 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SequenceGenerator(
+        name = "EditorialSeq",
+        sequenceName = "editorial_seq",
+        allocationSize = 1
+)
 public class Editorial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "editorial_seq")
     @Column(name = "id_editorial")
     private long id;
 
     @Column(name="nombre",nullable = false)
     private String nombre;
 
-    @OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "editorial")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Set<Libro> libros = new HashSet<>();
 
-    @OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "editorial")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Set<Comic> comics = new HashSet<>();
 }

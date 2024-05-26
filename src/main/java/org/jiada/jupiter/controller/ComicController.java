@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/comics")
 public class ComicController {
     private final ComicService comicService;
@@ -27,6 +27,7 @@ public class ComicController {
 
     @PostMapping({"","/"})
     public Comic newComic(@RequestBody Comic comic) {
+        System.out.println(comic.getGeneros());
         return this.comicService.save(comic);
     }
 

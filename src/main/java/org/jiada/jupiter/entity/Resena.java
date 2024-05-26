@@ -14,10 +14,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SequenceGenerator(
+        name = "ResenaSeq",
+        sequenceName = "resena_seq",
+        allocationSize = 1
+)
 public class Resena {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ResenaSeq")
     @Column(name = "id_resena")
     private long id;
 

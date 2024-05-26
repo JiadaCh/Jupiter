@@ -6,11 +6,12 @@ import org.jiada.jupiter.service.GeneroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/generos")
 public class GeneroController {
     private final GeneroService generoService;

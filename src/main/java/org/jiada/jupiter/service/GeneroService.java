@@ -1,8 +1,10 @@
 package org.jiada.jupiter.service;
 
 
+import org.jiada.jupiter.entity.Comic;
 import org.jiada.jupiter.entity.Genero;
 import org.jiada.jupiter.exception.EntityNotFoundException;
+import org.jiada.jupiter.repository.ComicRepository;
 import org.jiada.jupiter.repository.GeneroRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,11 @@ import java.util.List;
 public class GeneroService {
 
     private final GeneroRepository generoRepository;
+    private final ComicRepository comicRepository;
 
-    public GeneroService(GeneroRepository generoRepository) {
+    public GeneroService(GeneroRepository generoRepository, ComicRepository comicRepository) {
         this.generoRepository = generoRepository;
+        this.comicRepository = comicRepository;
     }
 
     public List<Genero> all() {

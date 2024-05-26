@@ -1,0 +1,199 @@
+<div class="card">
+  <!--
+    mostrar mensajes de error/warn/successful
+    -->
+    <p-toast />
+  <!--
+    barra de herramientas
+    -->
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        pRipple
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (click)="openNew()" />
+      <p-button
+        pRipple
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        (click)="deleteSelectedAutors()"
+        [disabled]="!selectedAutors || !selectedAutors.length" />
+    </ng-template>
+  </p-toolbar>
+  <!--
+    tabla  del objeto
+    -->
+<p-table
+  #dt2
+  [value]="autores()"
+  dataKey="id"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading()"
+  [paginator]="true"
+  selectionMode="single"
+  [(selection)]="selectedAutors"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 4rem;">
+        <p-tableHeaderCheckbox/>
+      </th>
+      <th style="width:12%">Id</th>
+      <th style="width:22%">Nombre</th>
+      <th style="width:22%">Apellido 1</th>
+      <th style="width:22%">Apellido 2</th>
+      <th style="width:22%">Acciones</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="nombre"
+          inputmode
+          placeholder="Buscar por nombre"
+          ariaLabel="Filter nombre" />
+      </th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="apellido1"
+          placeholder="Buscar por apellido 1"
+          ariaLabel="Filter apellido 1" />
+      </th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="apellido2"
+          placeholder="Buscar por apellido 2"
+          ariaLabel="Filter apellido 2" />
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-autor>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="autor" />
+      </td>
+      <td>
+        {{ autor.id }}
+      </td>
+      <td>
+        {{ autor.nombre }}
+      </td>
+      <td>
+        {{ autor.apellido1 }}
+      </td>
+      <td>
+        {{ autor?.apellido2 }}
+      </td>
+      <td>
+        <p-button
+          pRipple
+          icon="pi pi-pencil"
+          class="mr-2"
+          [rounded]="true"
+          [outlined]="true"
+          severity="info"
+          (click)="editAutor(autor)" />
+        <p-button
+          pRipple
+          icon="pi pi-trash"
+          severity="danger"
+          [rounded]="true"
+          [outlined]="true"
+          (click)="deleteAutor(autor)" />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      En total hay {{ autores() ? autores().length : 0 }} autores.
+    </div>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" class="text-center text-4xl">No se ha encontrado autores.</td>
+    </tr>
+  </ng-template>
+
+</p-table>
+  <!--
+  crear/editar el objeto
+  -->
+  <p-dialog
+    [(visible)]="autorDialog"
+    [style]="{ width: '450px' }"
+    header="Detalle de Autor"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="autor.nombre"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted() && !autor.nombre">
+          Name is required.
+        </small>
+      </div>
+      <div class="field">
+        <label for="apellido1">Apellido 1</label>
+        <input
+          type="text"
+          pInputText
+          id="apellido1"
+          [(ngModel)]="autor.apellido1"
+          required/>
+
+        <small class="p-error" *ngIf="submitted() && !autor.apellido1">
+          Name is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="apellido2">Apellido 2</label>
+        <input
+          type="text"
+          pInputText
+          id="apellido2"
+          [(ngModel)]="autor.apellido2"/>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="saveAutor()" />
+    </ng-template>
+  </p-dialog>
+
+  <!--
+    confirmación de eleminar
+    -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

@@ -1,7 +1,6 @@
 package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +16,15 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SequenceGenerator(
+        name = "PedidoSeq",
+        sequenceName = "pedido_seq",
+        allocationSize = 1
+)
 public class Pedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PedidoSeq")
     @Column(name = "id_pedido")
     private long id;
 
@@ -36,16 +40,13 @@ public class Pedido {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_vendedor", foreignKey = @ForeignKey(name = "FK_Pedido_Vendedor"))
-    @JsonIgnore
     private Usuario vendedor;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_comprador", foreignKey = @ForeignKey(name = "FK_Pedido_Comprador"))
-    @JsonIgnore
     private Usuario comprador;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_producto", foreignKey = @ForeignKey(name = "FK_Pedido_Producto"))
-    @JsonIgnore
     private Producto producto;
 }

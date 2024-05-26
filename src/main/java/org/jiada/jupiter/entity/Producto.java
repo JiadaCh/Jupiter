@@ -14,10 +14,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SequenceGenerator(
+        name = "ProductoSeq",
+        sequenceName = "producto_seq",
+        allocationSize = 1
+)
 public class Producto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ProductoSeq")
     @Column(name = "id_producto")
     private long id;
 

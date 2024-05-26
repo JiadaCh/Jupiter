@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -13,10 +14,15 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SequenceGenerator(
+        name = "GeneroSeq",
+        sequenceName = "genero_seq",
+        allocationSize = 1
+)
 public class Genero {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GeneroSeq")
     @Column(name = "id_genero")
     private long id;
 
@@ -30,4 +36,17 @@ public class Genero {
     @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Comic> comics = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genero genero = (Genero) o;
+        return Objects.equals(nombre, genero.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre);
+    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/libros")
 public class LibroController {
     private final LibroService libroService;

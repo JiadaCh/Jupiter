@@ -1,0 +1,155 @@
+<div class="card">
+  <!--
+    mostrar mensajes de error/warn/successful
+    -->
+  <p-toast />
+  <!--
+    barra de herramientas
+    -->
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        pRipple
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (click)="openNew()" />
+      <p-button
+        pRipple
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        (click)="deleteSelectedEditorials()"
+        [disabled]="!selectedEditorials || !selectedEditorials.length" />
+    </ng-template>
+  </p-toolbar>
+  <!--
+    tabla  del objeto
+    -->
+  <p-table
+    #dt2
+    [value]="editoriales()"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    [paginator]="true"
+    selectionMode="single"
+    [(selection)]="selectedEditorials"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem;">
+          <p-tableHeaderCheckbox/>
+        </th>
+        <th style="width:12%">Id</th>
+        <th style="width:60%">Nombre</th>
+        <th style="width:auto">Acciones</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="nombre"
+            inputmode
+            placeholder="Buscar por nombre"
+            ariaLabel="Filter nombre" />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-editorial>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="editorial" />
+        </td>
+        <td>
+          {{ editorial.id }}
+        </td>
+        <td>
+          {{ editorial.nombre }}
+        </td>
+        <td>
+          <p-button
+            pRipple
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="info"
+            (click)="editEditorial(editorial)" />
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (click)="deleteEditorial(editorial)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ editoriales() ? editoriales().length : 0 }} editoriales.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center text-4xl">No se ha encontrado editoriales.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <!--
+  crear/editar el objeto
+  -->
+  <p-dialog
+    [(visible)]="editorialDialog"
+    [style]="{ width: '450px' }"
+    header="Detalle de Editorial"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="editorial.nombre"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted() && !editorial.nombre">
+          Nombre is required.
+        </small>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="saveEditorial()" />
+    </ng-template>
+  </p-dialog>
+
+  <!--
+    confirmación de eleminar
+    -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>
