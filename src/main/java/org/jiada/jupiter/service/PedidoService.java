@@ -6,6 +6,7 @@ import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,11 +23,13 @@ public class PedidoService {
     }
 
     public List<Pedido> findByUsuario(Long idUsuario) {
+        this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario,idUsuario).forEach(pedido -> System.out.println(pedido.getFecha()));
         return this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario,idUsuario);
     }
 
-    public Pedido save(Pedido Pedido) {
-        return this.pedidoRepository.save(Pedido);
+    public Pedido save(Pedido pedido) {
+        pedido.setFecha(new Date());
+        return this.pedidoRepository.save(pedido);
     }
 
     public Pedido one(Long id) {

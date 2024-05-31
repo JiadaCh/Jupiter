@@ -35,7 +35,11 @@
         <th style="width:auto">Acción</th>
       </tr>
       <tr>
-        <th></th>
+        <th pSortableColumn="fecha" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            <p-sortIcon field="date" />
+          </div>
+        </th>
         <th>
 
           <p-columnFilter field="estado" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false" class="ml-auto">
@@ -69,7 +73,7 @@
     <ng-template pTemplate="body" let-pedido let-columns="columns">
       <tr>
         <td>
-          {{ pedido.fecha}}
+          {{ pedido.fecha }}
         </td>
         <td>
           {{ pedido.estado}}

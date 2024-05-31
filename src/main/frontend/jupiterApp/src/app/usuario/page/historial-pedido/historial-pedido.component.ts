@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {AuthService} from "@service/auth.service";
 import {PedidoService} from "@service/pedido.service";
 import {EstadoPedido, Pedido} from "@interface/pedido.interface";
@@ -53,7 +53,7 @@ import {TagModule} from "primeng/tag";
     color: var();
   }`
 })
-export class HistorialPedidoComponent {
+export class HistorialPedidoComponent implements OnInit{
 
   private authService = inject(AuthService);
   private pedidoService = inject(PedidoService);

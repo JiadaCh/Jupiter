@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrimeNGConfig} from 'primeng/api';
+import {PrimeNGConfig} from 'primeng/api';
 import {MenuComponent} from "@shared/components/menu/menu.component";
 import {ScrollTopModule} from "primeng/scrolltop";
 import {BreadcrumbModule} from "primeng/breadcrumb";
@@ -17,7 +17,6 @@ import {AuthService} from "@service/auth.service";
 export class AppComponent implements OnInit{
   title = 'Jupiter';
   private authService = inject(AuthService);
-
 
   constructor(private primengConfig: PrimeNGConfig) {
   }
