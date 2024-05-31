@@ -102,7 +102,6 @@ export class DetalleComicComponent implements OnInit{
         })
         if (this.usuarioLoageado) {
           this.resenaService.getResenaComicUsuario(comic, this.usuarioLoageado).subscribe((res) => {
-            console.log(this.resena)
             this.resena = res;
           })
         }
@@ -147,6 +146,8 @@ export class DetalleComicComponent implements OnInit{
           if (value){
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Resena eleminado', life: 3000 });
             this.resena = undefined;
+            this.calificacion -= resena.calificacion;
+            this.getCalificacion();
           }else{
             this.showError()
           }

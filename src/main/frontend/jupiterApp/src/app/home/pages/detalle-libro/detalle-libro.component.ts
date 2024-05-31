@@ -74,6 +74,7 @@ export class DetalleLibroComponent implements OnInit{
   usuarioLoageado = this.authService.user();
   libro: Libro|undefined;
   calificacion:number  = 0;
+  mediaCalificacion:number  = 0;
   resenas:Resena[] = [];
   resena:Resena|undefined;
 
@@ -94,6 +95,10 @@ export class DetalleLibroComponent implements OnInit{
         if (!libro) return this.router.navigate(['/libros']);
         this.resenaService.getResenaLibro(libro).subscribe((res)=>{
           this.resenas = res;
+          for (let resena of res){
+            this.calificacion += resena.calificacion;
+          }
+          this.getCalificacion();
         })
         if (this.usuarioLoageado) {
           this.resenaService.getResenaLibroUsuario(libro, this.usuarioLoageado).subscribe((res) => {
@@ -105,7 +110,9 @@ export class DetalleLibroComponent implements OnInit{
         return;
       });
   }
-
+  getCalificacion(){
+    this.mediaCalificacion = this.calificacion/this.resenas.length;
+  }
   showError() {
     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
   }
@@ -137,6 +144,8 @@ export class DetalleLibroComponent implements OnInit{
           if (value){
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Resena eleminado', life: 3000 });
             this.resena = undefined;
+            this.calificacion -= resena.calificacion;
+            this.getCalificacion();
           }else{
             this.showError()
           }
@@ -182,6 +191,8 @@ export class DetalleLibroComponent implements OnInit{
           this.submitted.set(false);
           this.resenaService.getResenaLibroUsuario(this.libro!,this.usuarioLoageado!).subscribe((res)=>{
             this.resena = res;
+            this.calificacion += res.calificacion;
+            this.getCalificacion();
           })
         }else{
           this.showError();
