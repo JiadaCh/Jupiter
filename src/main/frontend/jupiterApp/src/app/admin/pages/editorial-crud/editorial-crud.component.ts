@@ -12,6 +12,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogModule} from "primeng/dialog";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-editorial-crud',
@@ -25,7 +26,8 @@ import {InputTextModule} from "primeng/inputtext";
     DialogModule,
     FormsModule,
     ConfirmDialogModule,
-    InputTextModule
+    InputTextModule,
+    CommonModule
   ],
   templateUrl: './editorial-crud.component.html',
   styleUrl: './editorial-crud.component.css',
@@ -134,6 +136,7 @@ export class EditorialCrudComponent implements OnInit{
           this.editorialService.updateEditorial(this.editorial).subscribe(value => {
             if (value){
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+              this.submitted.set(false);
               this.editorialDialog.set(false) ;
               this.cargarDatos()
             }else{
@@ -149,6 +152,7 @@ export class EditorialCrudComponent implements OnInit{
       this.editorialService.addEditorial(this.editorial).subscribe(value => {
         if (value){
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+          this.submitted.set(false);
           this.editorialDialog.set(false);
           this.cargarDatos();
         }else{

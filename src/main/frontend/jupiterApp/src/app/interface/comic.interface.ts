@@ -9,7 +9,7 @@ export interface Comic {
   idioma:         string;
   editorial:      Editorial;
   portada:        string;
-  tipo?:          TipoComic;
+  tipo:          TipoComic;
   anoPublicacion: number;
   generos:         Genero[];
   autores:          Autor[];

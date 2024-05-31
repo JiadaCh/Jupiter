@@ -8,7 +8,7 @@ export interface Libro {
   sinopsis:       string;
   idioma:         string;
   portada?:        string;
-  editorial?:        Editorial;
+  editorial:        Editorial;
   numPag:         number;
   anoPublicacion: number;
   isbn?:           string;

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Date;
 
@@ -35,7 +37,7 @@ public class Pedido {
     private String estado;
 
     @Column(name="fecha",nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd-HH:mm:ss",  shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "dd/mm/yyyy HH:mm:ss")
     private Date fecha;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -1,9 +1,13 @@
 package org.jiada.jupiter.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jiada.jupiter.entity.Producto;
 import org.jiada.jupiter.entity.Usuario;
+import org.jiada.jupiter.exception.EntityNotFoundException;
+import org.jiada.jupiter.service.ProductoService;
 import org.jiada.jupiter.service.UsuarioService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +18,11 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final ProductoService productoService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, ProductoService productoService) {
         this.usuarioService = usuarioService;
+        this.productoService = productoService;
     }
 
     @GetMapping({"","/"})
@@ -25,9 +31,26 @@ public class UsuarioController {
         return this.usuarioService.all();
     }
 
+    @GetMapping({"/producto"})
+    public Usuario findByProducto(@RequestParam("productoId") Long productoId) {
+        Producto producto = productoService.findById(productoId)
+                .orElseThrow(() -> new EntityNotFoundException(productoId, new Producto()));
+        return producto.getUsuario();
+    }
+
     @PostMapping({"","/"})
     public Usuario newUsuario(@RequestBody Usuario usuario) {
         return this.usuarioService.save(usuario);
+    }
+
+    @PostMapping({"/register"})
+    public ResponseEntity<Usuario>  Register(@RequestBody Usuario usuario) {
+        return  ResponseEntity.ok(this.usuarioService.save(usuario));
+    }
+
+    @GetMapping({"/login"})
+    public Usuario Login(@RequestParam("usuario") String usuario, @RequestParam("contrasena") String contrasena) {
+        return  this.usuarioService.login(usuario,contrasena);
     }
 
     @GetMapping("/{id}")

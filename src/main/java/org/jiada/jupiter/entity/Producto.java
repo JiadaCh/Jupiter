@@ -26,6 +26,9 @@ public class Producto {
     @Column(name = "id_producto")
     private long id;
 
+    @Column(name="nombre",nullable = false)
+    private String nombre;
+
     @Column(name="descripcion",nullable = false)
     private String descripcion;
 
@@ -34,6 +37,9 @@ public class Producto {
 
     @Column(name="imagen",nullable = false)
     private String imagen;
+
+    @Column(name="comprado", nullable = false)
+    private boolean comprado;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "FK_Producto_Usuario"))

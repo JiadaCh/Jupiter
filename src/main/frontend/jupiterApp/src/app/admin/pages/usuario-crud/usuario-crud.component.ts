@@ -20,6 +20,8 @@ import {ImageModule} from "primeng/image";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {CommonModule} from "@angular/common";
+import {PasswordModule} from "primeng/password";
 
 
 @Component({
@@ -40,6 +42,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     InputTextModule,
     FileUploadModule,
     ConfirmDialogModule,
+    CommonModule,
+    PasswordModule
   ],
   templateUrl: './usuario-crud.component.html',
   styleUrl: './usuario-crud.component.css',
@@ -55,10 +59,6 @@ export class UsuarioCrudComponent implements OnInit{
 
   rol:Rol[] = [Rol.admin,Rol.usuario];
 
-  cols: Column[] = [];
-
-  selectedColumns: Column[] = [];
-
   uploadedFiles: any[] = [];
   usuario!: Usuario;
 
@@ -70,7 +70,6 @@ export class UsuarioCrudComponent implements OnInit{
 
   ngOnInit(): void {
     this.cargarDatos();
-
   }
 
   cargarDatos(){
@@ -175,7 +174,8 @@ export class UsuarioCrudComponent implements OnInit{
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
               this.usuarioDialog = false ;
               this.editar.set(false);
-              this.cargarDatos()
+              this.cargarDatos();
+              this.submitted.set(false);
             }else{
               this.showError()
             }
@@ -189,6 +189,7 @@ export class UsuarioCrudComponent implements OnInit{
         if (value){
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
           this.usuarioDialog = false;
+          this.submitted.set(false);
           this.cargarDatos();
 
         }else{

@@ -36,6 +36,8 @@
   [loading]="loading()"
   [paginator]="true"
   selectionMode="single"
+  styleClass="p-datatable-gridlines"
+  [lazy]="true"
   [(selection)]="selectedAutors"
   [tableStyle]="{ 'min-width': '75rem' }"
   currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"

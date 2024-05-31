@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Usuario} from "@interface/usuario.interface";
 import {environments} from "../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
+import {Comic} from "@interface/comic.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,20 @@ export class UsuarioService {
 
   getUsuario():Observable<Usuario[]>{
     return this.http.get<Usuario[]>(this.baseUrl()+'/usuarios')
+  }
+
+  getUsuarioByProducto(idProducto:number):Observable<Usuario|undefined>{
+    return this.http.get<Usuario>(this.baseUrl()+`/usuarios/producto?productoId=${idProducto}`)
+      .pipe(
+        catchError(error=> of(undefined))
+      );
+  }
+
+  getUsuarioById(id:string):Observable<Usuario|undefined>{
+    return this.http.get<Usuario>(this.baseUrl()+'/usuarios/'+id)
+      .pipe(
+        catchError(error=> of(undefined))
+      );
   }
 
   deleteUsuario(id:number):Observable<Boolean> {

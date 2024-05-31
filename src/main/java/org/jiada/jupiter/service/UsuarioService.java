@@ -20,6 +20,10 @@ public class UsuarioService {
     public List<Usuario> all() {
         return this.usuarioRepository.findAll();
     }
+    public Usuario findByProducto(Long idProducto) {
+        return this.usuarioRepository.findByProductosId(idProducto);
+    }
+
 
     public Usuario save(Usuario Usuario) {
         return this.usuarioRepository.save(Usuario);
@@ -44,4 +48,17 @@ public class UsuarioService {
                 .orElseThrow(() -> new EntityNotFoundException(id, new Usuario()));
     }
 
+    public Usuario login(String usuario, String contrasena) {
+        Usuario user = this.usuarioRepository.findByNombreOrCorreo(usuario,usuario);
+
+        System.out.println(usuario);
+        if (user != null && user.getContrasena().equals(contrasena)) {
+            System.out.println("Usuario encontrado");
+            return user;
+
+        }
+
+            return null;
+
+    }
 }

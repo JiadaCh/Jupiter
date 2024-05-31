@@ -1,1 +1,108 @@
-<p>home works!</p>
+<p-carousel
+  [value]="comics"
+  [numVisible]="5"
+  [circular]="true"
+  [numScroll]="1"
+  styleClass="m-6">
+  <ng-template pTemplate="header">
+    <p class="ml-8 text-2xl ">Cómics</p>
+  </ng-template>
+  <ng-template let-comic pTemplate="item">
+    <div class="border-1 surface-border border-round m-2 p-3">
+      <div class="mb-3">
+        <div class="relative mx-auto">
+
+
+            <img
+              [src]="comic.portada"
+              [alt]="comic.nombre"
+
+              class="w-full h-fit border-round h-12rem" />
+        </div>
+      </div>
+      <div class="mb-3 font-medium">
+        {{ comic.nombre }}
+      </div>
+      <div class="flex justify-content-between align-items-center">
+        <div class="mt-0 font-semibold text-xl">
+        </div>
+        <a [href]="'comics/comic/'+comic.id">
+                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" label="Ver más"/>
+                    </a>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>
+<p-carousel
+  [value]="libros"
+  [numVisible]="5"
+  [circular]="true"
+  [numScroll]="1"
+  styleClass="m-6">
+  <ng-template pTemplate="header">
+    <p class="ml-8 text-2xl ">Libros</p>
+  </ng-template>
+  <ng-template let-libro pTemplate="item">
+    <div class="border-1 surface-border border-round m-2 p-3">
+      <div class="mb-3">
+        <div class="relative mx-auto">
+
+
+          <img
+            [src]="libro.portada"
+            [alt]="libro.nombre"
+
+            class="w-full h-fit border-round h-12rem" />
+        </div>
+      </div>
+      <div class="mb-3 font-medium">
+        {{ libro.nombre }}
+      </div>
+      <div class="flex justify-content-between align-items-center">
+        <div class="mt-0 font-semibold text-xl">
+        </div>
+        <a  [href]="'libros/libro/'+libro.id">
+                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" label="Ver más"/>
+                    </a>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>
+
+<p-carousel
+  [value]="productos"
+  [numVisible]="5"
+  [circular]="true"
+  [numScroll]="1"
+  styleClass="m-6"
+  [hidden]="productos.length<=0">
+  <ng-template pTemplate="header">
+    <p class="ml-8 text-2xl ">Productos</p>
+  </ng-template>
+
+  <ng-template let-producto pTemplate="item">
+    <div class="border-1 surface-border border-round m-2 p-3">
+      <div class="mb-3">
+        <div class="relative mx-auto">
+          <img
+            [src]="producto.imagen"
+            [alt]="producto.nombre"
+
+            class="w-full h-fit border-round h-12rem" />
+        </div>
+      </div>
+      <div class="mb-3 font-medium">
+        {{ producto.nombre }}
+      </div>
+      <div class="flex justify-content-between align-items-center">
+        <div class="mt-0 font-semibold text-xl">
+          {{ producto.precio | currency:"EUR":'' }}€
+        </div>
+        <a  [href]="'productos/producto/'+producto.id">
+          <p-button icon="pi pi-shopping-cart" styleClass="ml-2"/>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+
+</p-carousel>

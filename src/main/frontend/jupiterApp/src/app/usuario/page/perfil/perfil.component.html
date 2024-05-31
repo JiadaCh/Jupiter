@@ -1,0 +1,72 @@
+
+<p-toast />
+<p-splitter
+    [panelSizes]="[7, 84, 7]"
+    [style]="{ height: '300px' }"
+    styleClass="mb-5">
+    <ng-template pTemplate>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="col ">
+
+            <p-splitter
+              [panelSizes]="[20,20,50]"
+              [style]="{ height: '300px' }"
+              styleClass="mb-5 mt-5">
+              <ng-template pTemplate >
+              </ng-template>
+              <ng-template pTemplate >
+                <p-image [src]="usuario!.imagen" [alt]="usuario!.nombre" [preview]="true"></p-image>
+              </ng-template>
+              <ng-template pTemplate>
+                <p-fieldset legend="Datos personales" >
+                  <div class="m-4 mb-6">
+                    <p-floatLabel>
+                      <input pInputText id="username" class="w-24rem" [(ngModel)]="usuario!.nombre" [readOnly]="!editar()"/>
+                      <label for="username">Username</label>
+                    </p-floatLabel>
+                  </div>
+                  <div class="m-4 mb-6">
+                    <p-floatLabel >
+                      <input pInputText id="correo" class="w-24rem" [(ngModel)]="usuario!.correo" [readOnly]="!editar()"/>
+                      <label for="correo">Correo</label>
+                    </p-floatLabel>
+                  </div>
+                  <div class="m-4 mb-6">
+                    <p-floatLabel >
+                      <input pInputText id="direccion" class="w-24rem" [(ngModel)]="usuario!.direccion" [readOnly]="!editar()"/>
+                      <label for="direccion">Direccion</label>
+                    </p-floatLabel>
+                  </div>
+                  <div class="flex justify-content-around">
+
+
+                  @if(!editar() && usuario.id == usuarioLogeado?.id){
+
+                      <p-button label="Editar" (onClick)="editar.set(true)"/>
+
+                  } @else if (usuario.id == usuarioLogeado?.id){
+                    <p-fileUpload
+                      (onSelect)="onUpload($event)"
+                      [multiple]="false"
+
+                      [auto]="true"
+                      mode="basic"
+                      accept="image/*"
+                      chooseLabel="Cambiar imagen"
+                      chooseIcon="pi pi-upload"
+                      maxFileSize="1000000">
+                    </p-fileUpload>
+                      <p-button label="Save" severity="success" (onClick)="saveUsuario()"/>
+                  }
+                  </div>
+                </p-fieldset>
+              </ng-template>
+            </p-splitter>
+
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+    </ng-template>
+  </p-splitter>
+

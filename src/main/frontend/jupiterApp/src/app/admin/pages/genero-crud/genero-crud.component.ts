@@ -130,8 +130,10 @@ export class GeneroCrudComponent implements OnInit{
           this.generoService.updateGenero(this.genero).subscribe(value => {
             if (value){
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+              this.submitted.set(true);
               this.generoDialog.set(false) ;
               this.cargarDatos()
+              this.submitted.set(false);
             }else{
               this.showError()
             }
@@ -147,6 +149,7 @@ export class GeneroCrudComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
           this.generoDialog.set(false);
           this.cargarDatos();
+          this.submitted.set(false);
         }else{
           this.showError();
         }

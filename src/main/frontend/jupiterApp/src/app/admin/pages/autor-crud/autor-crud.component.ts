@@ -12,6 +12,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogModule} from "primeng/dialog";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-autor-crud',
@@ -25,7 +26,8 @@ import {InputTextModule} from "primeng/inputtext";
     DialogModule,
     FormsModule,
     ConfirmDialogModule,
-    InputTextModule
+    InputTextModule,
+    CommonModule
   ],
   templateUrl: './autor-crud.component.html',
   styleUrl: './autor-crud.component.css',
@@ -130,10 +132,11 @@ export class AutorCrudComponent implements OnInit{
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.editar.set(false);
           this.autorService.updateAutor(this.autor).subscribe(value => {
             if (value){
+              this.editar.set(false);
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+              this.submitted.set(false);
               this.autorDialog.set(false) ;
               this.cargarDatos()
             }else{
@@ -150,6 +153,7 @@ export class AutorCrudComponent implements OnInit{
         if (value){
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
           this.autorDialog.set(false);
+          this.submitted.set(false);
           this.cargarDatos();
         }else{
           this.showError();

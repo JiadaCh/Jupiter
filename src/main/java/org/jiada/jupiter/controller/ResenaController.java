@@ -1,6 +1,7 @@
 package org.jiada.jupiter.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jiada.jupiter.entity.Pedido;
 import org.jiada.jupiter.entity.Resena;
 import org.jiada.jupiter.service.ResenaService;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,28 @@ public class ResenaController {
     }
 
     @PostMapping({"","/"})
-    public Resena newResena(@RequestBody Resena resena) {
-        return this.resenaService.save(resena);
+    public Resena newResena(@RequestBody Resena resena,@RequestParam("idComic") Long idComic,@RequestParam("idLibro") Long idLibro) {
+        return this.resenaService.save(resena,idComic,idLibro);
+    }
+
+    @GetMapping("/comics")
+    public List<Resena> findByComic(@RequestParam("id") long idComic) {
+        return this.resenaService.findByComicId(idComic);
+    }
+
+    @GetMapping("/libros")
+    public List<Resena> findByLibro(@RequestParam("id") Long idLibro) {
+        return this.resenaService.findByLibroId(idLibro);
+    }
+
+    @GetMapping("/comics/{id}/usuarios")
+    public Resena findByComicUsuario(@PathVariable("id") Long idComic,@RequestParam("id") Long idUsuario) {
+        return this.resenaService.findByComicIdAndUsuarioId(idComic,idUsuario);
+    }
+
+    @GetMapping("/libros/{id}/usuarios")
+    public Resena findByLibroUsuario(@PathVariable("id") Long idLibro,@RequestParam("id") Long idUsuario) {
+        return this.resenaService.findByLibroIdAndUsuarioId(idLibro,idUsuario);
     }
 
     @GetMapping("/{id}")

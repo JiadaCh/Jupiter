@@ -1,8 +1,6 @@
 import {Component, inject, OnInit, signal} from "@angular/core";
-import {UsuarioService} from "@service/usuario.service";
 import {MediaService} from "@service/media.service";
-import {Usuario} from "@interface/usuario.interface";
-import {Autor, Rol} from "@interface/autor.interface";
+import {Autor} from "@interface/autor.interface";
 import {Column} from "@interface/column.interface";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {delay} from "rxjs";
@@ -144,6 +142,10 @@ export class LibroCrudComponent implements OnInit{
 
   openNew() {
     this.libro = {
+      editorial: {
+        id: 0,
+        nombre: ""
+      },
       anoPublicacion: 0, autores: [], generos: [], id: 0, idioma: "", numPag: 0, sinopsis: "", titulo: ""
     };
     this.submitted.set(false);
@@ -214,6 +216,7 @@ export class LibroCrudComponent implements OnInit{
               this.libroDialog.set(false) ;
               this.editar.set(false);
               this.cargarDatos()
+              this.submitted.set(false);
             }else{
               this.showError()
             }
@@ -228,6 +231,7 @@ export class LibroCrudComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
           this.libroDialog.set(false);
           this.cargarDatos();
+          this.submitted.set(false);
 
         }else{
           this.showError();

@@ -1,5 +1,5 @@
 @for (autor of autores;track $index){
-  <p-tag [value]="autor.nombre">
+  <p-tag [value]="autor.nombre +' '+autor.apellido1 +' '+ (autor.apellido2?autor.apellido2:'') ">
 
   </p-tag>
 }

@@ -1,0 +1,236 @@
+<div class="card">
+  <!--
+    mostrar mensajes de error/warn/successful
+    -->
+  <p-toast />
+  <!--
+    barra de herramientas
+    -->
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        pRipple
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (click)="openNew()" />
+      <p-button
+        pRipple
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        (click)="deleteSelectedProductos()"
+        [disabled]="!selectedProductos || !selectedProductos.length" />
+    </ng-template>
+  </p-toolbar>
+  <!--
+    tabla  del objeto
+    -->
+  <p-table
+    #dt2
+    [value]="productos()"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    [paginator]="true"
+    selectionMode="single"
+    [(selection)]="selectedProductos"
+    [(ngModel)]="selectedColumns"
+    [columns]="selectedColumns"
+    styleClass="p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr >
+        <th style="width: 4rem;">
+          <p-tableHeaderCheckbox/>
+        </th>
+        <th style="width:20%">Nombre</th>
+        <th style="width:10%">Imagen</th>
+        <th style="width:10%" >Precio</th>
+        <th style="width:8%">Comprado</th>
+        <th style="width:22%">
+          Descripción
+        </th>
+        <th style="width:auto">Acción</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="nombre"
+            inputmode
+            placeholder="Buscar nombre"
+            ariaLabel="Filter nombre" />
+        </th>
+        <th></th>
+        <th>
+          <p-columnFilter type="numeric" field="precio" display="menu" currency="EUR" /></th>
+        <th>
+          <div class="flex align-items-center">
+            <p-columnFilter type="boolean" field="comprado" display="menu" />
+          </div>
+        </th>
+        <th></th>
+        <th></th>
+
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto let-columns="columns">
+      <tr>
+        <td>
+          <p-tableCheckbox  [value]="producto" [disabled]="producto.comprado"/>
+        </td>
+        <td>
+          {{ producto.nombre }}
+        </td>
+        <td>
+          <p-image [src]="producto.imagen" [alt]="producto.producto" width="100"  [preview]="true"></p-image>
+        </td>
+        <td>
+          {{ producto.precio | currency : 'EUR':''}}€
+        </td>
+        <td>
+          <p-triStateCheckbox
+            [(ngModel)]="producto.comprado"
+            variant="filled"
+            inputId="tricheckbox"
+            [disabled]="true"/>
+        </td>
+        <td>
+          {{ producto.descripcion }}
+        </td>
+        <td>
+          <p-button
+            pRipple
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="info"
+            [disabled]="producto.comprado"
+            (click)="editProducto(producto)" />
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            severity="danger"
+            [disabled]="producto.comprado"
+            [rounded]="true"
+            [outlined]="true"
+            (click)="deleteProducto(producto)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ productos() ? productos().length : 0 }} productos.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center text-4xl">No se ha encontrado productos.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <!--
+  crear/editar el objeto
+  -->
+  <p-dialog
+    [(visible)]="productoDialog"
+    [style]="{ width: '600px' }"
+    header="Detalle de Producto"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="flex justify-content-around">
+        <p-image [src]="producto.imagen" [alt]="producto.nombre"  [preview]="true"></p-image>
+      </div>
+
+      <div class="field">
+        <label for="nombre">Producto</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="producto.nombre"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted() && !producto.nombre">
+          Nombre is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="precio">Precio</label>
+        <p-inputNumber
+          [(ngModel)]="producto.precio"
+          mode="currency"
+          id="precio"
+          inputId="currency-germany"
+          currency="EUR"
+          locale="de-DE" />
+        <small class="p-error" *ngIf="submitted() && !producto.precio">
+          Precio is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="descripcion">Descripcion</label>
+        <textarea
+          rows="5"
+          cols="30"
+          pInputTextarea
+          id="descripcion"
+          [autoResize]="true"
+          [(ngModel)]="producto.descripcion"
+        ></textarea>
+      </div>
+
+
+      <p-fileUpload
+        (onSelect)="onUpload($event)"
+        [multiple]="false"
+        uploadIcon
+        accept="image/*"
+        label="Seleccionar imagen"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        maxFileSize="1000000">
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">
+              {{ file.name }} - {{ file.size }} bytes
+            </li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="saveProducto()" />
+    </ng-template>
+  </p-dialog>
+
+  <!--
+    confirmación de eleminar
+    -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

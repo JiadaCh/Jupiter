@@ -33,11 +33,13 @@
     dataKey="id"
     [rows]="10"
     [rowsPerPageOptions]="[10, 25, 50]"
+    styleClass="p-datatable-gridlines"
     [loading]="loading()"
     [paginator]="true"
+    [scrollable]="true"
     selectionMode="single"
+    [lazy]="true"
     [(selection)]="selectedLibros"
-    [(ngModel)]="selectedColumns"
     [columns]="selectedColumns"
     [tableStyle]="{ 'min-width': '75rem' }"
     currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
@@ -82,7 +84,7 @@
           <p-columnFilter
             type="text"
             [field]="col.field"
-            [placeholder]="'Buscar por '+col.field"
+            [placeholder]="'Buscar por '+col.header"
           />
         </th>
         <th></th>
@@ -174,23 +176,18 @@
       </div>
 
       <div class="field">
-        <label for="editorial">Editorial</label>
+        <label for="editorial">Editorial: {{libro!.editorial.nombre}}</label>
 
         <p-dropdown
           [(ngModel)]="libro!.editorial"
           inputId="id"
           id="editorial"
           required
+          optionLabel="nombre"
+          variant="filled"
+          [filter]="true"
+          filterBy="nombre"
           [options]="editorial">
-          <ng-template pTemplate="selectedItem">
-            <p-tag
-              [value]="libro!.editorial!.nombre"></p-tag>
-          </ng-template>
-          <ng-template let-option pTemplate="item">
-            <p-tag
-              [id]="option.id"
-              [value]="option.nombre"></p-tag>
-          </ng-template>
         </p-dropdown>
       </div>
 

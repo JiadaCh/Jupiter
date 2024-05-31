@@ -21,6 +21,10 @@ public class PedidoService {
         return this.pedidoRepository.findAll();
     }
 
+    public List<Pedido> findByUsuario(Long idUsuario) {
+        return this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario,idUsuario);
+    }
+
     public Pedido save(Pedido Pedido) {
         return this.pedidoRepository.save(Pedido);
     }

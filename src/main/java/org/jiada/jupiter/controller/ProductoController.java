@@ -25,9 +25,14 @@ public class ProductoController {
         return this.productoService.all();
     }
 
+    @GetMapping({"/usuario"})
+    public List<Producto> getProductoByUser(@RequestParam("id") Long userId) {
+        return this.productoService.findByUser(userId);
+    }
+
     @PostMapping({"","/"})
-    public Producto newProducto(@RequestBody Producto producto) {
-        return this.productoService.save(producto);
+    public Producto newProducto(@RequestParam("id") Long userId,@RequestBody Producto producto) {
+        return this.productoService.save(producto,userId);
     }
 
     @GetMapping("/{id}")

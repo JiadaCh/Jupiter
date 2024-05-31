@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {ComicService} from "@service/comic.service";
-import {Comic} from "@interface/comic.interface";
+import {Comic, TipoComic} from "@interface/comic.interface";
 import {Column} from "@interface/column.interface";
 import {CommonModule} from "@angular/common";
 import {MultiSelectModule} from "primeng/multiselect";
@@ -115,6 +115,7 @@ export class ComicCrudComponent implements OnInit{
     ]
   }
 
+
   cargarDatos(){
     this.loading.set(true);
 
@@ -149,6 +150,7 @@ export class ComicCrudComponent implements OnInit{
 
   openNew() {
     this.comic = {
+      tipo:TipoComic.Americano,
       autores: [], generos: [],
       portada:"http://localhost:8080/media/default-image.png",editorial: {
         id: 0,
@@ -219,6 +221,7 @@ export class ComicCrudComponent implements OnInit{
             if (value){
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
               this.comicDialog = false ;
+              this.submitted.set(false);
               this.editar.set(false);
               this.cargarDatos()
             }else{
@@ -233,6 +236,7 @@ export class ComicCrudComponent implements OnInit{
       this.comicService.addComic(this.comic).subscribe(value => {
         if (value){
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+          this.submitted.set(false);
           this.comicDialog = false;
           this.cargarDatos();
 

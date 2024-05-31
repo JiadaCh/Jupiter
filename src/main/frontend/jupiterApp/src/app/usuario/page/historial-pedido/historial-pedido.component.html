@@ -1,0 +1,168 @@
+<div class="card">
+  <!--
+    mostrar mensajes de error/warn/successful
+    -->
+  <p-toast />
+
+  <!--
+    tabla  del objeto
+    -->
+  <p-table
+    #dt2
+    [value]="pedidos()"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    [paginator]="true"
+    selectionMode="single"
+    styleClass="p-datatable-striped"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+
+    [showCurrentPageReport]="false"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr >
+        <th style="width:20%">Fecha</th>
+        <th style="width:10%">Estado</th>
+        <th style="width:10%" >Precio</th>
+        <th style="width:10%">Comprador</th>
+        <th style="width:10%">Vendedor</th>
+        <th style="width:22%">
+          Producto
+        </th>
+        <th style="width:auto">Acción</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>
+
+          <p-columnFilter field="estado" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false" class="ml-auto">
+            <ng-template pTemplate="header">
+              <div class="px-3 pt-3 pb-0">
+                <span class="font-bold">Estado del pedido</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown
+                [ngModel]="value"
+                [options]=" estados"
+                (onChange)="filter($event.value)"
+                placeholder="Filtrar Estado"
+                [showClear]="true">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="numeric" field="precio" display="menu" currency="EUR" />
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-pedido let-columns="columns">
+      <tr>
+        <td>
+          {{ pedido.fecha}}
+        </td>
+        <td>
+          {{ pedido.estado}}
+        </td>
+        <td>
+          {{ pedido.precio | currency:"EUR":''}}€
+        </td>
+        <td>
+          @if (pedido.comprador.id == usuario?.id){
+            Yo
+          } @else {
+            <a [href]="'user/'+pedido.comprador.id+'/perfil'">{{ pedido.comprador.nombre}}</a>
+          }
+        </td>
+        <td>
+          @if (pedido.vendedor.id == usuario?.id){
+            Yo
+          } @else {
+            <a [href]="'user/'+pedido.vendedor.id+'/perfil'">{{ pedido.vendedor.nombre}}</a>
+          }
+        </td>
+        <td>
+          <a [href]="'tienda/productos/producto/'+pedido.producto.id">{{ pedido.producto.nombre}}</a>
+        </td>
+        <td>
+          @if(pedido.vendedor.id == usuario?.id){
+            <p-button
+              pRipple
+              icon="pi pi-pencil"
+              class="mr-2"
+              [rounded]="true"
+              [outlined]="true"
+              severity="info"
+              (click)="editPedido(pedido)" />
+          }
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ pedidos() ? pedidos().length : 0 }} pedidos.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center text-4xl">No se ha encontrado pedidos.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <!--
+  crear/editar el objeto
+  -->
+  <p-dialog
+    [(visible)]="pedidoDialog"
+    [style]="{ width: '600px' }"
+    header="Cambiar el estado del Pedido"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="body">
+
+      <div class="field h-12rem">
+        <label for="estado">Estado</label>
+
+          <p-dropdown
+            [(ngModel)]="pedido!.estado"
+            inputId="estado"
+            id="estado"
+            required
+            [options]="estados">
+          </p-dropdown>
+
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="savePedido()" />
+    </ng-template>
+  </p-dialog>
+
+  <!--
+    confirmación de eleminar
+    -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

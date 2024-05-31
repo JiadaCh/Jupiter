@@ -16,8 +16,15 @@ export class ComicService {
     return this.http.get<Comic[]>(this.baseUrl()+'/comics')
   }
 
+  getComicById(id:string):Observable<Comic|undefined>{
+    return this.http.get<Comic>(this.baseUrl()+'/comics/'+id)
+      .pipe(
+        catchError(error=> of(undefined))
+      );
+  }
+
   deleteComic(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/comics/'+id)
+    return this.http.delete(this.baseUrl()+`/comics/${id}`)
       .pipe(
         map(()=> true),
         catchError(() => of(false))

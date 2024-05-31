@@ -2,6 +2,7 @@ package org.jiada.jupiter.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Pedido;
+import org.jiada.jupiter.entity.Usuario;
 import org.jiada.jupiter.service.PedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,12 @@ public class PedidoController {
     public Pedido one(@PathVariable("id") Long id) {
         return this.pedidoService.one(id);
     }
+
+    @GetMapping("/usuario")
+    public List<Pedido> findByUsuario(@RequestParam("idUsuario") Long idUsuario) {
+        return this.pedidoService.findByUsuario(idUsuario);
+    }
+
 
     @PutMapping("/{id}")
     public Pedido replacePedido(@PathVariable("id") Long id, @RequestBody Pedido pedido) {

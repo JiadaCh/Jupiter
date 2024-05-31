@@ -1,0 +1,165 @@
+
+<p-toast />
+@if (!comic){
+  <shared-loading></shared-loading>
+} @else {
+  <p-splitter
+
+    [panelSizes]="[7, 84, 7]"
+    [style]="{ height: '300px' }"
+
+    styleClass="mb-5">
+    <ng-template pTemplate>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="col ">
+        <p-panel [header]="comic.titulo"  styleClass="text-2xl ">
+
+            <p-fieldset legend="Detalle del comic">
+              <div class="grid  gap-3 m-3">
+                <p-image [src]="comic.portada != null? comic.portada : 'http://localhost:8080/media/comic/default-image.png'"
+                         styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
+                ></p-image>
+                <div class="col-6 flex-column justify-content-start">
+                  <div>Escrito por: <shared-tag-autor [autores]="comic.autores"></shared-tag-autor></div>
+
+                  <div style="margin: 10px 0">Lanzado en: {{comic.anoPublicacion}}</div>
+
+                  <div style="margin: 10px 0">Tipo: <p-tag [value]="comic.tipo" /></div>
+
+                  <div>Publicado por <p-tag [value]="comic.editorial.nombre"></p-tag> </div>
+
+                  <div style="margin: 10px 0">Idioma: <p-tag [value]="comic.idioma"></p-tag></div>
+
+                  <div style="margin: 10px 0">
+                    Géneros: <shared-tag-genero [generos]="comic.generos"></shared-tag-genero>
+                  </div>
+
+                  <div style="margin: 10px 0">Idioma: <p-tag [value]="comic.idioma"></p-tag></div>
+
+                  <div style="margin: 10px 0">
+                    Calificación: <p-rating [(ngModel)]="mediaCalificacion" [cancel]="false" [disabled]="true"/>
+                  </div>
+
+                </div>
+              </div>
+              <p-accordion [activeIndex]="0">
+                <p-accordionTab header="Sinopsis">
+                  {{comic.sinopsis}}
+                </p-accordionTab>
+              </p-accordion>
+
+
+            </p-fieldset>
+          <p-fieldset legend="Reseñas">
+            @if(!resena){
+              <p-button  label="Comentar" (onClick)="openNew()"></p-button>
+            } @else if(resena){
+
+              <p-fieldset>
+                <ng-template pTemplate="header">
+                  <div class="flex align-items-center gap-2 px-2 w-fit">
+                    <a [href]="'user/'+resena.usuario.id+'/perfil'">
+                      <p-avatar
+                        [image]="resena.usuario.imagen"
+                        shape="circle" />
+                    </a>
+                    <span class="font-bold w-14rem">Tú</span>
+                    <div class="mr-8">Calificación: <p-rating [(ngModel)]="resena!.calificacion" [cancel]="false" readonly disabled></p-rating></div>
+
+                    <div class="">
+                      <p-button
+                        pRipple
+                        icon="pi pi-pencil"
+                        class="mr-2"
+                        [rounded]="true"
+                        [outlined]="true"
+                        severity="info"
+                        (click)="editResena()" />
+                      <p-button
+                        pRipple
+                        icon="pi pi-trash"
+                        severity="danger"
+                        [rounded]="true"
+                        [outlined]="true"
+                        (click)="deleteResena(resena)" /></div>
+                  </div>
+                </ng-template>
+                <p class="m-0">
+                  {{resena.texto}}
+                </p>
+              </p-fieldset>
+            }
+            <p-divider type="solid"/>
+            @if (resenas.length<= 0){
+              <div class="text-center text-5xl">
+                No hay ninguna reseña en este comic
+              </div>
+            } @else {
+              @for (resena of resenas; track $index){
+                <p-fieldset *ngIf="resena.usuario.id != usuarioLoageado?.id">
+                  <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2 px-2 w-fit">
+                      <a [href]="'user/'+resena.usuario.id+'/perfil'">
+                        <p-avatar
+                          [image]="resena.usuario.imagen"
+                          shape="circle" />
+                      </a>
+                      <span class="font-bold">{{resena.usuario.nombre}}</span>
+                      <div class="mr-8">Calificación: <p-rating [(ngModel)]="resena!.calificacion" [cancel]="false" readonly disabled></p-rating></div>
+                    </div>
+                  </ng-template>
+                  <p class="m-0">
+                    {{resena.texto}}
+                  </p>
+                </p-fieldset>
+              }
+            }
+
+
+          </p-fieldset>
+        </p-panel>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+    </ng-template>
+  </p-splitter>
+
+  <p-dialog
+    [(visible)]="resenaDialog"
+    [style]="{ width: '600px' }"
+    header="Tu resena"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">Calificación</div>
+      <p-rating [(ngModel)]="resena!.calificacion" [cancel]="false" required />
+      <p-divider></p-divider>
+      <div class="field">Texto</div><textarea
+      rows="5"
+      cols="30"
+      pInputTextarea
+      [(ngModel)]="resena!.texto"
+      [autoResize]="true">
+      </textarea>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (click)="hideDialog()" />
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (click)="saveResena()" />
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }" />
+}

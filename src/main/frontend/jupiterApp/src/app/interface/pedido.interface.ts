@@ -10,3 +10,9 @@ export interface Pedido {
   comprador: Usuario;
   producto:  Producto;
 }
+
+export enum EstadoPedido{
+  Pediente = "Pediente",
+  Enviado = "Enviado",
+  Entregado = "Entregado"
+}

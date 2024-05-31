@@ -44,6 +44,5 @@ public class Resena {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "FK_Resena_Usuario"))
-    @JsonIgnore
     private Usuario usuario;
 }

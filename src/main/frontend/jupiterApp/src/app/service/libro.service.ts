@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environments} from "../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
 import {Libro} from "@interface/libros.interface";
+import {Comic} from "@interface/comic.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,13 @@ export class LibroService {
 
   getLibro():Observable<Libro[]>{
     return this.http.get<Libro[]>(this.baseUrl()+'/libros')
+  }
+
+  getLibroById(id:string):Observable<Libro|undefined>{
+    return this.http.get<Libro>(this.baseUrl()+'/libros/'+id)
+      .pipe(
+        catchError(error=> of(undefined))
+      );
   }
 
   deleteLibro(id:number):Observable<Boolean> {
