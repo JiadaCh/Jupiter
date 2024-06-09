@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.service.LibroService;
@@ -26,7 +27,7 @@ public class LibroController {
     }
 
     @PostMapping({"","/"})
-    public Libro newLibro(@RequestBody Libro libro) {
+    public Libro newLibro(@RequestBody @Valid Libro libro) {
         return this.libroService.save(libro);
     }
 
@@ -36,7 +37,7 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    public Libro replaceLibro(@PathVariable("id") Long id, @RequestBody Libro libro) {
+    public Libro replaceLibro(@PathVariable("id") Long id, @RequestBody @Valid Libro libro) {
         return this.libroService.replace(id, libro);
     }
 

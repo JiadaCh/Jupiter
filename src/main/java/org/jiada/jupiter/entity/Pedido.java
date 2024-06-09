@@ -2,6 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class Pedido {
 
     @Column(name="fecha",nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @PastOrPresent
     private Date fecha;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

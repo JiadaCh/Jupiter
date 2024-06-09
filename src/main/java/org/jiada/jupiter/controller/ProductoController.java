@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Producto;
 import org.jiada.jupiter.service.ProductoService;
@@ -31,7 +32,7 @@ public class ProductoController {
     }
 
     @PostMapping({"","/"})
-    public Producto newProducto(@RequestParam("id") Long userId,@RequestBody Producto producto) {
+    public Producto newProducto(@RequestParam("id") Long userId,@RequestBody @Valid Producto producto) {
         return this.productoService.save(producto,userId);
     }
 
@@ -41,7 +42,7 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public Producto replaceProducto(@PathVariable("id") Long id, @RequestBody Producto producto) {
+    public Producto replaceProducto(@PathVariable("id") Long id, @RequestBody @Valid Producto producto) {
         return this.productoService.replace(id, producto);
     }
 

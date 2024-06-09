@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Comic;
 import org.jiada.jupiter.service.ComicService;
@@ -26,8 +27,7 @@ public class ComicController {
     }
 
     @PostMapping({"","/"})
-    public Comic newComic(@RequestBody Comic comic) {
-        System.out.println(comic.getGeneros());
+    public Comic newComic(@RequestBody @Valid Comic comic) {
         return this.comicService.save(comic);
     }
 
@@ -37,7 +37,7 @@ public class ComicController {
     }
 
     @PutMapping("/{id}")
-    public Comic replaceComic(@PathVariable("id") Long id, @RequestBody Comic comic) {
+    public Comic replaceComic(@PathVariable("id") Long id, @RequestBody @Valid Comic comic) {
         return this.comicService.replace(id, comic);
     }
 

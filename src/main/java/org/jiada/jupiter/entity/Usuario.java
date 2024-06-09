@@ -1,5 +1,6 @@
 package org.jiada.jupiter.entity;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -11,9 +12,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -43,6 +46,7 @@ public class Usuario {
     private String nombre;
 
     @Column(name="rol",nullable = false)
+    @JsonEnumDefaultValue
     private String rol;
 
     @Column(name="direccion")
@@ -75,4 +79,17 @@ public class Usuario {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Pedido> pedidosComprado = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Usuario usuario = (Usuario) object;
+        return Objects.equals(correo, usuario.correo) && Objects.equals(nombre, usuario.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(correo, nombre);
+    }
 }

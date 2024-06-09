@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Editorial;
 import org.jiada.jupiter.service.EditorialService;
@@ -26,7 +27,7 @@ public class EditorialController {
     }
 
     @PostMapping({"","/"})
-    public Editorial newEditorial(@RequestBody Editorial editorial) {
+    public Editorial newEditorial(@RequestBody @Valid Editorial editorial) {
         return this.editorialService.save(editorial);
     }
 
@@ -36,7 +37,7 @@ public class EditorialController {
     }
 
     @PutMapping("/{id}")
-    public Editorial replaceEditorial(@PathVariable("id") Long id, @RequestBody Editorial editorial) {
+    public Editorial replaceEditorial(@PathVariable("id") Long id, @RequestBody @Valid Editorial editorial) {
         return this.editorialService.replace(id, editorial);
     }
 

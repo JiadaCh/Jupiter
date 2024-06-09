@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Pedido;
 import org.jiada.jupiter.entity.Resena;
@@ -27,7 +28,7 @@ public class ResenaController {
     }
 
     @PostMapping({"","/"})
-    public Resena newResena(@RequestBody Resena resena,@RequestParam("idComic") Long idComic,@RequestParam("idLibro") Long idLibro) {
+    public Resena newResena(@RequestBody @Valid Resena resena, @RequestParam("idComic") Long idComic, @RequestParam("idLibro") Long idLibro) {
         return this.resenaService.save(resena,idComic,idLibro);
     }
 
@@ -57,7 +58,7 @@ public class ResenaController {
     }
 
     @PutMapping("/{id}")
-    public Resena replaceResena(@PathVariable("id") Long id, @RequestBody Resena resena) {
+    public Resena replaceResena(@PathVariable("id") Long id, @RequestBody @Valid Resena resena) {
         return this.resenaService.replace(id, resena);
     }
 

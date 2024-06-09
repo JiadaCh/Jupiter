@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Producto;
 import org.jiada.jupiter.entity.Usuario;
@@ -39,17 +40,17 @@ public class UsuarioController {
     }
 
     @PostMapping({"","/"})
-    public Usuario newUsuario(@RequestBody Usuario usuario) {
+    public Usuario newUsuario(@RequestBody @Valid Usuario usuario) {
         return this.usuarioService.save(usuario);
     }
 
     @PostMapping({"/register"})
-    public ResponseEntity<Usuario>  Register(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario>  Register(@RequestBody @Valid Usuario usuario) {
         return  ResponseEntity.ok(this.usuarioService.save(usuario));
     }
 
     @GetMapping({"/login"})
-    public Usuario Login(@RequestParam("usuario") String usuario, @RequestParam("contrasena") String contrasena) {
+    public Usuario Login(@RequestParam("usuario") String usuario, @RequestParam("contrasena") @Valid String contrasena) {
         return  this.usuarioService.login(usuario,contrasena);
     }
 
@@ -59,10 +60,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public Usuario replaceUsuario(@PathVariable("id") Long id, @RequestBody Usuario usuario) {
+    public Usuario replaceUsuario(@PathVariable("id") Long id, @RequestBody @Valid Usuario usuario) {
         return this.usuarioService.replace(id, usuario);
     }
-
 
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -70,6 +70,4 @@ public class UsuarioController {
     public void deleteUsuario(@PathVariable("id") Long id) {
         this.usuarioService.delete(id);
     }
-
-
 }

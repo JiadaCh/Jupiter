@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Genero;
 import org.jiada.jupiter.service.GeneroService;
@@ -26,7 +27,7 @@ public class GeneroController {
     }
 
     @PostMapping({"","/"})
-    public Genero newGenero(@RequestBody Genero genero) {
+    public Genero newGenero(@RequestBody @Valid Genero genero) {
         return this.generoService.save(genero);
     }
 
@@ -36,7 +37,7 @@ public class GeneroController {
     }
 
     @PutMapping("/{id}")
-    public Genero replaceGenero(@PathVariable("id") Long id, @RequestBody Genero genero) {
+    public Genero replaceGenero(@PathVariable("id") Long id, @RequestBody @Valid Genero genero) {
         return this.generoService.replace(id, genero);
     }
 

@@ -2,8 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,6 +51,7 @@ public class Comic {
     private String tipo;
 
     @Column(name="ano_publicacion",nullable = false)
+    @Positive
     private int anoPublicacion;
 
     @ManyToMany
@@ -60,7 +60,7 @@ public class Comic {
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
             inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
     )
-    @NotNull(message = "Tienes que poner un genero")
+    @NotEmpty(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
 
     @ManyToMany
@@ -69,7 +69,7 @@ public class Comic {
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
             inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
     )
-    @NotNull(message = "Tienes que poner un autor")
+    @NotEmpty(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

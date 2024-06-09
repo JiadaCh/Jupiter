@@ -2,9 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,9 +50,11 @@ public class Libro {
 
     @Column(name="num_pag",nullable = false)
     @Min(value = 10, message = "Tiene que poner al menos 10")
+    @Positive
     private int numPag;
 
     @Column(name="ano_publicacion",nullable = false)
+    @Positive
     private int anoPublicacion;
 
     @ManyToMany
@@ -63,7 +63,7 @@ public class Libro {
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
             inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
     )
-    @NotNull(message = "Tienes que poner un genero")
+    @NotEmpty(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
 
     @ManyToMany
@@ -72,7 +72,7 @@ public class Libro {
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
             inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
     )
-    @NotNull(message = "Tienes que poner un autor")
+    @NotEmpty(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

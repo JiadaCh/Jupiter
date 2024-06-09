@@ -1,5 +1,6 @@
 package org.jiada.jupiter.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Autor;
 import org.jiada.jupiter.service.AutorService;
@@ -28,7 +29,7 @@ public class AutorController {
     }
 
     @PostMapping({"","/"})
-    public Autor newAutor(@RequestBody Autor autor) {
+    public Autor newAutor(@RequestBody @Valid Autor autor) {
         return this.autorService.save(autor);
     }
 
@@ -38,7 +39,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
-    public Autor replaceAutor(@PathVariable("id") Long id, @RequestBody Autor autor) {
+    public Autor replaceAutor(@PathVariable("id") Long id, @RequestBody @Valid Autor autor) {
         return this.autorService.replace(id, autor);
     }
 
