@@ -10,7 +10,6 @@ import {ButtonModule} from "primeng/button";
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {AuthService} from "@service/auth.service";
 import {TieredMenuModule} from "primeng/tieredmenu";
-import {routes} from "../../../app.routes";
 import {Router} from "@angular/router";
 
 @Component({

@@ -1,5 +1,3 @@
-import {Usuario} from "@interface/usuario.interface";
-
 export interface Producto {
   id:          number;
   nombre: string;

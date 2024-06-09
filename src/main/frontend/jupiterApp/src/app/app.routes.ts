@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {checkAuthGuard} from "./guard/check-auth.guard";
 import {adminGuard} from "./guard/admin.guard";
 

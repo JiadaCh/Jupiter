@@ -2,7 +2,6 @@ package org.jiada.jupiter.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.jiada.jupiter.entity.Pedido;
 import org.jiada.jupiter.entity.Resena;
 import org.jiada.jupiter.service.ResenaService;
 import org.springframework.http.HttpStatus;

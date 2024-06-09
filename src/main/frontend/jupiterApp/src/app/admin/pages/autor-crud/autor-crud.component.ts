@@ -1,4 +1,4 @@
-import {Component, inject,  OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {AutorService} from "@service/autor.service";
 import {Autor} from "@interface/autor.interface";

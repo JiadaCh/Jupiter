@@ -9,7 +9,6 @@ import {Libro} from "@interface/libros.interface";
 import {Producto} from "@interface/producto.interface";
 import {ButtonModule} from "primeng/button";
 import {NgOptimizedImage} from "@angular/common";
-import {delay} from "rxjs";
 import {SkeletonModule} from "primeng/skeleton";
 
 @Component({

@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {DataViewModule} from "primeng/dataview";
 import {InputTextModule} from "primeng/inputtext";

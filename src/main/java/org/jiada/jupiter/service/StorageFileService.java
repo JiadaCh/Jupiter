@@ -2,11 +2,10 @@ package org.jiada.jupiter.service;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import static java.util.UUID.randomUUID;
-import static org.springframework.util.StringUtils.getFilenameExtension;
 import static org.springframework.util.StringUtils.hasText;
 
 @Service

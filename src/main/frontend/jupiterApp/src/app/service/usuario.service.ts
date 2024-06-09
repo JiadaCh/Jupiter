@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Usuario} from "@interface/usuario.interface";
 import {environments} from "../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
-import {Comic} from "@interface/comic.interface";
 
 @Injectable({
   providedIn: 'root'

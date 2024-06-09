@@ -2,7 +2,6 @@ package org.jiada.jupiter.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Pedido;
-import org.jiada.jupiter.entity.Usuario;
 import org.jiada.jupiter.service.PedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

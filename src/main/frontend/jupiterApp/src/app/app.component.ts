@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {PrimeNGConfig} from 'primeng/api';
 import {MenuComponent} from "@shared/components/menu/menu.component";
 import {ScrollTopModule} from "primeng/scrolltop";
