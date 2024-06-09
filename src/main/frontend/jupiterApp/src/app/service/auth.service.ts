@@ -40,8 +40,7 @@ export class AuthService {
   }
 
    loadLocalStorage(){
-    if( !localStorage.getItem('sessionToken') ) return;
-    let id = localStorage.getItem('sessionToken');
+    let id = this.getToken();
     if (id){
       this.usuarioService.getUsuarioById(id).subscribe(res=>
         this.user.set(res)
@@ -50,11 +49,10 @@ export class AuthService {
   }
 
   isAuth(): Observable<boolean>{
-    const token =localStorage.getItem('sessionToken');
-    if (!token) {
+    if (!this.getToken()) {
       return of(false);
     }
-    return this.http.get<Usuario>(`${this.baseUrl()}/usuarios/${token}`)
+    return this.http.get<Usuario>(`${this.baseUrl()}/usuarios/${this.getToken()}`)
       .pipe(
         tap(user => this.user.set(user)),
         map(user => !!user),
@@ -62,5 +60,20 @@ export class AuthService {
       );
   }
 
+  isAdmin(): Observable<boolean>{
+    if (!this.getToken()) {
+      return of(false);
+    }
+    return this.http.get<Usuario>(`${this.baseUrl()}/usuarios/${this.getToken()}`)
+      .pipe(
+        tap(user => this.user.set(user)),
+        map(user => user.rol =="admin"),
+        catchError(()=> of(false))
+      );
+  }
+
+  private getToken(){
+    return  localStorage.getItem('sessionToken');
+  }
 
 }
