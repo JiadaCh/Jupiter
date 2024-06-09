@@ -2,6 +2,9 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +35,11 @@ public class Usuario {
     private long id;
 
     @Column(name="correo",nullable = false,unique = true)
+    @Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
     private String correo;
 
     @Column(name="nombre",nullable = false, unique = true)
+    @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
     @Column(name="rol",nullable = false)
@@ -44,6 +49,8 @@ public class Usuario {
     private String direccion;
 
     @Column(name="contrasena",nullable = false)
+    @Size(min=4, message = "Contraseña de al menos de 4 caracteres.")
+    @Size(max=20, message = "Contraseña como máximo de 20 caracteres.")
     private String contrasena;
 
     @Column(name="imagen",nullable = false)

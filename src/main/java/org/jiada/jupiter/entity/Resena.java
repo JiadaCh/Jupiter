@@ -2,6 +2,8 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +29,8 @@ public class Resena {
     private long id;
 
     @Column(name="calificacion",nullable = false)
+    @Min(value = 1, message = "Debe tener al menos 1")
+    @Max(value = 5, message = "Debe ser menor que 6")
     private double calificacion;
 
     @Column(name="texto",nullable = false)

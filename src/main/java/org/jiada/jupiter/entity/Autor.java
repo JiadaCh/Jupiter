@@ -2,6 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
@@ -28,9 +29,11 @@ public class Autor{
     private long id;
 
     @Column(name="nombre",nullable = false)
+    @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
     @Column(name="apellido1",nullable = false)
+    @NotBlank(message = "no se puede poner el apellido en blanco")
     private String apellido1;
 
     @Column(name="apellido2")

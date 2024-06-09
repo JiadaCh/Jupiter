@@ -150,7 +150,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="usuario.imagen" [alt]="usuario.nombre"  [preview]="true"></p-image>
+        <p-image [src]="usuario.imagen" width="300" [alt]="usuario.nombre"  [preview]="true"></p-image>
       </div>
 
       <div class="field">
@@ -163,7 +163,7 @@
           required
           autofocus />
         <small class="p-error" *ngIf="submitted() && !usuario.nombre">
-          Usuario is required.
+          Usuario es requerido.
         </small>
       </div>
 
@@ -174,16 +174,20 @@
           pInputText
           id="correo"
           [(ngModel)]="usuario.correo"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+          #email="ngModel"
           required
           autofocus />
         <small class="p-error" *ngIf="submitted() && !usuario.correo">
-          Correo is required.
+          Correo es requerido.
+        </small>
+        <small class="p-error" *ngIf="submitted() && email.errors">
+          Formato del correo incorrecto: example&commat;example.com
         </small>
       </div>
 
       <div class="field">
         <label for="rol">Rol</label>
-
         <p-dropdown
           [(ngModel)]="usuario!.rol"
           inputId="rol"
@@ -209,8 +213,11 @@
           [toggleMask]="true"
           required
           autofocus />
-        <small class="p-error" *ngIf="submitted() && !usuario.contrasena">
-          Contraseña is required.
+        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length < 4">
+          La contraseña debe tener al menos 4 caracteres.
+        </small>
+        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length > 20">
+          La contraseña no debe tener más que 20 caracteres.
         </small>
       </div>
 

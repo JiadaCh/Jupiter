@@ -183,7 +183,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="comic.portada" [alt]="comic.titulo"  [preview]="true"></p-image>
+        <p-image [src]="comic.portada" [alt]="comic.titulo"  width="300" [preview]="true"></p-image>
       </div>
 
       <div class="field">
@@ -196,7 +196,7 @@
           required
           autofocus />
         <small class="p-error" *ngIf="submitted() && !comic.titulo">
-          Titulo is required.
+          Titulo es requerido.
         </small>
       </div>
 
@@ -212,7 +212,7 @@
           required
           display="chip"/>
         <small class="p-error" *ngIf="submitted() && comic.autores.length <= 0">
-          Autor is required.
+          Hay que seleccionar al menos un autor
         </small>
       </div>
 
@@ -226,6 +226,9 @@
           required
           [options]="tipoComics">
         </p-dropdown>
+        <small class="p-error" *ngIf="submitted() && comic.tipo.length <= 0">
+          Hay que seleccionar el tipo de comic
+        </small>
       </div>
       <div class="field">
         <label for="editorial">Editorial: {{comic.editorial.nombre}}</label>
@@ -241,6 +244,9 @@
           filterBy="nombre"
           [options]="editorial">
         </p-dropdown>
+        <small class="p-error" *ngIf="submitted() && !comic.editorial.nombre">
+          Hay que seleccionar un editorial
+        </small>
       </div>
 
       <div class="field">
@@ -254,6 +260,9 @@
           display="chip"
           id="generos"
           [showClear]="true" />
+        <small class="p-error" *ngIf="submitted() && comic.generos.length <= 0">
+          Hay que seleccionar al menos un genero
+        </small>
       </div>
 
       <div class="field">
@@ -266,7 +275,7 @@
           required
           autofocus />
         <small class="p-error" *ngIf="submitted() && !comic.idioma">
-          Idioma is required.
+          Idioma es requerido.
         </small>
       </div>
 
@@ -280,7 +289,7 @@
           slotChar="YYYY" />
 
         <small class="p-error" *ngIf="submitted() && !comic.anoPublicacion">
-          Año de publicación is required.
+          Año de publicación es requerido.
         </small>
       </div>
 
@@ -294,7 +303,7 @@
           required
           autofocus ></textarea>
         <small class="p-error" *ngIf="submitted() && !comic.sinopsis">
-          sinopsis is required.
+          Sinopsis es requerido.
         </small>
       </div>
 

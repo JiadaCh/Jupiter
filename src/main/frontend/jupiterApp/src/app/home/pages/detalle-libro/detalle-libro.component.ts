@@ -102,7 +102,6 @@ export class DetalleLibroComponent implements OnInit{
         })
         if (this.usuarioLoageado) {
           this.resenaService.getResenaLibroUsuario(libro, this.usuarioLoageado).subscribe((res) => {
-            console.log(this.resena)
             this.resena = res;
           })
         }

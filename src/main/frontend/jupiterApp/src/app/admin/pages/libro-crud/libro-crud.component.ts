@@ -146,7 +146,8 @@ export class LibroCrudComponent implements OnInit{
         id: 0,
         nombre: ""
       },
-      anoPublicacion: 0, autores: [], generos: [], id: 0, idioma: "", numPag: 0, sinopsis: "", titulo: ""
+      anoPublicacion: 0, autores: [], generos: [], id: 0, idioma: "", numPag: 0, sinopsis: "", titulo: "",
+      portada:"http://localhost:8080/media/libro/default-image.png"
     };
     this.submitted.set(false);
     this.libroDialog.set(true) ;

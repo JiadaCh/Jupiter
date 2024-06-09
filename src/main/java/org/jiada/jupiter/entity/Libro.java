@@ -2,6 +2,9 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,12 +34,14 @@ public class Libro {
     private long id;
 
     @Column(name="titulo",nullable = false)
+    @NotBlank(message = "no se puede poner el titulo en blanco")
     private String titulo;
 
     @Column(name="ISBN",unique = true)
     private String ISBN;
 
     @Column(name="sinopsis",nullable = false)
+    @NotBlank(message = "no se puede poner el sinopsis en blanco")
     private String sinopsis;
 
     @Column(name="idioma",nullable = false)
@@ -46,6 +51,7 @@ public class Libro {
     private String portada;
 
     @Column(name="num_pag",nullable = false)
+    @Min(value = 10, message = "Tiene que poner al menos 10")
     private int numPag;
 
     @Column(name="ano_publicacion",nullable = false)
@@ -57,6 +63,7 @@ public class Libro {
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
             inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
     )
+    @NotNull(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
 
     @ManyToMany
@@ -65,10 +72,12 @@ public class Libro {
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
             inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
     )
+    @NotNull(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_editorial", nullable = false, foreignKey = @ForeignKey(name = "FK_Comic_editorial"))
+    @NotNull(message = "Tienes que poner un editorial")
     private Editorial editorial;
 
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY)

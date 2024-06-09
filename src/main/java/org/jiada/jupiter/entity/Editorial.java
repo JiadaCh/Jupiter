@@ -2,6 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class Editorial {
     private long id;
 
     @Column(name="nombre",nullable = false)
+    @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
     @OneToMany(mappedBy = "editorial")

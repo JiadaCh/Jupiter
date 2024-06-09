@@ -2,6 +2,8 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,18 +33,22 @@ public class Comic {
     private long id;
 
     @Column(name="titulo",nullable = false)
+    @NotBlank(message = "no se puede poner el titulo en blanco")
     private String titulo;
 
     @Column(name="sinopsis",nullable = false)
+    @NotBlank(message = "no se puede poner el sinopsis en blanco")
     private String sinopsis;
 
     @Column(name="idioma",nullable = false)
+    @NotBlank(message = "no se puede poner el idioma en blanco")
     private String idioma;
 
     @Column(name="portada",nullable = false)
     private String portada;
 
     @Column(name="tipo",nullable = false)
+    @NotBlank(message = "no se puede poner el tipo en blanco")
     private String tipo;
 
     @Column(name="ano_publicacion",nullable = false)
@@ -54,6 +60,7 @@ public class Comic {
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
             inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
     )
+    @NotNull(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
 
     @ManyToMany
@@ -62,10 +69,12 @@ public class Comic {
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
             inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
     )
+    @NotNull(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_editorial", nullable = false, foreignKey = @ForeignKey(name = "FK_Libro_editorial"))
+    @NotNull(message = "Tienes que poner un editorial")
     private Editorial editorial;
 
     @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY)

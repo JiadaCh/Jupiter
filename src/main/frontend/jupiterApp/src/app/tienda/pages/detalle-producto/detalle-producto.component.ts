@@ -130,6 +130,7 @@ export class DetalleProductoComponent implements OnInit{
         producto: this.producto,
         vendedor: this.usuario
       };
+
       this.confirmationService.confirm({
         message: '¿Estás seguro de comprar el producto?',
         header: 'Confirm',
@@ -145,8 +146,6 @@ export class DetalleProductoComponent implements OnInit{
                     this.compraDialog = false;
                   },800)
                 })
-
-
               }else{
                 this.showError()
               }

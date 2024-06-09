@@ -152,7 +152,7 @@ export class ComicCrudComponent implements OnInit{
     this.comic = {
       tipo:TipoComic.Americano,
       autores: [], generos: [],
-      portada:"http://localhost:8080/media/default-image.png",editorial: {
+      portada:"http://localhost:8080/media/comic/default-image.png",editorial: {
         id: 0,
         nombre: ''
       }, anoPublicacion: 0, id: 0, idioma: "", sinopsis: "", titulo: ""};

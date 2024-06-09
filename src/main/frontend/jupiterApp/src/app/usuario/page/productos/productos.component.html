@@ -150,7 +150,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="producto.imagen" [alt]="producto.nombre"  [preview]="true"></p-image>
+        <p-image [src]="producto.imagen" width="300" [alt]="producto.nombre"  [preview]="true"></p-image>
       </div>
 
       <div class="field">
@@ -163,7 +163,7 @@
           required
           autofocus />
         <small class="p-error" *ngIf="submitted() && !producto.nombre">
-          Nombre is required.
+          Nombre es requerido.
         </small>
       </div>
 
@@ -176,9 +176,6 @@
           inputId="currency-germany"
           currency="EUR"
           locale="de-DE" />
-        <small class="p-error" *ngIf="submitted() && !producto.precio">
-          Precio is required.
-        </small>
       </div>
 
       <div class="field">
@@ -211,6 +208,9 @@
           </ul>
         </ng-template>
       </p-fileUpload>
+      <small class="p-error" *ngIf="submitted() && !producto.imagen">
+        Imagen es requerido.
+      </small>
     </ng-template>
 
     <ng-template pTemplate="footer">

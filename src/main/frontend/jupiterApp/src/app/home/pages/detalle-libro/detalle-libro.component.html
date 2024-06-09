@@ -134,8 +134,15 @@
     [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <div class="field">Calificación</div>
-      <p-rating [(ngModel)]="resena!.calificacion" [cancel]="false" required />
+      <div class="field">
+        <div class="field">Calificación</div>
+        <p-rating [(ngModel)]="resena!.calificacion" [cancel]="false" required
+                  minlength="1"
+                  maxlength="5"/>
+        <small class="p-error" *ngIf="submitted() && !resena?.calificacion">
+          Calificación es requerida.
+        </small>
+      </div>
       <p-divider></p-divider>
       <div class="field">Texto</div><textarea
       rows="5"

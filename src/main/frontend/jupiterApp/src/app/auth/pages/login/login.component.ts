@@ -81,6 +81,7 @@ export class LoginComponent {
   }
 
   onRegister(){
+    this.submitted.set(true);
     this.authService.register(this.usuario).subscribe(value => {
       if (value){
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado registrado correctamente el usuario', life: 3000 });

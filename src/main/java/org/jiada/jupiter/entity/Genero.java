@@ -1,6 +1,7 @@
 package org.jiada.jupiter.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class Genero {
     private long id;
 
     @Column(name="nombre",nullable = false)
+    @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
     @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)
