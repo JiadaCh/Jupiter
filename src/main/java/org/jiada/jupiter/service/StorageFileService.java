@@ -46,7 +46,6 @@ public class StorageFileService implements StorageService{
                 newFileName = originalFileName;
             }
 
-            String fileExtension = originalFileName != null ? getFilenameExtension(originalFileName) : "webp";
             String fileName = hasText(newFileName) ? newFileName : randomUUID().toString();
 
             Path subfolderPath = rootLocation.resolve(Paths.get(subfolder)).normalize().toAbsolutePath();
@@ -55,13 +54,13 @@ public class StorageFileService implements StorageService{
             // Create subfolder if it doesn't exist
             Files.createDirectories(subfolderPath);
 
-            Path destination = subfolderPath.resolve(Paths.get(fileName + "." + fileExtension)).normalize().toAbsolutePath();
+            Path destination = subfolderPath.resolve(Paths.get(fileName + ".webp")).normalize().toAbsolutePath();
 
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream,destination, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            return subfolder + "/" + fileName + "." + fileExtension;
+            return subfolder + "/" + fileName + ".webp";
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

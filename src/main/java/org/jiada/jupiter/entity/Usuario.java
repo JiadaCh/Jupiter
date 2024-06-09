@@ -35,7 +35,7 @@ public class Usuario {
     private long id;
 
     @Column(name="correo",nullable = false,unique = true)
-    @Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
+    @Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
     private String correo;
 
     @Column(name="nombre",nullable = false, unique = true)

@@ -103,9 +103,9 @@ export class ProductosComponent implements OnInit{
       formdata.append('filename', "producto-"+this.producto.nombre+"-"+this.usuario?.id+"-"+this.producto.precio);
       this.mediaService.uploadFile(formdata).subscribe(res=>{
         this.producto.imagen = res.url;
+        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
       })
     }
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   showError() {

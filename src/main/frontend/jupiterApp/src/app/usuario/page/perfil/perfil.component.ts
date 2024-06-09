@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {SplitterModule} from "primeng/splitter";
 import {AccordionModule} from "primeng/accordion";
 import {FieldsetModule} from "primeng/fieldset";
@@ -63,6 +63,10 @@ export class PerfilComponent implements OnInit{
   submitted = signal(false);
 
   constructor(private messageService: MessageService) {
+
+  }
+
+  ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
         switchMap(({ id }) => this.usuarioService.getUsuarioById(id))
@@ -73,29 +77,19 @@ export class PerfilComponent implements OnInit{
         return;
       });
   }
-  ngOnInit(): void {
 
-
-  }
   onUpload(event: FileSelectEvent) {
-
     const file = event.files[0];
     if (file){
       const formdata = new FormData();
       formdata.append('file', file);
-
       formdata.append('subfolder', "usuario");
       formdata.append('filename', "usuario-"+this.usuario!.nombre+"-"+this.usuario!.correo);
       this.mediaService.uploadFile(formdata).subscribe(res=>{
         this.usuario!.imagen = res.url;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha cambiado correctamente', life: 3000 });
+        this.messageService.add({severity: 'info', summary: 'Se ha cambiado el perfil', detail: 'Refresca la pagina para ver el cambio'});
       })
     }
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-  }
-  editUsuario(usuario: Usuario) {
-    this.usuario = { ...usuario };
-    this.editar.set(true)
   }
 
   showError() {
@@ -109,7 +103,6 @@ export class PerfilComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha cambiado correctamente', life: 3000 });
           this.editar.set(false);
           this.submitted.set(true);
-
         }else{
           this.showError();
         }

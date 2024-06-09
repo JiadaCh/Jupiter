@@ -3,7 +3,6 @@ import {UsuarioService} from "@service/usuario.service";
 import {MediaService} from "@service/media.service";
 import {Usuario} from "@interface/usuario.interface";
 import {Rol} from "@interface/autor.interface";
-import {Column} from "@interface/column.interface";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {delay} from "rxjs";
 import {FileSelectEvent, FileUploadModule} from "primeng/fileupload";
@@ -95,9 +94,9 @@ export class UsuarioCrudComponent implements OnInit{
       formdata.append('filename', "usuario-"+this.usuario.nombre+"-"+this.usuario.correo);
       this.mediaService.uploadFile(formdata).subscribe(res=>{
         this.usuario.imagen = res.url;
+        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
       })
     }
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   showError() {

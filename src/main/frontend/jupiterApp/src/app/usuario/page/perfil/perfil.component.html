@@ -8,7 +8,6 @@
     </ng-template>
     <ng-template pTemplate>
       <div class="col ">
-
             <p-splitter
               [panelSizes]="[20,20,50]"
               [style]="{ height: '300px' }"
@@ -25,12 +24,25 @@
                       <input pInputText id="username" class="w-24rem" [(ngModel)]="usuario!.nombre" [readOnly]="!editar()"/>
                       <label for="username">Username</label>
                     </p-floatLabel>
+                    <small class="p-error" *ngIf="submitted() && !usuario.nombre">
+                      Usuario es requerido.
+                    </small>
                   </div>
                   <div class="m-4 mb-6">
                     <p-floatLabel >
-                      <input pInputText id="correo" class="w-24rem" [(ngModel)]="usuario!.correo" [readOnly]="!editar()"/>
+                      <input pInputText id="correo" class="w-24rem"
+                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+
+                             #email="ngModel"
+                             [(ngModel)]="usuario!.correo" [readOnly]="!editar()"/>
                       <label for="correo">Correo</label>
                     </p-floatLabel>
+                    <small class="p-error" *ngIf="submitted() && !usuario.correo">
+                      Correo es requerido.
+                    </small>
+                    <small class="p-error" *ngIf="submitted() && email.errors">
+                      Formato del correo incorrecto: example&commat;example.com
+                    </small>
                   </div>
                   <div class="m-4 mb-6">
                     <p-floatLabel >
@@ -48,8 +60,7 @@
                   } @else if (usuario.id == usuarioLogeado?.id){
                     <p-fileUpload
                       (onSelect)="onUpload($event)"
-                      [multiple]="false"
-
+                      url="https://www.primefaces.org/cdn/api/upload.php"
                       [auto]="true"
                       mode="basic"
                       accept="image/*"

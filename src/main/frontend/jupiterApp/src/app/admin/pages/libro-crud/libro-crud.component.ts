@@ -131,9 +131,9 @@ export class LibroCrudComponent implements OnInit{
       formdata.append('filename', "libro-"+this.libro.titulo+"-"+this.libro.anoPublicacion+"-"+this.libro.numPag);
       this.mediaService.uploadFile(formdata).subscribe(res=>{
         this.libro.portada = res.url;
+        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
       })
     }
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   showError() {
