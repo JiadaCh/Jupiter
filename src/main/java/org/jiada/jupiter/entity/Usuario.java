@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.ArrayList;
@@ -46,7 +47,6 @@ public class Usuario {
     private String nombre;
 
     @Column(name="rol",nullable = false)
-    @JsonEnumDefaultValue
     private String rol;
 
     @Column(name="direccion")
