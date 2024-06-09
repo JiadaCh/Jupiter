@@ -9,14 +9,14 @@ const checkAuth = () =>{
   return authService.isAdmin().pipe(
     tap(admin => {
       if (!admin) {
-        router.navigate(['/home']);
+        router.navigate(['/home']).then(() => false);
       }
     }),
     map(admin => admin)
   );
 }
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = () => {
   return checkAuth();
 };
 

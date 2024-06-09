@@ -3,14 +3,14 @@ import {AuthService} from "@service/auth.service";
 import {inject} from "@angular/core";
 import {map, tap} from "rxjs";
 
-export const checkAuthGuard: CanActivateFn = (route, state) => {
+export const checkAuthGuard: CanActivateFn = () => {
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
 
   return authService.isAuth().pipe(
     tap(auth => {
       if (auth) {
-        router.navigate(['/']);
+        router.navigate(['/']).then(() => false);
       }
     }),
     map(auth => !auth)
