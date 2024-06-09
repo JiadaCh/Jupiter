@@ -1,7 +1,7 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environments} from "../../../environments/enviroments.prod";
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {catchError, delay, map, Observable, of, tap} from "rxjs";
 import {Usuario} from "@interface/usuario.interface";
 import {UsuarioService} from "@service/usuario.service";
 
@@ -13,6 +13,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private usuarioService = inject(UsuarioService);
   user = signal<Usuario|undefined>(undefined);
+
   constructor() {}
 
   login(usuario:string,contra:string):Observable<Usuario>{
@@ -49,15 +50,15 @@ export class AuthService {
   }
 
   isAuth(): Observable<boolean>{
-    if(!localStorage.getItem('sessionToken')) return of(false);
-
     const token =localStorage.getItem('sessionToken');
-
-    return this.http.get<Usuario>(`${this.baseUrl}/usuarios/`+token)
+    if (!token) {
+      return of(false);
+    }
+    return this.http.get<Usuario>(`${this.baseUrl()}/usuarios/${token}`)
       .pipe(
         tap(user => this.user.set(user)),
         map(user => !!user),
-        catchError(err=> of(false))
+        catchError(()=> of(false))
       );
   }
 

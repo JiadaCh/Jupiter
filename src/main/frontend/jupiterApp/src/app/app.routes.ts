@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import {checkAuthGuard} from "./guard/check-auth.guard";
-import {adminGuard, canMatchAdminGuard} from "./guard/admin.guard";
+import {adminGuard} from "./guard/admin.guard";
 
 export const routes: Routes = [
   {
@@ -90,7 +90,6 @@ export const routes: Routes = [
     loadComponent:() =>  import('./admin/pages/admin/admin.component').then(m => m.AdminComponent),
     title: 'Panel de administrador',
     canActivate:[adminGuard],
-    canMatch:[canMatchAdminGuard],
     children: [
       {
         path:'autor',
@@ -116,10 +115,14 @@ export const routes: Routes = [
         path:'usuario',
         title: 'Usuario',
         loadComponent:() =>  import('./admin/pages/usuario-crud/usuario-crud.component').then(m => m.UsuarioCrudComponent),
-      }
+      },
+      {
+        path: '',
+        redirectTo: 'autor',
+        pathMatch: 'full'
+      },
     ]
   },
-
   {
     path: '',
     redirectTo: 'home',

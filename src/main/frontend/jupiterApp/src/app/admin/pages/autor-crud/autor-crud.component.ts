@@ -83,8 +83,7 @@ export class AutorCrudComponent implements OnInit{
         for (let autor of this.selectedAutors){
           this.autorService.deleteAutor(autor.id).subscribe(value => {
             if (!value)
-              this.showError()
-
+              this.showError();
             this.cargarDatos();
           })
         }

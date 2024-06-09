@@ -20,10 +20,6 @@ public class UsuarioService {
     public List<Usuario> all() {
         return this.usuarioRepository.findAll();
     }
-    public Usuario findByProducto(Long idProducto) {
-        return this.usuarioRepository.findByProductosId(idProducto);
-    }
-
 
     public Usuario save(Usuario Usuario) {
         return this.usuarioRepository.save(Usuario);
