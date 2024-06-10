@@ -4,6 +4,7 @@ import {Producto} from "../interface/producto.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
 import {Usuario} from "../interface/usuario.interface";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import {Usuario} from "../interface/usuario.interface";
 export class ProductoService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   getProducto():Observable<Producto[]>{
     return this.http.get<Producto[]>(this.baseUrl()+'/productos')
@@ -42,7 +43,11 @@ export class ProductoService {
     return this.http.post<Producto>(this.baseUrl()+`/productos?id=${usuario.id}`,producto)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -51,7 +56,11 @@ export class ProductoService {
     return this.http.put<Producto>(this.baseUrl()+'/productos/'+producto.id,producto)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 }

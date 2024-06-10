@@ -32,24 +32,25 @@ public class Libro {
     private long id;
 
     @Column(name="titulo",nullable = false)
-    @NotBlank(message = "no se puede poner el titulo en blanco")
+    @NotBlank(message = "Introduzca un título")
     private String titulo;
 
     @Column(name="ISBN",unique = true)
     private String ISBN;
 
     @Column(name="sinopsis",nullable = false)
-    @NotBlank(message = "no se puede poner el sinopsis en blanco")
+    @NotBlank(message = "No se puede poner el sinopsis en blanco")
     private String sinopsis;
 
     @Column(name="idioma",nullable = false)
+    @NotBlank(message = "Introduzca un idioma")
     private String idioma;
 
     @Column(name="portada",nullable = false)
     private String portada;
 
     @Column(name="num_pag",nullable = false)
-    @Min(value = 10, message = "Tiene que poner al menos 10")
+    @Min(value = 10, message = "Introduzca el número de página. Mínimo de {min} páginas")
     @Positive
     private int numPag;
 

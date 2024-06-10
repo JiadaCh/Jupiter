@@ -6,6 +6,7 @@ import {catchError, map, Observable, of} from "rxjs";
 import {Comic} from "../interface/comic.interface";
 import {Libro} from "../interface/libros.interface";
 import {Usuario} from "../interface/usuario.interface";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,7 @@ import {Usuario} from "../interface/usuario.interface";
 export class ResenaService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
-
-  getResena():Observable<Resena[]>{
-    return this.http.get<Resena[]>(this.baseUrl()+'/resenas')
-  }
+  constructor(private messageService: MessageService) {}
 
   getResenaComic(comic:Comic):Observable<Resena[]>{
     if (!comic.id) throw Error('El id es requerido');
@@ -48,7 +45,11 @@ export class ResenaService {
     return this.http.post<Resena>(this.baseUrl()+`/resenas?idComic=${idComic}&idLibro=${idLibro}`,resena)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -57,7 +58,11 @@ export class ResenaService {
     return this.http.put<Resena>(this.baseUrl()+'/resenas/'+resena.id,resena)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 }

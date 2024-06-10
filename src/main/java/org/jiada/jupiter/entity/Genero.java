@@ -32,7 +32,7 @@ public class Genero {
     private long id;
 
     @Column(name="nombre",nullable = false)
-    @NotBlank(message = "no se puede poner el nombre en blanco")
+    @NotBlank(message = "Introduzca el nombre del género")
     private String nombre;
 
     @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)

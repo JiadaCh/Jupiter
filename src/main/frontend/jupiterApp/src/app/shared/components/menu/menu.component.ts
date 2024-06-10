@@ -102,6 +102,6 @@ export class MenuComponent implements OnInit{
         }
 
       ];
-    },450)
+    },100)
   }
 }

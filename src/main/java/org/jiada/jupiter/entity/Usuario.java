@@ -59,8 +59,7 @@ public class Usuario {
     private String direccion;
 
     @Column(name="contrasena",nullable = false)
-    @Size(min=4, message = "Contraseña de al menos de 4 caracteres.")
-    @Size(max=20, message = "Contraseña como máximo de 20 caracteres.")
+    @Size(min=4, max = 20, message = "La contraseña debe tener entre {min} y {max} caracteres")
     private String contrasena;
 
     @Column(name="imagen",nullable = false)

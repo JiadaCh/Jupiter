@@ -20,11 +20,11 @@
                        styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
               ></p-image>
               <div class="col-6 flex-column justify-content-start">
-                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{usuario!.nombre}}</a> </div>
+                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{vendedor()}}</a> </div>
                 <div style="margin: 20px 0" class="text-2xl">Precio: <br> <div class="text-red-400 text-6xl">{{producto.precio |currency:'EUR': ''}}€</div> </div>
 
                 <div style="margin: 20px 0;" class="flex justify-content-around" >
-                    <p-button icon="pi pi-shopping-cart" styleClass="w-26rem " [hidden]="producto.comprado" label="Comprar" (onClick)="openNew()"></p-button>
+                    <p-button icon="pi pi-shopping-cart" styleClass="w-26rem " [hidden]="producto.comprado || propietario()" label="Comprar" (onClick)="openNew()"></p-button>
                 </div>
 
               </div>

@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Autor} from "../interface/autor.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {catchError, map, Observable, of} from "rxjs";
 export class AutorService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   getAutor():Observable<Autor[]>{
     return this.http.get<Autor[]>(this.baseUrl()+'/autores')
@@ -28,7 +29,11 @@ export class AutorService {
     return this.http.post<Autor>(this.baseUrl()+'/autores',autor)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -37,7 +42,13 @@ export class AutorService {
     return this.http.put<Autor>(this.baseUrl()+'/autores/'+autor.id,autor)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
+
+
 }

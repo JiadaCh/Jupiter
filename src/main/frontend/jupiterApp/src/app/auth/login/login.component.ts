@@ -76,7 +76,7 @@ export class LoginComponent {
           this.router.navigate(['']);
         }
 
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha podido encontrar el usuario' });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta' });
       })
   }
 

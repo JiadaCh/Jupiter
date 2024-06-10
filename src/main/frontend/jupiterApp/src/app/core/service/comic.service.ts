@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
 import {Comic} from "../interface/comic.interface";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {Comic} from "../interface/comic.interface";
 export class ComicService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   getComic():Observable<Comic[]>{
     return this.http.get<Comic[]>(this.baseUrl()+'/comics')
@@ -32,11 +33,14 @@ export class ComicService {
   }
 
   addComic(comic:Comic):Observable<Boolean> {
-    console.log(comic)
     return this.http.post<Comic>(this.baseUrl()+'/comics',comic)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+          this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -46,7 +50,12 @@ export class ComicService {
     return this.http.put<Comic>(this.baseUrl()+'/comics/'+comic.id,comic)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+
+          return  of(false);
+        })
       )
   }
 }

@@ -32,11 +32,11 @@ public class Autor{
     private long id;
 
     @Column(name="nombre",nullable = false)
-    @NotBlank(message = "no se puede poner el nombre en blanco")
+    @NotBlank(message = "Introduzca un nombre")
     private String nombre;
 
     @Column(name="apellido1",nullable = false)
-    @NotBlank(message = "no se puede poner el apellido en blanco")
+    @NotBlank(message = "Introduzca un apellido")
     private String apellido1;
 
     @Column(name="apellido2")

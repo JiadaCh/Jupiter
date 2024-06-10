@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
@@ -29,8 +30,7 @@ public class Resena {
     private long id;
 
     @Column(name="calificacion",nullable = false)
-    @Min(value = 1, message = "Debe tener al menos 1")
-    @Max(value = 5, message = "Debe ser menor que 6")
+    @Length(min = 1, max = 5, message = "Debe tener una calificación entre {min} y {max}")
     private double calificacion;
 
     @Column(name="texto",nullable = false)

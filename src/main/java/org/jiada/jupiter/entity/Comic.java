@@ -35,22 +35,22 @@ public class Comic {
     private long id;
 
     @Column(name="titulo",nullable = false)
-    @NotBlank(message = "no se puede poner el titulo en blanco")
+    @NotBlank(message = "Introduzca un título")
     private String titulo;
 
     @Column(name="sinopsis",nullable = false)
-    @NotBlank(message = "no se puede poner el sinopsis en blanco")
+    @NotBlank(message = "No se puede poner el sinopsis en blanco")
     private String sinopsis;
 
     @Column(name="idioma",nullable = false)
-    @NotBlank(message = "no se puede poner el idioma en blanco")
+    @NotBlank(message = "Introduzca un idioma")
     private String idioma;
 
     @Column(name="portada",nullable = false)
     private String portada;
 
     @Column(name="tipo",nullable = false)
-    @NotBlank(message = "no se puede poner el tipo en blanco")
+    @NotBlank(message = "Elige un tipo")
     private String tipo;
 
     @Column(name="ano_publicacion",nullable = false)

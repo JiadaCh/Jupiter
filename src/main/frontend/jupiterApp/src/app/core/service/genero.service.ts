@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Genero} from "../interface/genero.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {catchError, map, Observable, of} from "rxjs";
 export class GeneroService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   getGenero():Observable<Genero[]>{
     return this.http.get<Genero[]>(this.baseUrl()+'/generos')
@@ -28,7 +29,11 @@ export class GeneroService {
     return this.http.post<Genero>(this.baseUrl()+'/generos',genero)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -37,7 +42,11 @@ export class GeneroService {
     return this.http.put<Genero>(this.baseUrl()+'/generos/'+genero.id,genero)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 }

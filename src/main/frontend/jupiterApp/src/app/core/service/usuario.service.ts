@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Usuario} from "../interface/usuario.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {catchError, map, Observable, of} from "rxjs";
 export class UsuarioService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   getUsuario():Observable<Usuario[]>{
     return this.http.get<Usuario[]>(this.baseUrl()+'/usuarios')
@@ -42,7 +43,11 @@ export class UsuarioService {
     return this.http.post<Usuario>(this.baseUrl()+'/usuarios',usuario)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 
@@ -51,7 +56,11 @@ export class UsuarioService {
     return this.http.put<Usuario>(this.baseUrl()+'/usuarios/'+usuario.id,usuario)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 }

@@ -3,6 +3,7 @@ package org.jiada.jupiter.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,17 +29,18 @@ public class Producto {
     private long id;
 
     @Column(name="nombre",nullable = false)
-    @NotBlank(message = "no se puede poner el nombre en blanco")
+    @NotBlank(message = "Introduzca un nombre al producto")
     private String nombre;
 
     @Column(name="descripcion",nullable = false)
     private String descripcion;
 
     @Column(name="precio",nullable = false)
+    @PositiveOrZero(message = "El precio no puede ser negativo")
     private Double precio;
 
     @Column(name="imagen",nullable = false)
-    @NotBlank(message = "Tienes que poner un imagen")
+    @NotBlank(message = "Introduzca un imagen al producto")
     private String imagen;
 
     @Column(name="comprado", nullable = false)

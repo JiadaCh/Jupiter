@@ -33,7 +33,7 @@ public class Editorial {
     private long id;
 
     @Column(name="nombre",nullable = false)
-    @NotBlank(message = "no se puede poner el nombre en blanco")
+    @NotBlank(message = "Introduzca el nombre del editorial")
     private String nombre;
 
     @OneToMany(mappedBy = "editorial")

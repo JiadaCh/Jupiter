@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {ProductoService} from "../../core/service/producto.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {delay, switchMap} from "rxjs";
@@ -73,7 +73,12 @@ export class DetalleProductoComponent implements OnInit{
   private pedidoService = inject(PedidoService);
   private router = inject(Router);
 
+  propietario= signal<boolean>(false);
+  vendedor = computed(()=>{
+    if (this.propietario()) return "Yo";
 
+    return this.usuario!.nombre;
+  })
   compraDialog:boolean = false;
 
   producto!: Producto;
@@ -82,6 +87,7 @@ export class DetalleProductoComponent implements OnInit{
 
   constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {
   }
+
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
@@ -95,10 +101,15 @@ export class DetalleProductoComponent implements OnInit{
 
             if (!usuario) this.router.navigateByUrl('/tienda');
             this.usuario = usuario
+
+            if (this.authService.user() && usuario!.id == this.authService.user()!.id){
+              this.propietario.set(true)
+            }
           });
         this.producto = producto;
         return;
       });
+
   }
 
   openNew() {

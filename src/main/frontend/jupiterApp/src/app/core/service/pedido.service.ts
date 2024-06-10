@@ -26,21 +26,6 @@ export class PedidoService {
     )
   }
 
-  getPedidoById(id:string):Observable<Comic|undefined>{
-    return this.http.get<Comic>(this.baseUrl()+'/pedidos/'+id)
-      .pipe(
-        catchError(error=> of(undefined))
-      );
-  }
-
-  deletePedido(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/pedidos/'+id)
-      .pipe(
-        map(()=> true),
-        catchError(() => of(false))
-      )
-  }
-
   addPedido(pedido:Pedido):Observable<Boolean> {
     return this.http.post<Pedido>(this.baseUrl()+'/pedidos',pedido)
       .pipe(

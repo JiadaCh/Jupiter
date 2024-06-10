@@ -4,6 +4,7 @@ import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of, tap} from "rxjs";
 import {Usuario} from "../interface/usuario.interface";
 import {UsuarioService} from "./usuario.service";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,21 @@ export class AuthService {
   private usuarioService = inject(UsuarioService);
   user = signal<Usuario|undefined>(undefined);
 
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   login(usuario:string,contra:string):Observable<Usuario>{
-    return this.http.get<Usuario>(this.baseUrl()+`/usuarios/login?usuario=${usuario}&contrasena=${contra}`);
+    return this.http.get<Usuario>(this.baseUrl()+`/usuarios/login?usuario=${usuario}&contrasena=${contra}`)
   }
-
 
   register(usuario:Usuario):Observable<Boolean> {
     return this.http.post<Usuario>(this.baseUrl()+'/usuarios',usuario)
       .pipe(
         map(()=> true),
-        catchError(() => of(false))
+        catchError((err) =>{
+          for (let i in err.error)
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return  of(false);
+        })
       )
   }
 

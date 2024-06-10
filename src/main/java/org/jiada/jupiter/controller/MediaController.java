@@ -3,6 +3,7 @@ package org.jiada.jupiter.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.jiada.jupiter.service.StorageService;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,19 @@ public class MediaController {
     }
 
     @GetMapping("{subfolder}/{filename:.+}")
-    public ResponseEntity<Resource> download(@PathVariable String subfolder, @PathVariable String filename) throws IOException {
+    public ResponseEntity<Resource> download(@PathVariable  String subfolder, @PathVariable String filename) throws IOException {
         String filePath = subfolder + "/" + filename;
+        Resource file = storageService.loadAsResource(filePath);
+        String contentType = Files.probeContentType(file.getFile().toPath());
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, contentType)
+                .body(file);
+    }
+
+    @GetMapping("{filename:.+}")
+    public ResponseEntity<Resource> download(@PathVariable String filename) throws IOException {
+        String filePath = filename;
         Resource file = storageService.loadAsResource(filePath);
         String contentType = Files.probeContentType(file.getFile().toPath());
         return ResponseEntity
