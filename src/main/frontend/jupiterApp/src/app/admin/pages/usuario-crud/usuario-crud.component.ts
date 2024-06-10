@@ -137,7 +137,7 @@ export class UsuarioCrudComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Usuarioes Eliminados',
+          detail: 'Usuarios Eliminados',
           life: 3000
         });
       }

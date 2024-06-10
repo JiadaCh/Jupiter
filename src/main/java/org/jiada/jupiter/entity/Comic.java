@@ -85,27 +85,6 @@ public class Comic {
     @JsonIgnore
     private List<Resena> resenas = new ArrayList<>();
 
-
-    public void addGenero(Genero genero) {
-        generos.add(genero);
-        genero.getComics().add(this);
-    }
-
-    public void removeGenero(Genero genero) {
-        generos.remove(genero);
-        genero.getComics().remove(this);
-    }
-
-    public void addAutor(Autor autor) {
-        autores.add(autor);
-        autor.getComics().add(this);
-    }
-
-    public void removeAutor(Autor autor) {
-        autores.remove(autor);
-        autor.getComics().remove(this);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

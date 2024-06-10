@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {PasswordModule} from "primeng/password";
 import {FormsModule} from "@angular/forms";
 import {FloatLabelModule} from "primeng/floatlabel";
-import {ConfirmationService, MessageService} from "primeng/api";
+import {MessageService} from "primeng/api";
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {FileUploadModule} from "primeng/fileupload";

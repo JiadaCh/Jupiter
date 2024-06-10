@@ -76,7 +76,7 @@ export class DetalleLibroComponent implements OnInit {
   private libroService = inject(LibroService);
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthService);
-  usuarioLoageado = this.authService.user();
+  usuarioLogeado = this.authService.user();
   private resenaService = inject(ResenaService);
   private router = inject(Router);
   private messageService = inject(MessageService);
@@ -99,8 +99,8 @@ export class DetalleLibroComponent implements OnInit {
           }
           this.getCalificacion();
         })
-        if (this.usuarioLoageado) {
-          this.resenaService.getResenaLibroUsuario(libro, this.usuarioLoageado).subscribe((res) => {
+        if (this.usuarioLogeado) {
+          this.resenaService.getResenaLibroUsuario(libro, this.usuarioLogeado).subscribe((res) => {
             this.resena = res;
           })
         }
@@ -122,9 +122,9 @@ export class DetalleLibroComponent implements OnInit {
   }
 
   openNew() {
-    if (this.usuarioLoageado) {
+    if (this.usuarioLogeado) {
       this.resena = {
-        calificacion: 0, id: 0, texto: "", usuario: this.usuarioLoageado
+        calificacion: 0, id: 0, texto: "", usuario: this.usuarioLogeado
       };
       this.submitted.set(false);
       this.resenaDialog = true;
@@ -208,7 +208,7 @@ export class DetalleLibroComponent implements OnInit {
           });
           this.resenaDialog = false;
           this.submitted.set(false);
-          this.resenaService.getResenaLibroUsuario(this.libro!, this.usuarioLoageado!).subscribe((res) => {
+          this.resenaService.getResenaLibroUsuario(this.libro!, this.usuarioLogeado!).subscribe((res) => {
             this.resena = res;
             this.calificacion += res.calificacion;
             this.getCalificacion();

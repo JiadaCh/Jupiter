@@ -111,7 +111,7 @@
               </div>
             } @else {
               @for (resena of resenas; track $index) {
-                <p-fieldset *ngIf="resena.usuario.id != usuarioLoageado?.id">
+                <p-fieldset *ngIf="resena.usuario.id != usuarioLogeado?.id">
                   <ng-template pTemplate="header">
                     <div class="flex align-items-center gap-2 px-2 w-fit">
                       <a [href]="'user/'+resena.usuario.id+'/perfil'">

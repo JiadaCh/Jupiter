@@ -86,26 +86,6 @@ public class Libro {
     @JsonIgnore
     private List<Resena> resenas = new ArrayList<>();
 
-    public void addGenero(Genero genero) {
-        generos.add(genero);
-        genero.getLibros().add(this);
-    }
-
-    public void removeGenero(Genero genero) {
-        generos.remove(genero);
-        genero.getLibros().remove(this);
-    }
-
-    public void addAutor(Autor autor) {
-        autores.add(autor);
-        autor.getLibros().add(this);
-    }
-
-    public void removeAutor(Autor autor) {
-        autores.remove(autor);
-        autor.getLibros().remove(this);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

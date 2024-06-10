@@ -88,7 +88,7 @@ export class GeneroCrudComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Generoes Eliminados',
+          detail: 'Generos Eliminados',
           life: 3000
         });
       }
