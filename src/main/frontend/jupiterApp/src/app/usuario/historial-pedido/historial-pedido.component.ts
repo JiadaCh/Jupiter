@@ -53,79 +53,87 @@ import {TagModule} from "primeng/tag";
     color: var();
   }`
 })
-export class HistorialPedidoComponent implements OnInit{
+export class HistorialPedidoComponent implements OnInit {
 
   private authService = inject(AuthService);
   private pedidoService = inject(PedidoService);
   usuario = this.authService.user();
 
-  loading= signal(true);
-  pedidos= signal<Pedido[]>([]);
-  estados:EstadoPedido[] = [EstadoPedido.Pediente, EstadoPedido.Enviado,EstadoPedido.Entregado ];
-  pedido!:Pedido;
+  protected readonly EstadoPedido = EstadoPedido;
+  loading = signal(true);
+  pedidos = signal<Pedido[]>([]);
+  estados: EstadoPedido[] = [EstadoPedido.Pediente, EstadoPedido.Enviado, EstadoPedido.Entregado];
+  pedido!: Pedido;
   submitted = signal(false);
-  pedidoDialog:boolean = false;
+  pedidoDialog: boolean = false;
 
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
 
   }
 
   ngOnInit(): void {
-    setTimeout(()=>{
+    setTimeout(() => {
 
       this.cargarDatos();
-    },500)
+    }, 500)
   }
 
-  cargarDatos(){
+  cargarDatos() {
     this.loading.set(true);
 
     this.pedidoService.getPedidoByUsuario(this.usuario).pipe(
       delay(500)
-    ).subscribe( pedido =>{
+    ).subscribe(pedido => {
       this.pedidos.set(pedido);
       this.loading.set(false);
-    } )
+    })
 
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
-
 
 
   editPedido(pedido: Pedido) {
-    this.pedido = { ...pedido };
-    this.pedidoDialog = true ;
+    this.pedido = {...pedido};
+    this.pedidoDialog = true;
   }
 
   hideDialog() {
-    this.pedidoDialog = false ;
+    this.pedidoDialog = false;
     this.submitted.set(false);
   }
 
   savePedido() {
     this.submitted.set(true);
-      this.confirmationService.confirm({
-        message: '¿Estás seguro de editar el pedido seleccionados?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.pedidoService.updatePedido(this.pedido).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.pedidoDialog = false ;
-              this.cargarDatos();
-              this.submitted.set(false);
-            }else{
-              this.showError()
-            }
-          })
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de editar el pedido seleccionados?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.pedidoService.updatePedido(this.pedido).subscribe(value => {
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Se ha realizado el cambio',
+              life: 3000
+            });
+            this.pedidoDialog = false;
+            this.cargarDatos();
+            this.submitted.set(false);
+          } else {
+            this.showError()
+          }
+        })
 
-        }
-      });
+      }
+    });
   }
 
-  protected readonly EstadoPedido = EstadoPedido;
 }

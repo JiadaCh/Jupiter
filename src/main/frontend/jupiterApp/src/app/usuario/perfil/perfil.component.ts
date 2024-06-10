@@ -50,17 +50,16 @@ import {switchMap} from "rxjs";
   templateUrl: './perfil.component.html',
   styles: ``
 })
-export class PerfilComponent implements OnInit{
+export class PerfilComponent implements OnInit {
+  usuario!: Usuario;
+  editar = signal(false);
+  submitted = signal(false);
   private authService = inject(AuthService);
+  usuarioLogeado = this.authService.user();
   private usuarioService = inject(UsuarioService);
   private mediaService = inject(MediaService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
-
-  usuarioLogeado = this.authService.user();
-  usuario!:Usuario;
-  editar = signal(false);
-  submitted = signal(false);
 
   constructor(private messageService: MessageService) {
 
@@ -69,7 +68,7 @@ export class PerfilComponent implements OnInit{
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        switchMap(({ id }) => this.usuarioService.getUsuarioById(id))
+        switchMap(({id}) => this.usuarioService.getUsuarioById(id))
       )
       .subscribe((usuario) => {
         if (!usuario) return this.router.navigate(['/user']);
@@ -80,35 +79,47 @@ export class PerfilComponent implements OnInit{
 
   onUpload(event: FileSelectEvent) {
     const file = event.files[0];
-    if (file){
+    if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
       formdata.append('subfolder', "usuario");
-      formdata.append('filename', "usuario-"+this.usuario!.nombre+"-"+this.usuario!.correo);
-      this.mediaService.uploadFile(formdata).subscribe(res=>{
+      formdata.append('filename', "usuario-" + this.usuario!.nombre + "-" + this.usuario!.correo);
+      this.mediaService.uploadFile(formdata).subscribe(res => {
         this.usuario!.imagen = res.url;
-        this.messageService.add({severity: 'info', summary: 'Se ha cambiado el perfil', detail: 'Refresca la pagina para ver el cambio'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Se ha cambiado el perfil',
+          detail: 'Refresca la pagina para ver el cambio'
+        });
       })
     }
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   saveUsuario() {
 
-      this.usuarioService.updateUsuario(this.usuario!).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha cambiado correctamente', life: 3000 });
-          this.editar.set(false);
-          this.submitted.set(true);
-        }else{
-          this.showError();
-        }
-      })
-    }
-
+    this.usuarioService.updateUsuario(this.usuario!).subscribe(value => {
+      if (value) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Se ha cambiado correctamente',
+          life: 3000
+        });
+        this.editar.set(false);
+        this.submitted.set(true);
+      } else {
+        this.showError();
+      }
+    })
+  }
 
 
 }

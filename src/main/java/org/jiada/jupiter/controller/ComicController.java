@@ -20,13 +20,13 @@ public class ComicController {
         this.comicService = comicService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Comic> all() {
         log.info("Accediendo a todas los comics");
         return this.comicService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Comic newComic(@RequestBody @Valid Comic comic) {
         return this.comicService.save(comic);
     }

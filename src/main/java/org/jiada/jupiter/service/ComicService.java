@@ -20,7 +20,7 @@ public class ComicService {
 
     private final EditorialRepository editorialRepository;
 
-    public ComicService(ComicRepository ComicRepository,  EditorialRepository editorialRepository) {
+    public ComicService(ComicRepository ComicRepository, EditorialRepository editorialRepository) {
         this.comicRepository = ComicRepository;
         this.editorialRepository = editorialRepository;
     }
@@ -45,15 +45,17 @@ public class ComicService {
             editorial = editorialRepository.save(editorial);
             comic.setEditorial(editorial);
         }
-        return this.comicRepository.findById(id).map( p -> (id.equals(comic.getId())  ?
-                                                            this.comicRepository.save(comic) : null))
+        return this.comicRepository.findById(id).map(p -> (id.equals(comic.getId()) ?
+                        this.comicRepository.save(comic) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Comic()));
 
     }
 
     public void delete(Long id) {
-        this.comicRepository.findById(id).map(p -> {this.comicRepository.delete(p);
-                                                        return p;})
+        this.comicRepository.findById(id).map(p -> {
+                    this.comicRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Comic()));
     }
 

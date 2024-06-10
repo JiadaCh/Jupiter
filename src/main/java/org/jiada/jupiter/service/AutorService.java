@@ -32,15 +32,17 @@ public class AutorService {
 
     public Autor replace(Long id, Autor autor) {
 
-        return this.autorRepository.findById(id).map( p -> (id.equals(autor.getId())  ?
-                                                            this.autorRepository.save(autor) : null))
+        return this.autorRepository.findById(id).map(p -> (id.equals(autor.getId()) ?
+                        this.autorRepository.save(autor) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Autor()));
 
     }
 
     public void delete(Long id) {
-        this.autorRepository.findById(id).map(p -> {this.autorRepository.delete(p);
-                                                        return p;})
+        this.autorRepository.findById(id).map(p -> {
+                    this.autorRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Autor()));
     }
 

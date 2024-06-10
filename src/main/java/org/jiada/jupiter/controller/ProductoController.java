@@ -20,7 +20,7 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Producto> all() {
         log.info("Accediendo a todas los productos");
         return this.productoService.all();
@@ -31,9 +31,9 @@ public class ProductoController {
         return this.productoService.findByUser(userId);
     }
 
-    @PostMapping({"","/"})
-    public Producto newProducto(@RequestParam("id") Long userId,@RequestBody @Valid Producto producto) {
-        return this.productoService.save(producto,userId);
+    @PostMapping({"", "/"})
+    public Producto newProducto(@RequestParam("id") Long userId, @RequestBody @Valid Producto producto) {
+        return this.productoService.save(producto, userId);
     }
 
     @GetMapping("/{id}")

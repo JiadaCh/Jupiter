@@ -31,7 +31,7 @@ public class Genero {
     @Column(name = "id_genero")
     private long id;
 
-    @Column(name="nombre",nullable = false)
+    @Column(name = "nombre", nullable = false)
     @NotBlank(message = "Introduzca el nombre del género")
     private String nombre;
 

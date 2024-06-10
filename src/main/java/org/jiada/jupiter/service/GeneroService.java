@@ -31,15 +31,17 @@ public class GeneroService {
 
     public Genero replace(Long id, Genero genero) {
 
-        return this.generoRepository.findById(id).map( p -> (id.equals(genero.getId())  ?
-                                                            this.generoRepository.save(genero) : null))
+        return this.generoRepository.findById(id).map(p -> (id.equals(genero.getId()) ?
+                        this.generoRepository.save(genero) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Genero()));
 
     }
 
     public void delete(Long id) {
-        this.generoRepository.findById(id).map(p -> {this.generoRepository.delete(p);
-                                                        return p;})
+        this.generoRepository.findById(id).map(p -> {
+                    this.generoRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Genero()));
     }
 

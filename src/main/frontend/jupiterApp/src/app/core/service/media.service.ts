@@ -9,10 +9,12 @@ import {Observable} from "rxjs";
 export class MediaService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
 
-  uploadFile(formData: FormData):Observable<any> {
-    return this.http.post(this.baseUrl()+'/media/upload',formData)
+  constructor() {
+  }
+
+  uploadFile(formData: FormData): Observable<any> {
+    return this.http.post(this.baseUrl() + '/media/upload', formData)
   }
 
 }

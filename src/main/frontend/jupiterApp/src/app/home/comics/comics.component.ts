@@ -43,29 +43,30 @@ import {RouterLink} from "@angular/router";
   templateUrl: './comics.component.html',
   styles: ``
 })
-export class ComicsComponent implements OnInit{
+export class ComicsComponent implements OnInit {
+  rows: number = 12;
+  layout: "grid" | "list" = 'grid';
+  generos: Genero[] = [];
+  autores: Autor[] = [];
+  comics: Comic[] = [];
+  editoriales: Editorial[] = [];
+  tipoComics: any[] = ['Manga', 'Cómics Americano', 'Manhwa', 'Manhua', 'Otros'];
+  filteredItems: Comic[] = [];
+  selectedAutores: Autor[] = [];
+  selectedGeneros: Genero[] = [];
+  selectedEditorial: Editorial[] = [];
+  selectedTipo: string = '';
+  searchText: string = '';
   private comicService = inject(ComicService);
   private generoService = inject(GeneroService);
   private autorService = inject(AutorService);
   private editorialService = inject(EditorialService);
-  rows:number=12;
-  layout:"grid" | "list" = 'grid';
-  generos:Genero[] = [];
-  autores: Autor[] = [];
-  comics:Comic[] = [];
-  editoriales:Editorial[] = [];
-  tipoComics: any[] = ['Manga','Cómics Americano','Manhwa','Manhua','Otros'];
-  filteredItems: Comic[] = [];
-  selectedAutores: Autor[] = [];
-  selectedGeneros:Genero[] = [];
-  selectedEditorial:Editorial[] = [];
-  selectedTipo:string = '';
-  searchText: string = '';
+
   ngOnInit(): void {
-    this.comicService.getComic().subscribe(res =>{
+    this.comicService.getComic().subscribe(res => {
       this.comics = res
       this.filterItems();
-    } );
+    });
     this.editorialService.getEditorial().subscribe(res => this.editoriales = res);
     this.generoService.getGenero().subscribe(res => this.generos = res);
     this.autorService.getAutor().subscribe(res => this.autores = res);
@@ -79,18 +80,22 @@ export class ComicsComponent implements OnInit{
   onSearchTextChange() {
     this.filterItems();
   }
+
   onFilterAutor(event: MultiSelectChangeEvent) {
     this.selectedAutores = event.value;
     this.filterItems();
   }
+
   onFilterTipo(event: MultiSelectChangeEvent) {
     this.selectedTipo = event.value;
     this.filterItems();
   }
+
   onFilterEditorial(event: MultiSelectChangeEvent) {
     this.selectedEditorial = event.value;
     this.filterItems();
   }
+
   filterItems() {
     let filtered = this.comics;
 
@@ -121,7 +126,6 @@ export class ComicsComponent implements OnInit{
         selectedTipo == comic.tipo
       );
     }
-
 
 
     if (this.searchText) {

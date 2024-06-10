@@ -2,60 +2,59 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedComics()"
-        [disabled]="!selectedComics || !selectedComics.length" />
+        [disabled]="!selectedComics || !selectedComics.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="comics()"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    [(selection)]="selectedComics"
+    [columns]="selectedColumns"
     [loading]="loading()"
     [paginator]="true"
-    selectionMode="single"
-    [(selection)]="selectedComics"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
     [scrollable]="true"
-    styleClass="p-datatable-gridlines"
-    [columns]="selectedColumns"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
     [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="comics()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
+    selectionMode="single"
+    styleClass="p-datatable-gridlines"
   >
     <ng-template pTemplate="caption">
       <p-multiSelect
-        display="chip"
-        [options]="cols"
         [(ngModel)]="selectedColumns"
-        optionLabel="header"
-        selectedItemsLabel="{0} columns selected"
+        [options]="cols"
         [style]="{'min-width': '200px'}"
-        placeholder="Choose Columns" />
+        display="chip"
+        optionLabel="header"
+        placeholder="Choose Columns"
+        selectedItemsLabel="{0} columns selected"/>
     </ng-template>
-    <ng-template pTemplate="header" let-columns>
-      <tr >
+    <ng-template let-columns pTemplate="header">
+      <tr>
         <th style="width: 4rem;">
           <p-tableHeaderCheckbox/>
         </th>
@@ -63,8 +62,8 @@
         <th style="width:15%">Titulo</th>
         <th style="width:8%">Tipo</th>
         <th style="width:auto">Portada</th>
-        <th style="width:auto" *ngFor="let col of columns">
-          {{col.header}}
+        <th *ngFor="let col of columns" style="width:auto">
+          {{ col.header }}
         </th>
         <th style="width:auto">Acción</th>
       </tr>
@@ -73,26 +72,27 @@
         <th></th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter titulo"
             field="titulo"
             inputmode
             placeholder="Buscar por titulo"
-            ariaLabel="Filter titulo" />
+            type="text"/>
         </th>
         <th>
-          <p-columnFilter field="tipo" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false" class="ml-auto">
+          <p-columnFilter [showAddButton]="false" [showMatchModes]="false" [showOperator]="false" class="ml-auto" display="menu"
+                          field="tipo" matchMode="equals">
             <ng-template pTemplate="header">
               <div class="px-3 pt-3 pb-0">
                 <span class="font-bold">Tipo de cómic</span>
               </div>
             </ng-template>
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <ng-template let-filter="filterCallback" let-value pTemplate="filter">
               <p-dropdown
+                (onChange)="filter($event.value)"
                 [ngModel]="value"
                 [options]=" tipoComics"
-                (onChange)="filter($event.value)"
-                placeholder="Select One"
-                [showClear]="true">
+                [showClear]="true"
+                placeholder="Select One">
                 <ng-template let-option pTemplate="item">
                   <p-tag
                     [value]="option.value"></p-tag>
@@ -104,19 +104,19 @@
         <th></th>
         <th *ngFor="let col of columns">
           <p-columnFilter
-            type="text"
             [field]="col.field"
             [placeholder]="'Buscar por '+col.header"
+            type="text"
           />
         </th>
         <th></th>
 
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-comic let-columns="columns">
+    <ng-template let-columns="columns" let-comic pTemplate="body">
       <tr>
         <td>
-          <p-tableCheckbox [value]="comic" />
+          <p-tableCheckbox [value]="comic"/>
         </td>
         <td>
           {{ comic.id }}
@@ -128,35 +128,35 @@
           {{ comic.tipo }}
         </td>
         <td>
-          <p-image [src]="comic.portada" [alt]="comic.titulo" width="100"  [preview]="true"></p-image>
+          <p-image [alt]="comic.titulo" [preview]="true" [src]="comic.portada" width="100"></p-image>
         </td>
         <td *ngFor="let col of columns">
           @if (col.field == "editorial.nombre") {
-            {{ comic.editorial.nombre}}
-          } @else if (col.field == "autores.nombre"){
-            <shared-tag-autor [autores]="comic.autores" ></shared-tag-autor>
-          } @else if (col.field =="generos.nombre" ){
-            <shared-tag-genero [generos]="comic.generos" ></shared-tag-genero>
+            {{ comic.editorial.nombre }}
+          } @else if (col.field == "autores.nombre") {
+            <shared-tag-autor [autores]="comic.autores"></shared-tag-autor>
+          } @else if (col.field == "generos.nombre") {
+            <shared-tag-genero [generos]="comic.generos"></shared-tag-genero>
           } @else {
             {{ comic[col.field] }}
           }
         </td>
         <td>
           <p-button
-            pRipple
-            icon="pi pi-pencil"
+            (click)="editComic(comic)"
+            [outlined]="true"
+            [rounded]="true"
             class="mr-2"
-            [rounded]="true"
-            [outlined]="true"
-            severity="info"
-            (click)="editComic(comic)" />
-          <p-button
+            icon="pi pi-pencil"
             pRipple
-            icon="pi pi-trash"
-            severity="danger"
-            [rounded]="true"
+            severity="info"/>
+          <p-button
+            (click)="deleteComic(comic)"
             [outlined]="true"
-            (click)="deleteComic(comic)" />
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
         </td>
       </tr>
     </ng-template>
@@ -167,7 +167,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="9" class="text-center text-4xl">No se ha encontrado comics.</td>
+        <td class="text-center text-4xl" colspan="9">No se ha encontrado comics.</td>
       </tr>
     </ng-template>
 
@@ -177,25 +177,25 @@
   -->
   <p-dialog
     [(visible)]="comicDialog"
+    [modal]="true"
     [style]="{ width: '600px' }"
     header="Detalle de Comic"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="comic.portada" [alt]="comic.titulo"  width="300" [preview]="true"></p-image>
+        <p-image [alt]="comic.titulo" [preview]="true" [src]="comic.portada" width="300"></p-image>
       </div>
 
       <div class="field">
         <label for="titulo">Titulo</label>
         <input
-          type="text"
-          pInputText
-          id="titulo"
           [(ngModel)]="comic.titulo"
+          autofocus
+          id="titulo"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !comic.titulo">
+          type="text"/>
+        <small *ngIf="submitted() && !comic.titulo" class="p-error">
           Titulo es requerido.
         </small>
       </div>
@@ -203,15 +203,15 @@
       <div class="field">
         <label for="autor">Autor</label>
         <p-multiSelect
-          id="autor"
           [(ngModel)]="comic.autores"
-          [options]="autores"
-          placeholder="Select Autor"
-          optionLabel="nombre"
           [filter]="true"
-          required
-          display="chip"/>
-        <small class="p-error" *ngIf="submitted() && comic.autores.length <= 0">
+          [options]="autores"
+          display="chip"
+          id="autor"
+          optionLabel="nombre"
+          placeholder="Select Autor"
+          required/>
+        <small *ngIf="submitted() && comic.autores.length <= 0" class="p-error">
           Hay que seleccionar al menos un autor
         </small>
       </div>
@@ -221,30 +221,30 @@
 
         <p-dropdown
           [(ngModel)]="comic!.tipo"
-          inputId="tipo"
+          [options]="tipoComics"
           id="tipo"
-          required
-          [options]="tipoComics">
+          inputId="tipo"
+          required>
         </p-dropdown>
-        <small class="p-error" *ngIf="submitted() && comic.tipo.length <= 0">
+        <small *ngIf="submitted() && comic.tipo.length <= 0" class="p-error">
           Hay que seleccionar el tipo de comic
         </small>
       </div>
       <div class="field">
-        <label for="editorial">Editorial: {{comic.editorial.nombre}}</label>
+        <label for="editorial">Editorial: {{ comic.editorial.nombre }}</label>
 
         <p-dropdown
           [(ngModel)]="comic!.editorial"
-          inputId="id"
-          id="editorial"
-          required
-          optionLabel="nombre"
-          variant="filled"
           [filter]="true"
+          [options]="editorial"
           filterBy="nombre"
-          [options]="editorial">
+          id="editorial"
+          inputId="id"
+          optionLabel="nombre"
+          required
+          variant="filled">
         </p-dropdown>
-        <small class="p-error" *ngIf="submitted() && !comic.editorial.nombre">
+        <small *ngIf="submitted() && !comic.editorial.nombre" class="p-error">
           Hay que seleccionar un editorial
         </small>
       </div>
@@ -252,15 +252,15 @@
       <div class="field">
         <label for="generos">Genero</label>
         <p-multiSelect
-          [options]="generos"
           [(ngModel)]="comic.generos"
-          placeholder="Buscar por generos"
-          optionLabel="nombre"
           [filter]="true"
+          [options]="generos"
+          [showClear]="true"
           display="chip"
           id="generos"
-          [showClear]="true" />
-        <small class="p-error" *ngIf="submitted() && comic.generos.length <= 0">
+          optionLabel="nombre"
+          placeholder="Buscar por generos"/>
+        <small *ngIf="submitted() && comic.generos.length <= 0" class="p-error">
           Hay que seleccionar al menos un genero
         </small>
       </div>
@@ -268,13 +268,13 @@
       <div class="field">
         <label for="idioma">Idioma</label>
         <input
-          type="text"
-          pInputText
-          id="idioma"
           [(ngModel)]="comic.idioma"
+          autofocus
+          id="idioma"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !comic.idioma">
+          type="text"/>
+        <small *ngIf="submitted() && !comic.idioma" class="p-error">
           Idioma es requerido.
         </small>
       </div>
@@ -283,12 +283,12 @@
         <label for="anoPublicacion">Año de publicación</label>
         <p-inputMask
           [(ngModel)]="comic.anoPublicacion"
+          id="anoPublicacion"
           mask="9999"
           placeholder="YYYY"
-          id="anoPublicacion"
-          slotChar="YYYY" />
+          slotChar="YYYY"/>
 
-        <small class="p-error" *ngIf="submitted() && !comic.anoPublicacion">
+        <small *ngIf="submitted() && !comic.anoPublicacion" class="p-error">
           Año de publicación es requerido.
         </small>
       </div>
@@ -296,13 +296,13 @@
       <div class="field">
         <label for="sinopsis">Sinopsis</label>
         <textarea
-          type="text"
-          pInputTextarea
-          id="sinopsis"
           [(ngModel)]="comic.sinopsis"
+          autofocus
+          id="sinopsis"
+          pInputTextarea
           required
-          autofocus ></textarea>
-        <small class="p-error" *ngIf="submitted() && !comic.sinopsis">
+          type="text"></textarea>
+        <small *ngIf="submitted() && !comic.sinopsis" class="p-error">
           Sinopsis es requerido.
         </small>
       </div>
@@ -310,12 +310,13 @@
       <p-fileUpload
         (onSelect)="onUpload($event)"
         [multiple]="false"
-        uploadIcon
-        accept="image/*"
-        label="Seleccionar imagen"
-        [showUploadButton]="false"
         [showCancelButton]="false"
-        maxFileSize="1000000">
+        [showUploadButton]="false"
+        accept="image/*"
+        [auto]="true"
+        label="Seleccionar imagen"
+        maxFileSize="1000000"
+        uploadIcon>
         <ng-template pTemplate="content">
           <ul *ngIf="uploadedFiles.length">
             <li *ngFor="let file of uploadedFiles">
@@ -328,22 +329,22 @@
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveComic()"
         [text]="true"
-        (click)="saveComic()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

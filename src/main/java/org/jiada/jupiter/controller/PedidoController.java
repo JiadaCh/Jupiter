@@ -19,13 +19,13 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Pedido> all() {
         log.info("Accediendo a todas los pedidos");
         return this.pedidoService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Pedido newPedido(@RequestBody Pedido pedido) {
         return this.pedidoService.save(pedido);
     }

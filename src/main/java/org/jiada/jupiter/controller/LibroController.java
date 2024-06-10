@@ -20,13 +20,13 @@ public class LibroController {
         this.libroService = libroService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Libro> all() {
         log.info("Accediendo a todas los libros");
         return this.libroService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Libro newLibro(@RequestBody @Valid Libro libro) {
         return this.libroService.save(libro);
     }

@@ -2,13 +2,12 @@ package org.jiada.jupiter.service;
 
 
 import org.jiada.jupiter.entity.Usuario;
-import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.exception.ConstraintViolationException;
+import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.UsuarioRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,10 +24,10 @@ public class UsuarioService {
     }
 
     public Usuario save(Usuario Usuario) {
-        try{
+        try {
             return this.usuarioRepository.save(Usuario);
-        } catch (DataIntegrityViolationException e){
-            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException){
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
                 throw new ConstraintViolationException(((org.hibernate.exception.ConstraintViolationException) e.getCause()).getConstraintName());
             }
 
@@ -42,13 +41,13 @@ public class UsuarioService {
     }
 
     public Usuario replace(Long id, Usuario usuario) {
-        try{
-            return this.usuarioRepository.findById(id).map( p -> (id.equals(usuario.getId())  ?
+        try {
+            return this.usuarioRepository.findById(id).map(p -> (id.equals(usuario.getId()) ?
                             this.usuarioRepository.save(usuario) : null))
                     .orElseThrow(() -> new EntityNotFoundException(id, new Usuario()));
 
-        } catch (DataIntegrityViolationException e){
-            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException){
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
                 throw new ConstraintViolationException(((org.hibernate.exception.ConstraintViolationException) e.getCause()).getConstraintName());
             }
 
@@ -58,13 +57,15 @@ public class UsuarioService {
     }
 
     public void delete(Long id) {
-        this.usuarioRepository.findById(id).map(p -> {this.usuarioRepository.delete(p);
-                                                        return p;})
+        this.usuarioRepository.findById(id).map(p -> {
+                    this.usuarioRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Usuario()));
     }
 
     public Usuario login(String usuario, String contrasena) {
-        Usuario user = this.usuarioRepository.findByNombreOrCorreo(usuario,usuario);
+        Usuario user = this.usuarioRepository.findByNombreOrCorreo(usuario, usuario);
 
         System.out.println(usuario);
         if (user != null && user.getContrasena().equals(contrasena)) {
@@ -73,7 +74,7 @@ public class UsuarioService {
 
         }
 
-            return null;
+        return null;
 
     }
 }

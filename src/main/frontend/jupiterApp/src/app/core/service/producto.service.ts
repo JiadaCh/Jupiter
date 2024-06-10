@@ -12,54 +12,58 @@ import {MessageService} from "primeng/api";
 export class ProductoService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getProducto():Observable<Producto[]>{
-    return this.http.get<Producto[]>(this.baseUrl()+'/productos')
+  constructor(private messageService: MessageService) {
   }
-  getProductoByUsuario(id:number):Observable<Producto[]>{
-    return this.http.get<Producto[]>(this.baseUrl()+'/productos/usuario?id='+id)
-      .pipe(
-        catchError(error=> of([]))
-      );
+
+  getProducto(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.baseUrl() + '/productos')
   }
-  getProductoById(id:string):Observable<Producto|undefined>{
-    return this.http.get<Producto>(this.baseUrl()+'/productos/'+id)
+
+  getProductoByUsuario(id: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.baseUrl() + '/productos/usuario?id=' + id)
       .pipe(
-        catchError(error=> of(undefined))
+        catchError(()  => of([]))
       );
   }
 
-  deleteProducto(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/productos/'+id)
+  getProductoById(id: string): Observable<Producto | undefined> {
+    return this.http.get<Producto>(this.baseUrl() + '/productos/' + id)
       .pipe(
-        map(()=> true),
+        catchError(()  => of(undefined))
+      );
+  }
+
+  deleteProducto(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + '/productos/' + id)
+      .pipe(
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addProducto(producto:Producto,usuario:Usuario):Observable<Boolean> {
-    if(!usuario.id) throw Error('El usuario es requerido');
-    return this.http.post<Producto>(this.baseUrl()+`/productos?id=${usuario.id}`,producto)
+  addProducto(producto: Producto, usuario: Usuario): Observable<Boolean> {
+    if (!usuario.id) throw Error('El usuario es requerido');
+    return this.http.post<Producto>(this.baseUrl() + `/productos?id=${usuario.id}`, producto)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  updateProducto(producto:Producto):Observable<Boolean> {
-    if(!producto.id) throw Error('El id es requerido');
-    return this.http.put<Producto>(this.baseUrl()+'/productos/'+producto.id,producto)
+  updateProducto(producto: Producto): Observable<Boolean> {
+    if (!producto.id) throw Error('El id es requerido');
+    return this.http.put<Producto>(this.baseUrl() + '/productos/' + producto.id, producto)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }

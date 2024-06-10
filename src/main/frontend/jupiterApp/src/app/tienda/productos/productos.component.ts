@@ -31,21 +31,19 @@ import {RouterLink} from "@angular/router";
   templateUrl: './productos.component.html',
   styles: ``
 })
-export class ProductosComponent implements OnInit{
-  private productoService = inject(ProductoService);
-  rows:number=12;
-  layout:"grid" | "list" = 'grid';
-
-  productos:Producto[] = [];
-
+export class ProductosComponent implements OnInit {
+  rows: number = 12;
+  layout: "grid" | "list" = 'grid';
+  productos: Producto[] = [];
   filteredItems: Producto[] = [];
   searchText: string = '';
+  private productoService = inject(ProductoService);
 
   ngOnInit(): void {
-    this.productoService.getProducto().subscribe(res =>{
+    this.productoService.getProducto().subscribe(res => {
       this.productos = res
       this.filterItems();
-    } );
+    });
   }
 
 

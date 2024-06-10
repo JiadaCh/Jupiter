@@ -32,15 +32,17 @@ public class EditorialService {
 
     public Editorial replace(Long id, Editorial editorial) {
 
-        return this.editorialRepository.findById(id).map( p -> (id.equals(editorial.getId())  ?
-                                                            this.editorialRepository.save(editorial) : null))
+        return this.editorialRepository.findById(id).map(p -> (id.equals(editorial.getId()) ?
+                        this.editorialRepository.save(editorial) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Editorial()));
 
     }
 
     public void delete(Long id) {
-        this.editorialRepository.findById(id).map(p -> {this.editorialRepository.delete(p);
-                                                        return p;})
+        this.editorialRepository.findById(id).map(p -> {
+                    this.editorialRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Editorial()));
     }
 

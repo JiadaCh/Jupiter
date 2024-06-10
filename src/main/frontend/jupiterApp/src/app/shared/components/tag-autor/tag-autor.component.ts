@@ -10,9 +10,9 @@ import {Autor} from "../../../core/interface/autor.interface";
   ],
   templateUrl: 'tag-autor.component.html'
 })
-export class TagAutorComponent implements OnInit{
+export class TagAutorComponent implements OnInit {
 
-  @Input() autores:Autor[] = [];
+  @Input() autores: Autor[] = [];
 
   ngOnInit(): void {
   }

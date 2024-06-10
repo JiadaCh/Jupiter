@@ -14,7 +14,7 @@ import {Genero} from "../../../core/interface/genero.interface";
 export class TagGeneroComponent {
 
 
-  @Input() generos:Genero[] = [];
+  @Input() generos: Genero[] = [];
 
 
 }

@@ -20,13 +20,13 @@ public class GeneroController {
         this.generoService = generoService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Genero> all() {
         log.info("Accediendo a todas los generos");
         return this.generoService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Genero newGenero(@RequestBody @Valid Genero genero) {
         return this.generoService.save(genero);
     }

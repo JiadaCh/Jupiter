@@ -14,7 +14,5 @@ import {CommonModule} from "@angular/common";
   styles: ``
 })
 export class TabMenuComponent {
-  @Input() menuItems = signal<MenuItem[]>([
-
-  ]);
+  @Input() menuItems = signal<MenuItem[]>([]);
 }

@@ -47,68 +47,77 @@ import {PasswordModule} from "primeng/password";
   templateUrl: './usuario-crud.component.html',
   styleUrl: './usuario-crud.component.css',
 })
-export class UsuarioCrudComponent implements OnInit{
+export class UsuarioCrudComponent implements OnInit {
+  loading = signal(true);
+  usuarios = signal<Usuario[]>([]);
+  selectedUsuarios: Usuario[] = [];
+  rol: Rol[] = [Rol.admin, Rol.usuario];
+  uploadedFiles: any[] = [];
+  usuario!: Usuario;
+  editar = signal(false);
+  submitted = signal(false);
+  usuarioDialog: boolean = false;
   private usuarioService = inject(UsuarioService);
   private mediaService = inject(MediaService);
 
-  loading= signal(true);
-  usuarios = signal<Usuario[]>([]);
-
-  selectedUsuarios:Usuario[] = [];
-
-  rol:Rol[] = [Rol.admin,Rol.usuario];
-
-  uploadedFiles: any[] = [];
-  usuario!: Usuario;
-
-  editar = signal(false);
-  submitted = signal(false);
-  usuarioDialog:boolean = false;
-
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  cargarDatos(){
+  cargarDatos() {
     this.loading.set(true);
 
     this.usuarioService.getUsuario().pipe(
       delay(500)
-    ).subscribe( usuario =>{
+    ).subscribe(usuario => {
       this.usuarios.set(usuario)
       this.loading.set(false);
-    } )
+    })
 
   }
 
   onUpload(event: FileSelectEvent) {
 
     const file = event.files[0];
-    if (file){
+    if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
 
       formdata.append('subfolder', "usuario");
-      formdata.append('filename', "usuario-"+this.usuario.nombre+"-"+this.usuario.correo);
-      this.mediaService.uploadFile(formdata).subscribe(res=>{
+      formdata.append('filename', "usuario-" + this.usuario.nombre + "-" + this.usuario.correo);
+      this.mediaService.uploadFile(formdata).subscribe(res => {
         this.usuario.imagen = res.url;
-        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cambio realizado con éxito',
+          detail: 'Refresca la pagina para ver el cambio'
+        });
       })
     }
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
     this.usuario = {
-      contrasena: "", correo: "", id: 0, imagen: "http://localhost:8080/media/usuario/default-perfil.webp", nombre: "", rol: ""
+      contrasena: "",
+      correo: "",
+      id: 0,
+      imagen: "http://localhost:8080/media/usuario/default-perfil.webp",
+      nombre: "",
+      rol: ""
     };
     this.submitted.set(false);
-    this.usuarioDialog = true ;
+    this.usuarioDialog = true;
   }
 
   deleteSelectedUsuarios() {
@@ -117,7 +126,7 @@ export class UsuarioCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let usuario of this.selectedUsuarios){
+        for (let usuario of this.selectedUsuarios) {
           this.usuarioService.deleteUsuario(usuario.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -125,14 +134,19 @@ export class UsuarioCrudComponent implements OnInit{
           })
         }
         this.selectedUsuarios = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Usuarioes Eliminados', life: 3000 });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Usuarioes Eliminados',
+          life: 3000
+        });
       }
     });
   }
 
   editUsuario(usuario: Usuario) {
-    this.usuario = { ...usuario };
-    this.usuarioDialog = true ;
+    this.usuario = {...usuario};
+    this.usuarioDialog = true;
     this.editar.set(true)
   }
 
@@ -143,10 +157,15 @@ export class UsuarioCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.usuarioService.deleteUsuario(usuario.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Usuario eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Usuario eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -155,43 +174,53 @@ export class UsuarioCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.usuarioDialog = false ;
+    this.usuarioDialog = false;
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveUsuario() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el usuario seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.usuarioService.updateUsuario(this.usuario).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.usuarioDialog = false ;
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
+              this.usuarioDialog = false;
               this.editar.set(false);
               this.cargarDatos();
               this.submitted.set(false);
-            }else{
+            } else {
               this.showError()
             }
           })
 
         }
       });
-    }else{
+    } else {
 
       this.usuarioService.addUsuario(this.usuario).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.usuarioDialog = false;
           this.submitted.set(false);
           this.cargarDatos();
 
-        }else{
+        } else {
           this.showError();
         }
       })

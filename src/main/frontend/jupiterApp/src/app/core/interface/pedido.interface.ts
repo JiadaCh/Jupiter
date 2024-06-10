@@ -2,16 +2,16 @@ import {Producto} from "./producto.interface";
 import {Usuario} from "./usuario.interface";
 
 export interface Pedido {
-  id:        number;
-  precio:    number;
-  estado:    string;
-  fecha:     string;
-  vendedor:  Usuario;
+  id: number;
+  precio: number;
+  estado: string;
+  fecha: string;
+  vendedor: Usuario;
   comprador: Usuario;
-  producto:  Producto;
+  producto: Producto;
 }
 
-export enum EstadoPedido{
+export enum EstadoPedido {
   Pediente = "Pediente",
   Enviado = "Enviado",
   Entregado = "Entregado"

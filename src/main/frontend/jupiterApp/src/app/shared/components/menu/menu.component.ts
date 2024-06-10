@@ -30,78 +30,75 @@ import {Router} from "@angular/router";
   templateUrl: './menu.component.html',
   styles: ``
 })
-export class MenuComponent implements OnInit{
-  private authService = inject(AuthService);
-  private router: Router = inject(Router);
-
-  usuario = computed(
-    this.authService.user
-  )
-  logout():void {
-    this.authService.logout();
-
-    this.router.navigate(['/login']);
-  }
+export class MenuComponent implements OnInit {
   menuItems = signal<MenuItem[]>([
     {
       label: 'Home',
       icon: 'pi pi-home',
-      routerLink:''
+      routerLink: ''
     },
     {
       label: 'Comic',
       icon: 'pi pi-prime',
-      routerLink:'comics'
+      routerLink: 'comics'
     },
     {
       label: 'Libros',
       icon: 'pi pi-book',
-      routerLink:'libros'
+      routerLink: 'libros'
     },
     {
       label: 'Tienda',
       icon: 'pi pi-shop',
-      routerLink:'tienda'
+      routerLink: 'tienda'
     },
     {
       label: 'Panel de Administrador',
       icon: 'pi pi-cog',
-      routerLink:'admin'
+      routerLink: 'admin'
     },
   ]);
+  items: MenuItem[] = [];
+  private authService = inject(AuthService);
+  usuario = computed(
+    this.authService.user
+  )
+  private router: Router = inject(Router);
 
-
-  items :MenuItem[]=[];
-
-
-  constructor(){
+  constructor() {
 
   }
 
+  logout(): void {
+    this.authService.logout();
+
+    this.router.navigate(['/login']).then();
+  }
+
   ngOnInit(): void {
-    setTimeout(()=>{
-      this.items=[
+    setTimeout(() => {
+      this.items = [
         {
           label: 'Perfil',
           icon: 'pi pi-user',
-          routerLink:`user/${this.usuario()?.id}/perfil`
-        },{
+          routerLink: `user/${this.usuario()?.id}/perfil`
+        }, {
           separator: true
         },
         {
           label: 'Historial de pedidos',
           icon: 'pi pi-receipt',
-          routerLink:`user/${this.usuario()?.id}/pedidos`
-        },{
+          routerLink: `user/${this.usuario()?.id}/pedidos`
+        }, {
           separator: true
         },
         {
           label: 'Productos',
           icon: 'pi pi-receipt',
-          routerLink:`user/${this.usuario()?.id}/productos`
+          routerLink: `user/${this.usuario()?.id}/productos`
         }
 
       ];
-    },100)
+    }, 100)
   }
 }

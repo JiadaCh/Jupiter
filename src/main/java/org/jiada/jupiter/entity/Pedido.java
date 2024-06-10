@@ -29,13 +29,13 @@ public class Pedido {
     @Column(name = "id_pedido")
     private long id;
 
-    @Column(name="precio",nullable = false)
+    @Column(name = "precio", nullable = false)
     private double precio;
 
-    @Column(name="estado",nullable = false)
+    @Column(name = "estado", nullable = false)
     private String estado;
 
-    @Column(name="fecha",nullable = false)
+    @Column(name = "fecha", nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @PastOrPresent
     private Date fecha;

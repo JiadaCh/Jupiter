@@ -18,7 +18,7 @@ export class PaginadorComponent {
   @Input() totalRecords: number = 0;
 
   onPageChange(event: PaginatorState) {
-    this.first = event.first? event.first : 0;
+    this.first = event.first ? event.first : 0;
     this.rows = event.rows ? event.rows : 10;
   }
 }

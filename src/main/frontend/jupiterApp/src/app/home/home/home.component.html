@@ -1,8 +1,8 @@
 <p-carousel
-  [value]="comics"
-  [numVisible]="5"
   [circular]="true"
   [numScroll]="1"
+  [numVisible]="5"
+  [value]="comics"
   styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Cómics</p>
@@ -11,33 +11,31 @@
     <div class="border-1 surface-border border-round m-2 p-3">
       <div class="mb-3">
         <div class="relative mx-auto">
-
-
-            <img
-              [src]="comic.portada"
-              [alt]="comic.nombre"
-
-              class="w-full h-fit border-round h-12rem" />
+          <img
+            [ngSrc]="comic.portada"
+            [alt]="comic.titulo"
+            priority
+            class="w-full h-fit border-round h-12rem" width="250" height="260"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
-        {{ comic.nombre }}
+        {{ comic.titulo }}
       </div>
       <div class="flex justify-content-between align-items-center">
         <div class="mt-0 font-semibold text-xl">
         </div>
         <a [href]="'comics/comic/'+comic.id">
-                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" label="Ver más"/>
-                    </a>
+          <p-button label="Ver más" styleClass="ml-2"/>
+        </a>
       </div>
     </div>
   </ng-template>
 </p-carousel>
 <p-carousel
-  [value]="libros"
-  [numVisible]="5"
   [circular]="true"
   [numScroll]="1"
+  [numVisible]="5"
+  [value]="libros"
   styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Libros</p>
@@ -46,36 +44,33 @@
     <div class="border-1 surface-border border-round m-2 p-3">
       <div class="mb-3">
         <div class="relative mx-auto">
-
-
           <img
-            [src]="libro.portada"
-            [alt]="libro.nombre"
-
-            class="w-full h-fit border-round h-12rem" />
+            [ngSrc]="libro.portada"
+            [alt]="libro.titulo"
+            class="w-full h-fit border-round h-12rem" width="250" height="260"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
-        {{ libro.nombre }}
+        {{ libro.titulo }}
       </div>
       <div class="flex justify-content-between align-items-center">
         <div class="mt-0 font-semibold text-xl">
         </div>
-        <a  [href]="'libros/libro/'+libro.id">
-                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" label="Ver más"/>
-                    </a>
+        <a [href]="'libros/libro/'+libro.id">
+          <p-button label="Ver más" styleClass="ml-2"/>
+        </a>
       </div>
     </div>
   </ng-template>
 </p-carousel>
 
 <p-carousel
-  [value]="productos"
-  [numVisible]="5"
   [circular]="true"
+  [hidden]="productos.length<=0"
   [numScroll]="1"
-  styleClass="m-6"
-  [hidden]="productos.length<=0">
+  [numVisible]="5"
+  [value]="productos"
+  styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Productos</p>
   </ng-template>
@@ -85,10 +80,10 @@
       <div class="mb-3">
         <div class="relative mx-auto">
           <img
-            [src]="producto.imagen"
             [alt]="producto.nombre"
+            [ngSrc]="producto.imagen"
 
-            class="w-full h-fit border-round h-12rem" />
+            class="w-full h-fit border-round h-12rem" width="250" height="260"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
@@ -98,7 +93,7 @@
         <div class="mt-0 font-semibold text-xl">
           {{ producto.precio | currency:"EUR":'' }}€
         </div>
-        <a  [href]="'productos/producto/'+producto.id">
+        <a [href]="'productos/producto/'+producto.id">
           <p-button icon="pi pi-shopping-cart" styleClass="ml-2"/>
         </a>
       </div>

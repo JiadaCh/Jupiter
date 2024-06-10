@@ -58,106 +58,109 @@ import {DropdownModule} from "primeng/dropdown";
   templateUrl: './comic-crud.component.html',
   styleUrl: './comic-crud.component.css',
 })
-export class ComicCrudComponent implements OnInit{
+export class ComicCrudComponent implements OnInit {
+  loading = signal(true);
+  comics = signal<Comic[]>([]);
+  editorial: Editorial[] = [];
+  generos: Genero[] = [];
+  autores: Autor[] = [];
+  selectedComics: Comic[] = [];
+  cols: Column[] = [];
+  selectedColumns: Column[] = [];
+  tipoComics: any[] = [];
+  uploadedFiles: any[] = [];
+  comic!: Comic;
+  editar = signal(false);
+  submitted = signal(false);
+  comicDialog: boolean = false;
   private comicService = inject(ComicService);
   private editorialService = inject(EditorialService);
   private autorService = inject(AutorService);
   private mediaService = inject(MediaService);
   private generoService = inject(GeneroService);
 
-  loading= signal(true);
-  comics = signal<Comic[]>([]);
-  editorial:Editorial[] = [];
-  generos:Genero[] = [];
-  autores:Autor[] = [];
-
-  selectedComics:Comic[] = [];
-
-
-  cols: Column[] = [];
-
-  selectedColumns: Column[] = [];
-  tipoComics:any[] = [];
-
-  uploadedFiles: any[] = [];
-  comic!: Comic;
-
-  editar = signal(false);
-  submitted = signal(false);
-  comicDialog:boolean = false;
-
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
 
-    this.editorialService.getEditorial().subscribe(res=> this.editorial = res);
-    this.generoService.getGenero().subscribe(res=> this.generos = res);
-    this.autorService.getAutor().subscribe(res=> this.autores = res);
+    this.editorialService.getEditorial().subscribe(res => this.editorial = res);
+    this.generoService.getGenero().subscribe(res => this.generos = res);
+    this.autorService.getAutor().subscribe(res => this.autores = res);
 
     this.cols = [
-      { field: 'idioma', header: 'Idioma' },
-      { field: 'sinopsis', header: 'Sinopsis' },
-      { field: 'editorial.nombre', header: 'Editorial' },
-      { field: 'anoPublicacion', header: 'Año Publicación' },
-      { field: 'generos.nombre', header: 'Géneros' },
-      { field: 'autores.nombre', header: 'Autor' }
+      {field: 'idioma', header: 'Idioma'},
+      {field: 'sinopsis', header: 'Sinopsis'},
+      {field: 'editorial.nombre', header: 'Editorial'},
+      {field: 'anoPublicacion', header: 'Año Publicación'},
+      {field: 'generos.nombre', header: 'Géneros'},
+      {field: 'autores.nombre', header: 'Autor'}
     ];
 
     this.selectedColumns = [this.cols[0]];
 
     this.tipoComics = [
-      {label:'Manga',value:'Manga'},
-      {label:'Americano',value:'Cómics Americano'},
-      {label:'Manhwa',value:'Manhwa'},
-      {label:'Manhua',value:'Manhua'},
-      {label:'Otros',value:'Otros'}
+      {label: 'Manga', value: 'Manga'},
+      {label: 'Americano', value: 'Cómics Americano'},
+      {label: 'Manhwa', value: 'Manhwa'},
+      {label: 'Manhua', value: 'Manhua'},
+      {label: 'Otros', value: 'Otros'}
     ]
   }
 
 
-  cargarDatos(){
+  cargarDatos() {
     this.loading.set(true);
 
     this.comicService.getComic().pipe(
       delay(500)
-    ).subscribe( comic =>{
+    ).subscribe(comic => {
       this.comics.set(comic)
       this.loading.set(false);
-    } )
+    })
 
   }
 
   onUpload(event: FileSelectEvent) {
 
     const file = event.files[0];
-    if (file){
+    if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
 
       formdata.append('subfolder', "comic");
-      formdata.append('filename', "comic-"+this.comic.titulo+"-"+this.comic.tipo+"-"+this.comic.anoPublicacion);
-      this.mediaService.uploadFile(formdata).subscribe(res=>{
+      formdata.append('filename', "comic-" + this.comic.titulo + "-" + this.comic.tipo + "-" + this.comic.anoPublicacion);
+      this.mediaService.uploadFile(formdata).subscribe(res => {
         this.comic.portada = res.url;
-        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cambio realizado con éxito',
+          detail: 'Refresca la pagina para ver el cambio'
+        });
       })
     }
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
     this.comic = {
-      tipo:TipoComic.Americano,
+      tipo: TipoComic.Americano,
       autores: [], generos: [],
-      portada:"http://localhost:8080/media/comic/default-image.png",editorial: {
+      portada: "http://localhost:8080/media/comic/default-image.png", editorial: {
         id: 0,
         nombre: ''
-      }, anoPublicacion: 0, id: 0, idioma: "", sinopsis: "", titulo: ""};
+      }, anoPublicacion: 0, id: 0, idioma: "", sinopsis: "", titulo: ""
+    };
     this.submitted.set(false);
-    this.comicDialog = true ;
+    this.comicDialog = true;
   }
 
   deleteSelectedComics() {
@@ -166,7 +169,7 @@ export class ComicCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let comic of this.selectedComics){
+        for (let comic of this.selectedComics) {
           this.comicService.deleteComic(comic.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -174,14 +177,14 @@ export class ComicCrudComponent implements OnInit{
           })
         }
         this.selectedComics = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Comices Eliminados', life: 3000 });
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Comices Eliminados', life: 3000});
       }
     });
   }
 
   editComic(comic: Comic) {
-    this.comic = { ...comic };
-    this.comicDialog = true ;
+    this.comic = {...comic};
+    this.comicDialog = true;
     this.editar.set(true)
   }
 
@@ -192,10 +195,15 @@ export class ComicCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.comicService.deleteComic(comic.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Comic eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Comic eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -204,43 +212,53 @@ export class ComicCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.comicDialog = false ;
+    this.comicDialog = false;
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveComic() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el comic seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.comicService.updateComic(this.comic).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.comicDialog = false ;
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
+              this.comicDialog = false;
               this.submitted.set(false);
               this.editar.set(false);
               this.cargarDatos()
-            }else{
+            } else {
               this.showError()
             }
           })
 
         }
       });
-    }else{
+    } else {
 
       this.comicService.addComic(this.comic).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.submitted.set(false);
           this.comicDialog = false;
           this.cargarDatos();
 
-        }else{
+        } else {
           this.showError();
         }
       })

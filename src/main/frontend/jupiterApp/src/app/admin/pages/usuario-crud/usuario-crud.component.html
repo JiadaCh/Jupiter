@@ -2,48 +2,47 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedUsuarios()"
-        [disabled]="!selectedUsuarios || !selectedUsuarios.length" />
+        [disabled]="!selectedUsuarios || !selectedUsuarios.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="usuarios()"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    [(selection)]="selectedUsuarios"
     [loading]="loading()"
     [paginator]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="usuarios()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
     selectionMode="single"
     styleClass="p-datatable-gridlines"
-    [(selection)]="selectedUsuarios"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
-    [showCurrentPageReport]="true"
   >
-    <ng-template pTemplate="header" let-columns>
-      <tr >
+    <ng-template let-columns pTemplate="header">
+      <tr>
         <th style="width: 4rem;">
           <p-tableHeaderCheckbox/>
         </th>
@@ -62,19 +61,19 @@
         <th></th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter correo"
             field="correo"
             inputmode
             placeholder="Buscar por correo"
-            ariaLabel="Filter correo" />
+            type="text"/>
         </th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter usuario"
             field="nombre"
             inputmode
             placeholder="Buscar por Usuario"
-            ariaLabel="Filter usuario" />
+            type="text"/>
         </th>
         <th></th>
         <th>
@@ -85,10 +84,10 @@
 
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-usuario let-columns="columns">
+    <ng-template let-columns="columns" let-usuario pTemplate="body">
       <tr>
         <td>
-          <p-tableCheckbox [value]="usuario" />
+          <p-tableCheckbox [value]="usuario"/>
         </td>
         <td>
           {{ usuario.id }}
@@ -106,24 +105,24 @@
           {{ usuario.direccion }}
         </td>
         <td>
-          <p-image [src]="usuario.imagen" [alt]="usuario.usuario" width="100"  [preview]="true"></p-image>
+          <p-image [alt]="usuario.usuario" [preview]="true" [src]="usuario.imagen" width="100"></p-image>
         </td>
         <td>
           <p-button
-            pRipple
-            icon="pi pi-pencil"
+            (click)="editUsuario(usuario)"
+            [outlined]="true"
+            [rounded]="true"
             class="mr-2"
-            [rounded]="true"
-            [outlined]="true"
-            severity="info"
-            (click)="editUsuario(usuario)" />
-          <p-button
+            icon="pi pi-pencil"
             pRipple
-            icon="pi pi-trash"
-            severity="danger"
-            [rounded]="true"
+            severity="info"/>
+          <p-button
+            (click)="deleteUsuario(usuario)"
             [outlined]="true"
-            (click)="deleteUsuario(usuario)" />
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
         </td>
       </tr>
     </ng-template>
@@ -134,7 +133,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="9" class="text-center text-4xl">No se ha encontrado usuarios.</td>
+        <td class="text-center text-4xl" colspan="9">No se ha encontrado usuarios.</td>
       </tr>
     </ng-template>
 
@@ -144,25 +143,25 @@
   -->
   <p-dialog
     [(visible)]="usuarioDialog"
+    [modal]="true"
     [style]="{ width: '600px' }"
     header="Detalle de Usuario"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="usuario.imagen" width="300" [alt]="usuario.nombre"  [preview]="true"></p-image>
+        <p-image [alt]="usuario.nombre" [preview]="true" [src]="usuario.imagen" width="300"></p-image>
       </div>
 
       <div class="field">
         <label for="nombre">Usuario</label>
         <input
-          type="text"
-          pInputText
-          id="nombre"
           [(ngModel)]="usuario.nombre"
+          autofocus
+          id="nombre"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !usuario.nombre">
+          type="text"/>
+        <small *ngIf="submitted() && !usuario.nombre" class="p-error">
           Usuario es requerido.
         </small>
       </div>
@@ -170,18 +169,18 @@
       <div class="field">
         <label for="correo">Correo</label>
         <input
-          type="email"
-          pInputText
-          id="correo"
-          [(ngModel)]="usuario.correo"
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
           #email="ngModel"
+          [(ngModel)]="usuario.correo"
+          autofocus
+          id="correo"
+          pInputText
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !usuario.correo">
+          type="email"/>
+        <small *ngIf="submitted() && !usuario.correo" class="p-error">
           Correo es requerido.
         </small>
-        <small class="p-error" *ngIf="submitted() && email.errors">
+        <small *ngIf="submitted() && email.errors" class="p-error">
           Formato del correo incorrecto: example&commat;example.com
         </small>
       </div>
@@ -190,10 +189,10 @@
         <label for="rol">Rol</label>
         <p-dropdown
           [(ngModel)]="usuario!.rol"
-          inputId="rol"
+          [options]="rol"
           id="rol"
-          required
-          [options]="rol">
+          inputId="rol"
+          required>
           <ng-template pTemplate="selectedItem">
             <p-tag
               [value]="usuario!.rol"></p-tag>
@@ -208,15 +207,15 @@
       <div class="field">
         <label for="contra">Contraseña</label>
         <p-password
-          id="contra"
           [(ngModel)]="usuario.contrasena"
           [toggleMask]="true"
-          required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length < 4">
+          autofocus
+          id="contra"
+          required/>
+        <small *ngIf="submitted() && usuario.contrasena.length < 4" class="p-error">
           La contraseña debe tener al menos 4 caracteres.
         </small>
-        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length > 20">
+        <small *ngIf="submitted() && usuario.contrasena.length > 20" class="p-error">
           La contraseña no debe tener más de 20 caracteres.
         </small>
       </div>
@@ -224,23 +223,23 @@
       <div class="field">
         <label for="direccion">Dirección</label>
         <input
-          type="text"
-          pInputText
-          id="direccion"
           [(ngModel)]="usuario.direccion"
-          autofocus />
+          autofocus
+          id="direccion"
+          pInputText
+          type="text"/>
       </div>
 
 
       <p-fileUpload
         (onSelect)="onUpload($event)"
         [multiple]="false"
-        uploadIcon
+        [showCancelButton]="false"
+        [showUploadButton]="false"
         accept="image/*"
         label="Seleccionar imagen"
-        [showUploadButton]="false"
-        [showCancelButton]="false"
-        maxFileSize="1000000">
+        maxFileSize="1000000"
+        uploadIcon>
         <ng-template pTemplate="content">
           <ul *ngIf="uploadedFiles.length">
             <li *ngFor="let file of uploadedFiles">
@@ -253,22 +252,22 @@
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveUsuario()"
         [text]="true"
-        (click)="saveUsuario()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

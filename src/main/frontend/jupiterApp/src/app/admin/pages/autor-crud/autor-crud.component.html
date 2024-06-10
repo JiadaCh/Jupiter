@@ -2,167 +2,166 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-    <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedAutors()"
-        [disabled]="!selectedAutors || !selectedAutors.length" />
+        [disabled]="!selectedAutors || !selectedAutors.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
-<p-table
-  #dt2
-  [value]="autores()"
-  dataKey="id"
-  [rows]="10"
-  [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading()"
-  [paginator]="true"
-  selectionMode="single"
-  styleClass="p-datatable-gridlines"
-  [(selection)]="selectedAutors"
-  [tableStyle]="{ 'min-width': '75rem' }"
-  currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
-  [showCurrentPageReport]="true"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width: 4rem;">
-        <p-tableHeaderCheckbox/>
-      </th>
-      <th style="width:12%">Id</th>
-      <th style="width:22%">Nombre</th>
-      <th style="width:22%">Apellido 1</th>
-      <th style="width:22%">Apellido 2</th>
-      <th style="width:22%">Acciones</th>
-    </tr>
-    <tr>
-      <th></th>
-      <th></th>
-      <th>
-        <p-columnFilter
-          type="text"
-          field="nombre"
-          inputmode
-          placeholder="Buscar por nombre"
-          ariaLabel="Filter nombre" />
-      </th>
-      <th>
-        <p-columnFilter
-          type="text"
-          field="apellido1"
-          placeholder="Buscar por apellido 1"
-          ariaLabel="Filter apellido 1" />
-      </th>
-      <th>
-        <p-columnFilter
-          type="text"
-          field="apellido2"
-          placeholder="Buscar por apellido 2"
-          ariaLabel="Filter apellido 2" />
-      </th>
-      <th></th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-autor>
-    <tr>
-      <td>
-        <p-tableCheckbox [value]="autor" />
-      </td>
-      <td>
-        {{ autor.id }}
-      </td>
-      <td>
-        {{ autor.nombre }}
-      </td>
-      <td>
-        {{ autor.apellido1 }}
-      </td>
-      <td>
-        {{ autor?.apellido2 }}
-      </td>
-      <td>
-        <p-button
-          pRipple
-          icon="pi pi-pencil"
-          class="mr-2"
-          [rounded]="true"
-          [outlined]="true"
-          severity="info"
-          (click)="editAutor(autor)" />
-        <p-button
-          pRipple
-          icon="pi pi-trash"
-          severity="danger"
-          [rounded]="true"
-          [outlined]="true"
-          (click)="deleteAutor(autor)" />
-      </td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="summary">
-    <div class="flex align-items-center justify-content-between">
-      En total hay {{ autores() ? autores().length : 0 }} autores.
-    </div>
-  </ng-template>
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="5" class="text-center text-4xl">No se ha encontrado autores.</td>
-    </tr>
-  </ng-template>
+  <p-table
+    [(selection)]="selectedAutors"
+    [loading]="loading()"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="autores()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
+    selectionMode="single"
+    styleClass="p-datatable-gridlines"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem;">
+          <p-tableHeaderCheckbox/>
+        </th>
+        <th style="width:12%">Id</th>
+        <th style="width:22%">Nombre</th>
+        <th style="width:22%">Apellido 1</th>
+        <th style="width:22%">Apellido 2</th>
+        <th style="width:22%">Acciones</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>
+          <p-columnFilter
+            ariaLabel="Filter nombre"
+            field="nombre"
+            inputmode
+            placeholder="Buscar por nombre"
+            type="text"/>
+        </th>
+        <th>
+          <p-columnFilter
+            ariaLabel="Filter apellido 1"
+            field="apellido1"
+            placeholder="Buscar por apellido 1"
+            type="text"/>
+        </th>
+        <th>
+          <p-columnFilter
+            ariaLabel="Filter apellido 2"
+            field="apellido2"
+            placeholder="Buscar por apellido 2"
+            type="text"/>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template let-autor pTemplate="body">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="autor"/>
+        </td>
+        <td>
+          {{ autor.id }}
+        </td>
+        <td>
+          {{ autor.nombre }}
+        </td>
+        <td>
+          {{ autor.apellido1 }}
+        </td>
+        <td>
+          {{ autor?.apellido2 }}
+        </td>
+        <td>
+          <p-button
+            (click)="editAutor(autor)"
+            [outlined]="true"
+            [rounded]="true"
+            class="mr-2"
+            icon="pi pi-pencil"
+            pRipple
+            severity="info"/>
+          <p-button
+            (click)="deleteAutor(autor)"
+            [outlined]="true"
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ autores() ? autores().length : 0 }} autores.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td class="text-center text-4xl" colspan="5">No se ha encontrado autores.</td>
+      </tr>
+    </ng-template>
 
-</p-table>
+  </p-table>
   <!--
   crear/editar el objeto
   -->
   <p-dialog
     [(visible)]="autorDialog"
+    [modal]="true"
     [style]="{ width: '450px' }"
     header="Detalle de Autor"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
 
       <div class="field">
         <label for="nombre">Nombre</label>
         <input
-          type="text"
-          pInputText
-          id="nombre"
           [(ngModel)]="autor.nombre"
+          autofocus
+          id="nombre"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !autor.nombre">
+          type="text"/>
+        <small *ngIf="submitted() && !autor.nombre" class="p-error">
           Nombre es requerido.
         </small>
       </div>
       <div class="field">
         <label for="apellido1">Apellido 1</label>
         <input
-          type="text"
-          pInputText
-          id="apellido1"
           [(ngModel)]="autor.apellido1"
-          required/>
+          id="apellido1"
+          pInputText
+          required
+          type="text"/>
 
-        <small class="p-error" *ngIf="submitted() && !autor.apellido1">
+        <small *ngIf="submitted() && !autor.apellido1" class="p-error">
           El primer apellido es requerido.
         </small>
       </div>
@@ -170,31 +169,31 @@
       <div class="field">
         <label for="apellido2">Apellido 2</label>
         <input
-          type="text"
-          pInputText
+          [(ngModel)]="autor.apellido2"
           id="apellido2"
-          [(ngModel)]="autor.apellido2"/>
+          pInputText
+          type="text"/>
       </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveAutor()"
         [text]="true"
-        (click)="saveAutor()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

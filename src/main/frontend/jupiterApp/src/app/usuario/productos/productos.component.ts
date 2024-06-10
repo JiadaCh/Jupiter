@@ -50,16 +50,16 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   templateUrl: './productos.component.html',
   styles: ``
 })
-export class ProductosComponent implements OnInit{
+export class ProductosComponent implements OnInit {
   private authService = inject(AuthService);
   private productoService = inject(ProductoService);
   private mediaService = inject(MediaService);
 
   usuario = this.authService.user();
-  loading= signal(true);
+  loading = signal(true);
   productos = signal<Producto[]>([]);
 
-  selectedProductos:Producto[] = [];
+  selectedProductos: Producto[] = [];
 
 
   selectedColumns: Column[] = [];
@@ -69,47 +69,56 @@ export class ProductosComponent implements OnInit{
 
   editar = signal(false);
   submitted = signal(false);
-  productoDialog:boolean = false;
+  productoDialog: boolean = false;
 
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
-
-  ngOnInit(): void {
-    setTimeout(()=>{
-
-      this.cargarDatos();
-    },500)
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
-  cargarDatos(){
+  ngOnInit(): void {
+    setTimeout(() => {
+
+      this.cargarDatos();
+    }, 500)
+  }
+
+  cargarDatos() {
     this.loading.set(true);
 
     this.productoService.getProductoByUsuario(this.usuario!.id).pipe(
       delay(500)
-    ).subscribe( producto =>{
+    ).subscribe(producto => {
       this.productos.set(producto);
       this.loading.set(false);
-    } )
+    })
 
   }
 
   onUpload(event: FileSelectEvent) {
 
     const file = event.files[0];
-    if (file){
+    if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
 
       formdata.append('subfolder', "producto");
-      formdata.append('filename', "producto-"+this.producto.nombre+"-"+this.usuario?.id+"-"+this.producto.precio);
-      this.mediaService.uploadFile(formdata).subscribe(res=>{
+      formdata.append('filename', "producto-" + this.producto.nombre + "-" + this.usuario?.id + "-" + this.producto.precio);
+      this.mediaService.uploadFile(formdata).subscribe(res => {
         this.producto.imagen = res.url;
-        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cambio realizado con éxito',
+          detail: 'Refresca la pagina para ver el cambio'
+        });
       })
     }
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
@@ -117,7 +126,7 @@ export class ProductosComponent implements OnInit{
       comprado: false, descripcion: "", id: 0, imagen: "", nombre: "", precio: 0
     };
     this.submitted.set(false);
-    this.productoDialog = true ;
+    this.productoDialog = true;
   }
 
   deleteSelectedProductos() {
@@ -126,7 +135,7 @@ export class ProductosComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let producto of this.selectedProductos){
+        for (let producto of this.selectedProductos) {
           this.productoService.deleteProducto(producto.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -134,14 +143,19 @@ export class ProductosComponent implements OnInit{
           })
         }
         this.selectedProductos = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Productos Eliminados', life: 3000 });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Productos Eliminados',
+          life: 3000
+        });
       }
     });
   }
 
   editProducto(producto: Producto) {
-    this.producto = { ...producto };
-    this.productoDialog = true ;
+    this.producto = {...producto};
+    this.productoDialog = true;
     this.editar.set(true)
   }
 
@@ -152,10 +166,15 @@ export class ProductosComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.productoService.deleteProducto(producto.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Producto eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Producto eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -164,43 +183,53 @@ export class ProductosComponent implements OnInit{
   }
 
   hideDialog() {
-    this.productoDialog = false ;
+    this.productoDialog = false;
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveProducto() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el producto seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.productoService.updateProducto(this.producto).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.productoDialog = false ;
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
+              this.productoDialog = false;
               this.editar.set(false);
               this.cargarDatos();
               this.submitted.set(false);
-            }else{
+            } else {
               this.showError()
             }
           })
 
         }
       });
-    }else{
+    } else {
 
-      this.productoService.addProducto(this.producto,this.usuario!).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+      this.productoService.addProducto(this.producto, this.usuario!).subscribe(value => {
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.productoDialog = false;
           this.cargarDatos();
           this.submitted.set(false);
 
-        }else{
+        } else {
           this.showError();
         }
       })

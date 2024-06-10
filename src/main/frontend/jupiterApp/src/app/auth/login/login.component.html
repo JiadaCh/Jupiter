@@ -1,132 +1,132 @@
 <!--
     mostrar mensajes de error/warn/successful
     -->
-<p-toast />
+<p-toast/>
 
 
-  <div class="flex flex-column md:flex-row mt-8">
-    <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3">
-      <div class="flex flex-wrap justify-content-center align-items-center gap-2">
-        <p-floatLabel>
-          <input pInputText
-                 id="username"
-                 type="text"
-                 [(ngModel)]="opcion"
-                 class="w-16rem"/>
-            <label class="w-6rem">Username/Email</label>
-        </p-floatLabel>
-      </div>
-      <div class="flex justify-content-center align-items-center gap-2 m-3">
-        <p-floatLabel>
-          <p-password
-            [(ngModel)]="contra"
-            id="password"
-            [toggleMask]="true"
-            [feedback]="false"
-            (keyup.enter)="onLogin()"
-            inputStyleClass="w-16rem" />
-            <label class="w-6rem" for="password">Password</label>
-        </p-floatLabel>
-      </div>
-      <p-button label="Iniciar sesión" icon="pi pi-user" (onClick)="onLogin()"  styleClass="w-16rem mx-auto" />
+<div class="flex flex-column md:flex-row mt-8">
+  <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3">
+    <div class="flex flex-wrap justify-content-center align-items-center gap-2">
+      <p-floatLabel>
+        <input [(ngModel)]="opcion"
+               class="w-16rem"
+               id="username"
+               pInputText
+               type="text"/>
+        <label class="w-6rem">Username/Email</label>
+      </p-floatLabel>
     </div>
-    <div class="w-full md:w-2">
-      <p-divider layout="vertical" styleClass="hidden md:flex">
-        <b>OR</b>
-      </p-divider>
-      <p-divider layout="horizontal" styleClass="flex md:hidden" [align]="'center'">
-        <b>OR</b>
-      </p-divider>
-    </div>
-    <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
-      <p-button label="Sign Up" (onClick)="onNew()" icon="pi pi-user-plus" styleClass="p-button-success w-10rem" />
-    </div>
-  </div>
-
-  <!--
-  Registrar usuario
-  -->
-  <p-dialog
-    [(visible)]="usuarioDialog"
-    [style]="{ width: '600px' }"
-    header="Registrar Usuario"
-    [modal]="true"
-    styleClass="p-fluid">
-    <ng-template pTemplate="content">
-
-      <div class="field">
-        <label for="nombre">Usuario</label>
-        <input
-          type="text"
-          pInputText
-          id="nombre"
-          [(ngModel)]="usuario.nombre"
-          required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !usuario.nombre">
-          Nombre del usuario es requerido.
-        </small>
-      </div>
-
-      <div class="field">
-        <label for="correo">Correo</label>
-        <input
-          type="email"
-          pInputText
-          id="correo"
-          [(ngModel)]="usuario.correo"
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-          required
-          #email="ngModel"
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !usuario.correo">
-          Correo es requerido.
-        </small>
-        <small class="p-error" *ngIf="submitted() && email.errors">
-          Formato del correo incorrecto: example&commat;example.com
-        </small>
-      </div>
-
-      <div class="field">
-        <label for="contra">Contraseña</label>
+    <div class="flex justify-content-center align-items-center gap-2 m-3">
+      <p-floatLabel>
         <p-password
-          id="contra"
-          [(ngModel)]="usuario.contrasena"
+          (keyup.enter)="onLogin()"
+          [(ngModel)]="contra"
+          [feedback]="false"
           [toggleMask]="true"
-          required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length < 4">
-          La contraseña debe tener al menos 4 caracteres.
-        </small>
-        <small class="p-error" *ngIf="submitted() && usuario.contrasena.length > 20">
-          La contraseña no debe tener más de 20 caracteres.
-        </small>
-      </div>
+          id="password"
+          inputStyleClass="w-16rem"/>
+        <label class="w-6rem" for="password">Password</label>
+      </p-floatLabel>
+    </div>
+    <p-button (onClick)="onLogin()" icon="pi pi-user" label="Iniciar sesión" styleClass="w-16rem mx-auto"/>
+  </div>
+  <div class="w-full md:w-2">
+    <p-divider layout="vertical" styleClass="hidden md:flex">
+      <b>OR</b>
+    </p-divider>
+    <p-divider [align]="'center'" layout="horizontal" styleClass="flex md:hidden">
+      <b>OR</b>
+    </p-divider>
+  </div>
+  <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
+    <p-button (onClick)="onNew()" icon="pi pi-user-plus" label="Sign Up" styleClass="p-button-success w-10rem"/>
+  </div>
+</div>
 
-      <div class="field">
-        <label for="direccion">Dirección</label>
-        <input
-          type="text"
-          pInputText
-          id="direccion"
-          [(ngModel)]="usuario.direccion"
-          autofocus />
-      </div>
+<!--
+Registrar usuario
+-->
+<p-dialog
+  [(visible)]="usuarioDialog"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  header="Registrar Usuario"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
 
-    </ng-template>
+    <div class="field">
+      <label for="nombre">Usuario</label>
+      <input
+        [(ngModel)]="usuario.nombre"
+        autofocus
+        id="nombre"
+        pInputText
+        required
+        type="text"/>
+      <small *ngIf="submitted() && !usuario.nombre" class="p-error">
+        Nombre del usuario es requerido.
+      </small>
+    </div>
 
-    <ng-template pTemplate="footer">
-      <p-button
-        pRipple
-        label="Cancel"
-        icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
-      <p-button
-        pRipple
-        label="Registrar"
-        icon="pi pi-check"
-        [text]="true"
-        (click)="onRegister()" />
-    </ng-template>
-  </p-dialog>
+    <div class="field">
+      <label for="correo">Correo</label>
+      <input
+        #email="ngModel"
+        [(ngModel)]="usuario.correo"
+        autofocus
+        id="correo"
+        pInputText
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+        required
+        type="email"/>
+      <small *ngIf="submitted() && !usuario.correo" class="p-error">
+        Correo es requerido.
+      </small>
+      <small *ngIf="submitted() && email.errors" class="p-error">
+        Formato del correo incorrecto: example&commat;example.com
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="contra">Contraseña</label>
+      <p-password
+        [(ngModel)]="usuario.contrasena"
+        [toggleMask]="true"
+        autofocus
+        id="contra"
+        required/>
+      <small *ngIf="submitted() && usuario.contrasena.length < 4" class="p-error">
+        La contraseña debe tener al menos 4 caracteres.
+      </small>
+      <small *ngIf="submitted() && usuario.contrasena.length > 20" class="p-error">
+        La contraseña no debe tener más de 20 caracteres.
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="direccion">Dirección</label>
+      <input
+        [(ngModel)]="usuario.direccion"
+        autofocus
+        id="direccion"
+        pInputText
+        type="text"/>
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="hideDialog()"
+      [text]="true"
+      icon="pi pi-times"
+      label="Cancel"
+      pRipple/>
+    <p-button
+      (click)="onRegister()"
+      [text]="true"
+      icon="pi pi-check"
+      label="Registrar"
+      pRipple/>
+  </ng-template>
+</p-dialog>

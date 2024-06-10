@@ -32,46 +32,48 @@ import {CommonModule} from "@angular/common";
   templateUrl: './autor-crud.component.html',
   styleUrl: './autor-crud.component.css',
 })
-export class AutorCrudComponent implements OnInit{
-  private autorService = inject(AutorService);
+export class AutorCrudComponent implements OnInit {
   autores = signal<Autor[]>([]);
-
-  loading= signal(true);
-  selectedAutors:Autor[] = [];
-
+  loading = signal(true);
+  selectedAutors: Autor[] = [];
   autor!: Autor;
-
   editar = signal(false);
   submitted = signal(false);
   autorDialog = signal(false);
+  private autorService = inject(AutorService);
 
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  cargarDatos(){
+  cargarDatos() {
 
     this.loading.set(true);
 
     this.autorService.getAutor().pipe(
       delay(500)
-    ).subscribe( autor =>{
+    ).subscribe(autor => {
       this.autores.set(autor)
       this.loading.set(false);
-    } )
+    })
   }
 
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
     this.autor = {apellido1: "", id: 0, nombre: ""};
     this.submitted.set(false);
-    this.autorDialog.set(true) ;
+    this.autorDialog.set(true);
   }
 
   deleteSelectedAutors() {
@@ -80,7 +82,7 @@ export class AutorCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let autor of this.selectedAutors){
+        for (let autor of this.selectedAutors) {
           this.autorService.deleteAutor(autor.id).subscribe(value => {
             if (!value)
               this.showError();
@@ -88,14 +90,14 @@ export class AutorCrudComponent implements OnInit{
           })
         }
         this.selectedAutors = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Autores Eliminados', life: 3000 });
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Autores Eliminados', life: 3000});
       }
     });
   }
 
   editAutor(autor: Autor) {
-    this.autor = { ...autor };
-    this.autorDialog.set(true) ;
+    this.autor = {...autor};
+    this.autorDialog.set(true);
     this.editar.set(true)
   }
 
@@ -106,10 +108,15 @@ export class AutorCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.autorService.deleteAutor(autor.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Autor eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Autor eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -118,43 +125,53 @@ export class AutorCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.autorDialog.set(false) ;
+    this.autorDialog.set(false);
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveAutor() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el autor seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.autorService.updateAutor(this.autor).subscribe(value => {
-            if (value){
+            if (value) {
               this.editar.set(false);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
               this.submitted.set(false);
-              this.autorDialog.set(false) ;
+              this.autorDialog.set(false);
               this.cargarDatos()
-            }else{
+            } else {
               this.showError()
             }
           })
         },
-        reject:() =>{
+        reject: () => {
           this.editar.set(false);
         }
       });
-    }else{
+    } else {
       this.autorService.addAutor(this.autor).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.autorDialog.set(false);
           this.submitted.set(false);
           this.cargarDatos();
-        }else{
+        } else {
           this.showError();
         }
       })

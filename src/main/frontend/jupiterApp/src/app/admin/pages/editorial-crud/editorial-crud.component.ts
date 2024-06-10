@@ -32,46 +32,48 @@ import {CommonModule} from "@angular/common";
   templateUrl: './editorial-crud.component.html',
   styleUrl: './editorial-crud.component.css',
 })
-export class EditorialCrudComponent implements OnInit{
-  private editorialService = inject(EditorialService);
+export class EditorialCrudComponent implements OnInit {
   editoriales = signal<Editorial[]>([]);
-
-  loading= signal(true);
-  selectedEditorials:Editorial[] = [];
-
+  loading = signal(true);
+  selectedEditorials: Editorial[] = [];
   editorial!: Editorial;
-
   editar = signal(false);
   submitted = signal(false);
   editorialDialog = signal(false);
+  private editorialService = inject(EditorialService);
 
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  cargarDatos(){
+  cargarDatos() {
 
     this.loading.set(true);
 
     this.editorialService.getEditorial().pipe(
       delay(500)
-    ).subscribe( editorial =>{
+    ).subscribe(editorial => {
       this.editoriales.set(editorial)
       this.loading.set(false);
-    } )
+    })
   }
 
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
     this.editorial = {id: 0, nombre: ""};
     this.submitted.set(false);
-    this.editorialDialog.set(true) ;
+    this.editorialDialog.set(true);
   }
 
   deleteSelectedEditorials() {
@@ -80,7 +82,7 @@ export class EditorialCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let editorial of this.selectedEditorials){
+        for (let editorial of this.selectedEditorials) {
           this.editorialService.deleteEditorial(editorial.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -89,14 +91,19 @@ export class EditorialCrudComponent implements OnInit{
           })
         }
         this.selectedEditorials = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Editoriales Eliminados', life: 3000 });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Editoriales Eliminados',
+          life: 3000
+        });
       }
     });
   }
 
   editEditorial(editorial: Editorial) {
-    this.editorial = { ...editorial };
-    this.editorialDialog.set(true) ;
+    this.editorial = {...editorial};
+    this.editorialDialog.set(true);
     this.editar.set(true)
   }
 
@@ -107,10 +114,15 @@ export class EditorialCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.editorialService.deleteEditorial(editorial.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Editorial eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Editorial eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -119,14 +131,14 @@ export class EditorialCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.editorialDialog.set(false) ;
+    this.editorialDialog.set(false);
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveEditorial() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el editorial seleccionados?',
         header: 'Confirm',
@@ -134,28 +146,38 @@ export class EditorialCrudComponent implements OnInit{
         accept: () => {
           this.editar.set(false);
           this.editorialService.updateEditorial(this.editorial).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
               this.submitted.set(false);
-              this.editorialDialog.set(false) ;
+              this.editorialDialog.set(false);
               this.cargarDatos()
-            }else{
+            } else {
               this.showError()
             }
           })
         },
-        reject:() =>{
+        reject: () => {
           this.editar.set(false);
         }
       });
-    }else{
+    } else {
       this.editorialService.addEditorial(this.editorial).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.submitted.set(false);
           this.editorialDialog.set(false);
           this.cargarDatos();
-        }else{
+        } else {
           this.showError();
         }
       })

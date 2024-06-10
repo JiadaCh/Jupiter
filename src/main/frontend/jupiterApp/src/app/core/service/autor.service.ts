@@ -11,41 +11,43 @@ import {MessageService} from "primeng/api";
 export class AutorService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getAutor():Observable<Autor[]>{
-    return this.http.get<Autor[]>(this.baseUrl()+'/autores')
+  constructor(private messageService: MessageService) {
   }
 
-  deleteAutor(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/autores/'+id)
+  getAutor(): Observable<Autor[]> {
+    return this.http.get<Autor[]>(this.baseUrl() + '/autores')
+  }
+
+  deleteAutor(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + '/autores/' + id)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addAutor(autor:Autor):Observable<Boolean> {
-    return this.http.post<Autor>(this.baseUrl()+'/autores',autor)
+  addAutor(autor: Autor): Observable<Boolean> {
+    return this.http.post<Autor>(this.baseUrl() + '/autores', autor)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  updateAutor(autor:Autor):Observable<Boolean> {
-    if(!autor.id) throw Error('El id es requerido');
-    return this.http.put<Autor>(this.baseUrl()+'/autores/'+autor.id,autor)
+  updateAutor(autor: Autor): Observable<Boolean> {
+    if (!autor.id) throw Error('El id es requerido');
+    return this.http.put<Autor>(this.baseUrl() + '/autores/' + autor.id, autor)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }

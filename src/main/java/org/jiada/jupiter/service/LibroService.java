@@ -43,14 +43,16 @@ public class LibroService {
             editorial = editorialRepository.save(editorial);
             libro.setEditorial(editorial);
         }
-        return this.libroRepository.findById(id).map( p -> (id.equals(libro.getId())  ?
-                                                            this.libroRepository.save(libro) : null))
+        return this.libroRepository.findById(id).map(p -> (id.equals(libro.getId()) ?
+                        this.libroRepository.save(libro) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Libro()));
     }
 
     public void delete(Long id) {
-        this.libroRepository.findById(id).map(p -> {this.libroRepository.delete(p);
-                                                        return p;})
+        this.libroRepository.findById(id).map(p -> {
+                    this.libroRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Libro()));
     }
 

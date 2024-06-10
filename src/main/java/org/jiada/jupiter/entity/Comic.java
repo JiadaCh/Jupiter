@@ -34,26 +34,26 @@ public class Comic {
     @Column(name = "id_comic")
     private long id;
 
-    @Column(name="titulo",nullable = false)
+    @Column(name = "titulo", nullable = false)
     @NotBlank(message = "Introduzca un título")
     private String titulo;
 
-    @Column(name="sinopsis",nullable = false)
+    @Column(name = "sinopsis", nullable = false)
     @NotBlank(message = "No se puede poner el sinopsis en blanco")
     private String sinopsis;
 
-    @Column(name="idioma",nullable = false)
+    @Column(name = "idioma", nullable = false)
     @NotBlank(message = "Introduzca un idioma")
     private String idioma;
 
-    @Column(name="portada",nullable = false)
+    @Column(name = "portada", nullable = false)
     private String portada;
 
-    @Column(name="tipo",nullable = false)
+    @Column(name = "tipo", nullable = false)
     @NotBlank(message = "Elige un tipo")
     private String tipo;
 
-    @Column(name="ano_publicacion",nullable = false)
+    @Column(name = "ano_publicacion", nullable = false)
     @Positive
     private int anoPublicacion;
 
@@ -61,7 +61,7 @@ public class Comic {
     @JoinTable(
             name = "comic_genero",
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
-            inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
+            inverseJoinColumns = @JoinColumn(name = "id_genero", referencedColumnName = "id_genero")
     )
     @NotEmpty(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
@@ -70,7 +70,7 @@ public class Comic {
     @JoinTable(
             name = "comic_autor",
             joinColumns = @JoinColumn(name = "id_comic", referencedColumnName = "id_comic"),
-            inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
+            inverseJoinColumns = @JoinColumn(name = "id_autor", referencedColumnName = "id_autor")
     )
     @NotEmpty(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();

@@ -28,22 +28,22 @@ public class Producto {
     @Column(name = "id_producto")
     private long id;
 
-    @Column(name="nombre",nullable = false)
+    @Column(name = "nombre", nullable = false)
     @NotBlank(message = "Introduzca un nombre al producto")
     private String nombre;
 
-    @Column(name="descripcion",nullable = false)
+    @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
-    @Column(name="precio",nullable = false)
+    @Column(name = "precio", nullable = false)
     @PositiveOrZero(message = "El precio no puede ser negativo")
     private Double precio;
 
-    @Column(name="imagen",nullable = false)
+    @Column(name = "imagen", nullable = false)
     @NotBlank(message = "Introduzca un imagen al producto")
     private String imagen;
 
-    @Column(name="comprado", nullable = false)
+    @Column(name = "comprado", nullable = false)
     private boolean comprado;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

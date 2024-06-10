@@ -21,6 +21,7 @@ public class ProductoService {
         this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
     }
+
     public List<Producto> findByUser(Long userId) {
         return this.productoRepository.findByUsuarioId(userId);
     }
@@ -43,15 +44,17 @@ public class ProductoService {
 
     public Producto replace(Long id, Producto producto) {
         producto.setUsuario(this.usuarioRepository.findByProductosId(producto.getId()));
-        return this.productoRepository.findById(id).map( p -> (id.equals(producto.getId())  ?
-                                                            this.productoRepository.save(producto) : null))
+        return this.productoRepository.findById(id).map(p -> (id.equals(producto.getId()) ?
+                        this.productoRepository.save(producto) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Producto()));
 
     }
 
     public void delete(Long id) {
-        this.productoRepository.findById(id).map(p -> {this.productoRepository.delete(p);
-                                                        return p;})
+        this.productoRepository.findById(id).map(p -> {
+                    this.productoRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Producto()));
     }
 

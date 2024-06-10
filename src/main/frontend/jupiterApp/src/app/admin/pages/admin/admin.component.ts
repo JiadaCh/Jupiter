@@ -18,27 +18,27 @@ export class AdminComponent {
     {
       label: 'Autor',
       icon: 'pi pi-user',
-      route:'autor'
-    },{
+      route: 'autor'
+    }, {
       label: 'Comic',
       icon: 'pi pi-book',
-      route:'comic'
-    },{
+      route: 'comic'
+    }, {
       label: 'Libro',
       icon: 'pi pi-book',
-      route:'libro'
-    },{
+      route: 'libro'
+    }, {
       label: 'Editorial',
       icon: 'pi pi-building',
-      route:'editorial'
-    },{
+      route: 'editorial'
+    }, {
       label: 'Genero',
       icon: 'pi pi-cog',
-      route:'genero'
-    },{
+      route: 'genero'
+    }, {
       label: 'Usuario',
       icon: 'pi pi-users',
-      route:'usuario'
+      route: 'usuario'
     },
   ]);
 }

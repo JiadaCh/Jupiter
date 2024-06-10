@@ -11,55 +11,57 @@ import {MessageService} from "primeng/api";
 export class UsuarioService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getUsuario():Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(this.baseUrl()+'/usuarios')
+  constructor(private messageService: MessageService) {
   }
 
-  getUsuarioByProducto(idProducto:number):Observable<Usuario|undefined>{
-    return this.http.get<Usuario>(this.baseUrl()+`/usuarios/producto?productoId=${idProducto}`)
+  getUsuario(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.baseUrl() + '/usuarios')
+  }
+
+  getUsuarioByProducto(idProducto: number): Observable<Usuario | undefined> {
+    return this.http.get<Usuario>(this.baseUrl() + `/usuarios/producto?productoId=${idProducto}`)
       .pipe(
-        catchError(error=> of(undefined))
+        catchError(()  => of(undefined))
       );
   }
 
-  getUsuarioById(id:string):Observable<Usuario|undefined>{
-    return this.http.get<Usuario>(this.baseUrl()+'/usuarios/'+id)
+  getUsuarioById(id: string): Observable<Usuario | undefined> {
+    return this.http.get<Usuario>(this.baseUrl() + '/usuarios/' + id)
       .pipe(
-        catchError(error=> of(undefined))
+        catchError(()  => of(undefined))
       );
   }
 
-  deleteUsuario(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/usuarios/'+id)
+  deleteUsuario(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + '/usuarios/' + id)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addUsuario(usuario:Usuario):Observable<Boolean> {
-    return this.http.post<Usuario>(this.baseUrl()+'/usuarios',usuario)
+  addUsuario(usuario: Usuario): Observable<Boolean> {
+    return this.http.post<Usuario>(this.baseUrl() + '/usuarios', usuario)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  updateUsuario(usuario:Usuario):Observable<Boolean> {
-    if(!usuario.id) throw Error('El id es requerido');
-    return this.http.put<Usuario>(this.baseUrl()+'/usuarios/'+usuario.id,usuario)
+  updateUsuario(usuario: Usuario): Observable<Boolean> {
+    if (!usuario.id) throw Error('El id es requerido');
+    return this.http.put<Usuario>(this.baseUrl() + '/usuarios/' + usuario.id, usuario)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }

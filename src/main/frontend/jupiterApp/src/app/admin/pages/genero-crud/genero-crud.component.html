@@ -2,44 +2,43 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedGeneros()"
-        [disabled]="!selectedGeneros || !selectedGeneros.length" />
+        [disabled]="!selectedGeneros || !selectedGeneros.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="generos()"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    [(selection)]="selectedGeneros"
     [loading]="loading()"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="generos()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
     selectionMode="single"
     styleClass="p-datatable-gridlines"
-    [(selection)]="selectedGeneros"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
-    [showCurrentPageReport]="true"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -55,19 +54,19 @@
         <th></th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter nombre"
             field="nombre"
             inputmode
             placeholder="Buscar por nombre"
-            ariaLabel="Filter nombre" />
+            type="text"/>
         </th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-genero >
+    <ng-template let-genero pTemplate="body">
       <tr>
         <td>
-          <p-tableCheckbox [value]="genero" />
+          <p-tableCheckbox [value]="genero"/>
         </td>
         <td>
           {{ genero.id }}
@@ -77,20 +76,20 @@
         </td>
         <td>
           <p-button
-            pRipple
-            icon="pi pi-pencil"
+            (click)="editGenero(genero)"
+            [outlined]="true"
+            [rounded]="true"
             class="mr-2"
-            [rounded]="true"
-            [outlined]="true"
-            severity="info"
-            (click)="editGenero(genero)" />
-          <p-button
+            icon="pi pi-pencil"
             pRipple
-            icon="pi pi-trash"
-            severity="danger"
-            [rounded]="true"
+            severity="info"/>
+          <p-button
+            (click)="deleteGenero(genero)"
             [outlined]="true"
-            (click)="deleteGenero(genero)" />
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
         </td>
       </tr>
     </ng-template>
@@ -101,7 +100,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5" class="text-center text-4xl">No se ha encontrado generos.</td>
+        <td class="text-center text-4xl" colspan="5">No se ha encontrado generos.</td>
       </tr>
     </ng-template>
 
@@ -111,22 +110,22 @@
   -->
   <p-dialog
     [(visible)]="generoDialog"
+    [modal]="true"
     [style]="{ width: '450px' }"
     header="Detalle de Genero"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
 
       <div class="field">
         <label for="nombre">Nombre</label>
         <input
-          type="text"
-          pInputText
-          id="nombre"
           [(ngModel)]="genero.nombre"
+          autofocus
+          id="nombre"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !genero.nombre">
+          type="text"/>
+        <small *ngIf="submitted() && !genero.nombre" class="p-error">
           Nombre es requerido.
         </small>
       </div>
@@ -134,22 +133,22 @@
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveGenero()"
         [text]="true"
-        (click)="saveGenero()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

@@ -60,12 +60,22 @@ import {ToastModule} from "primeng/toast";
     ToastModule
   ],
   templateUrl: './detalle-producto.component.html',
-  styles: `a{
+  styles: `a {
     text-decoration: none;
     color: black;
   }`
 })
-export class DetalleProductoComponent implements OnInit{
+export class DetalleProductoComponent implements OnInit {
+  propietario = signal<boolean>(false);
+  compraDialog: boolean = false;
+  producto!: Producto;
+  usuario!: Usuario | undefined;
+  vendedor = computed(() => {
+    if (this.propietario()) return "Yo";
+
+    return this.usuario!.nombre;
+  })
+  submitted = signal(false);
   private productoService = inject(ProductoService);
   private usuarioService = inject(UsuarioService);
   private authService = inject(AuthService);
@@ -73,36 +83,24 @@ export class DetalleProductoComponent implements OnInit{
   private pedidoService = inject(PedidoService);
   private router = inject(Router);
 
-  propietario= signal<boolean>(false);
-  vendedor = computed(()=>{
-    if (this.propietario()) return "Yo";
-
-    return this.usuario!.nombre;
-  })
-  compraDialog:boolean = false;
-
-  producto!: Producto;
-  usuario!: Usuario | undefined;
-  submitted = signal(false);
-
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
         delay(900),
-        switchMap(({ id }) => this.productoService.getProductoById(id))
+        switchMap(({id}) => this.productoService.getProductoById(id))
       )
       .subscribe((producto) => {
-        if (!producto ) return this.router.navigateByUrl('/tienda');
+        if (!producto) return this.router.navigateByUrl('/tienda');
         this.usuarioService.getUsuarioByProducto(producto.id)
           .subscribe((usuario) => {
 
-            if (!usuario) this.router.navigateByUrl('/tienda');
+            if (!usuario) this.router.navigateByUrl('/tienda').then();
             this.usuario = usuario
 
-            if (this.authService.user() && usuario!.id == this.authService.user()!.id){
+            if (this.authService.user() && usuario!.id == this.authService.user()!.id) {
               this.propietario.set(true)
             }
           });
@@ -114,28 +112,32 @@ export class DetalleProductoComponent implements OnInit{
 
   openNew() {
     this.submitted.set(false);
-    this.compraDialog = true ;
-    if (!this.authService.user())this.router.navigateByUrl('/login');
+    this.compraDialog = true;
+    if (!this.authService.user()) this.router.navigateByUrl('/login').then();
   }
 
   hideDialog() {
-    this.compraDialog = false ;
+    this.compraDialog = false;
     this.submitted.set(false);
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   savePedido() {
     this.submitted.set(true);
-    if (this.usuario?.direccion){
+    if (this.usuario?.direccion) {
       let fecha = new Date();
       let comprador = <Usuario>this.authService.user();
       const pedido: Pedido = {
         comprador: comprador,
         estado: "Pediente",
-        fecha: fecha.toLocaleDateString() +' '+ fecha.toLocaleTimeString(),
+        fecha: fecha.toLocaleDateString() + ' ' + fecha.toLocaleTimeString(),
         id: 0,
         precio: this.producto!.precio,
         producto: this.producto,
@@ -147,17 +149,21 @@ export class DetalleProductoComponent implements OnInit{
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.pedidoService.addPedido(pedido).subscribe((resp)=>{
-              if (resp){
+          this.pedidoService.addPedido(pedido).subscribe((resp) => {
+              if (resp) {
                 this.producto.comprado = true;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha comprado el producto' });
-                this.productoService.updateProducto(this.producto).subscribe(()=>{
-                  setTimeout(()=>{
-                    this.router.navigateByUrl('/tienda');
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Successful',
+                  detail: 'Se ha comprado el producto'
+                });
+                this.productoService.updateProducto(this.producto).subscribe(() => {
+                  setTimeout(() => {
+                    this.router.navigateByUrl('/tienda').then();
                     this.compraDialog = false;
-                  },800)
+                  }, 800)
                 })
-              }else{
+              } else {
                 this.showError()
               }
             }

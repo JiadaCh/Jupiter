@@ -1,7 +1,7 @@
-@if (!producto){
+@if (!producto) {
   <shared-loading></shared-loading>
 } @else {
-  <p-toast />
+  <p-toast/>
   <p-splitter
 
     [panelSizes]="[7, 84, 7]"
@@ -12,26 +12,32 @@
     </ng-template>
     <ng-template pTemplate>
       <div class="col ">
-        <p-panel [header]="producto.nombre"  styleClass="text-2xl ">
+        <p-panel [header]="producto.nombre" styleClass="text-2xl ">
 
           <p-fieldset legend="Detalle del producto">
             <div class="grid  gap-3 m-3">
-              <p-image [src]="producto.imagen != null? producto.imagen : 'http://localhost:8080/media/producto/default-image.png'"
-                       styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
+              <p-image
+                [src]="producto.imagen != null? producto.imagen : 'http://localhost:8080/media/producto/default-image.png'"
+                styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
               ></p-image>
               <div class="col-6 flex-column justify-content-start">
-                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{vendedor()}}</a> </div>
-                <div style="margin: 20px 0" class="text-2xl">Precio: <br> <div class="text-red-400 text-6xl">{{producto.precio |currency:'EUR': ''}}€</div> </div>
+                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{ vendedor() }}</a>
+                </div>
+                <div style="margin: 20px 0" class="text-2xl">Precio: <br>
+                  <div class="text-red-400 text-6xl">{{ producto.precio |currency:'EUR': '' }}€</div>
+                </div>
 
-                <div style="margin: 20px 0;" class="flex justify-content-around" >
-                    <p-button icon="pi pi-shopping-cart" styleClass="w-26rem " [hidden]="producto.comprado || propietario()" label="Comprar" (onClick)="openNew()"></p-button>
+                <div style="margin: 20px 0;" class="flex justify-content-around">
+                  <p-button icon="pi pi-shopping-cart" styleClass="w-26rem "
+                            [hidden]="producto.comprado || propietario()" label="Comprar"
+                            (onClick)="openNew()"></p-button>
                 </div>
 
               </div>
             </div>
             <p-accordion [activeIndex]="0">
               <p-accordionTab header="Descripción">
-                {{producto.descripcion}}
+                {{ producto.descripcion }}
               </p-accordionTab>
             </p-accordion>
           </p-fieldset>
@@ -55,7 +61,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="producto!.imagen" [alt]="producto!.nombre"  [preview]="true"></p-image>
+        <p-image [src]="producto!.imagen" [alt]="producto!.nombre" [preview]="true"></p-image>
       </div>
 
 
@@ -68,7 +74,7 @@
 
           [(ngModel)]="producto!.nombre"
           readonly
-          autofocus />
+          autofocus/>
       </div>
 
       <div class="field">
@@ -80,7 +86,7 @@
 
           [(ngModel)]="usuario!.direccion"
           required
-          autofocus />
+          autofocus/>
         <small class="p-error" *ngIf="submitted() && !usuario!.direccion">
           Dirección es requerido.
         </small>
@@ -99,7 +105,6 @@
       </div>
 
 
-
     </ng-template>
 
     <ng-template pTemplate="footer">
@@ -108,15 +113,15 @@
         label="Cancel"
         icon="pi pi-times"
         [text]="true"
-        (click)="hideDialog()" />
+        (click)="hideDialog()"/>
       <p-button
         pRipple
         label="Save"
         icon="pi pi-check"
         [text]="true"
-        (click)="savePedido()" />
+        (click)="savePedido()"/>
     </ng-template>
   </p-dialog>
 
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 }

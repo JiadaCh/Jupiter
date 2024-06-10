@@ -10,13 +10,13 @@ import {ConfirmationService, MessageService} from "primeng/api";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes,withViewTransitions(
+    provideRouter(routes, withViewTransitions(
       {
         skipInitialTransition: true,
       })),
     provideHttpClient(),
     provideAnimationsAsync("animations"),
-    MessageService,ConfirmationService,
+    MessageService, ConfirmationService,
     importProvidersFrom(BrowserModule, BrowserAnimationsModule)
   ]
 };

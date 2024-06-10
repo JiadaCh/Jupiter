@@ -37,17 +37,17 @@ public class ResenaService {
         return this.resenaRepository.findALlByLibroId(libroId);
     }
 
-    public Resena findByLibroIdAndUsuarioId(Long libroId,long usuarioId) {
-        return this.resenaRepository.findByLibroIdAndUsuarioId(libroId,usuarioId);
+    public Resena findByLibroIdAndUsuarioId(Long libroId, long usuarioId) {
+        return this.resenaRepository.findByLibroIdAndUsuarioId(libroId, usuarioId);
     }
 
-    public Resena findByComicIdAndUsuarioId(Long comicId,long usuarioId) {
-        return this.resenaRepository.findByComicIdAndUsuarioId(comicId,usuarioId);
+    public Resena findByComicIdAndUsuarioId(Long comicId, long usuarioId) {
+        return this.resenaRepository.findByComicIdAndUsuarioId(comicId, usuarioId);
     }
 
     public Resena save(Resena resena, Long idComic, Long idLibro) {
         if (idComic != null && idComic != 0) {
-            Comic comic = comicRepository.findById(idComic).orElse(null) ;
+            Comic comic = comicRepository.findById(idComic).orElse(null);
             resena.setComic(comic);
         }
         if (idLibro != null && idLibro != 0) {
@@ -67,15 +67,17 @@ public class ResenaService {
         assert r != null;
         resena.setLibro(r.getLibro());
         resena.setComic(r.getComic());
-        return this.resenaRepository.findById(id).map( p -> (id.equals(resena.getId())  ?
-                                                            this.resenaRepository.save(resena) : null))
+        return this.resenaRepository.findById(id).map(p -> (id.equals(resena.getId()) ?
+                        this.resenaRepository.save(resena) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Resena()));
 
     }
 
     public void delete(Long id) {
-        this.resenaRepository.findById(id).map(p -> {this.resenaRepository.delete(p);
-                                                        return p;})
+        this.resenaRepository.findById(id).map(p -> {
+                    this.resenaRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Resena()));
     }
 

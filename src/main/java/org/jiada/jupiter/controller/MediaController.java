@@ -3,7 +3,6 @@ package org.jiada.jupiter.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.jiada.jupiter.service.StorageService;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,8 @@ public class MediaController {
     private final HttpServletRequest request;
 
     @PostMapping("/upload")
-    public Map<String, String> upload(@RequestParam("file") MultipartFile file,@RequestParam(value = "subfolder", required = false, defaultValue = "") String subfolder,@RequestParam(value = "filename", required = false) String filename) {
-        String path = storageService.store(file,subfolder,filename);
+    public Map<String, String> upload(@RequestParam("file") MultipartFile file, @RequestParam(value = "subfolder", required = false, defaultValue = "") String subfolder, @RequestParam(value = "filename", required = false) String filename) {
+        String path = storageService.store(file, subfolder, filename);
         String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
         String url = ServletUriComponentsBuilder
                 .fromHttpUrl(host)
@@ -36,11 +35,11 @@ public class MediaController {
                 .path(path)
                 .toUriString();
 
-        return Map.of("url",url);
+        return Map.of("url", url);
     }
 
     @GetMapping("{subfolder}/{filename:.+}")
-    public ResponseEntity<Resource> download(@PathVariable  String subfolder, @PathVariable String filename) throws IOException {
+    public ResponseEntity<Resource> download(@PathVariable String subfolder, @PathVariable String filename) throws IOException {
         String filePath = subfolder + "/" + filename;
         Resource file = storageService.loadAsResource(filePath);
         String contentType = Files.probeContentType(file.getFile().toPath());
@@ -52,8 +51,7 @@ public class MediaController {
 
     @GetMapping("{filename:.+}")
     public ResponseEntity<Resource> download(@PathVariable String filename) throws IOException {
-        String filePath = filename;
-        Resource file = storageService.loadAsResource(filePath);
+        Resource file = storageService.loadAsResource(filename);
         String contentType = Files.probeContentType(file.getFile().toPath());
         return ResponseEntity
                 .ok()

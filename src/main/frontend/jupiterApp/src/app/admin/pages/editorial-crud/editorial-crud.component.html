@@ -2,45 +2,44 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedEditorials()"
-        [disabled]="!selectedEditorials || !selectedEditorials.length" />
+        [disabled]="!selectedEditorials || !selectedEditorials.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="editoriales()"
-    dataKey="id"
-    [rows]="10"
-    styleClass="p-datatable-gridlines"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    [(selection)]="selectedEditorials"
     [loading]="loading()"
     [paginator]="true"
-    selectionMode="single"
-    [(selection)]="selectedEditorials"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
     [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="editoriales()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
+    selectionMode="single"
+    styleClass="p-datatable-gridlines"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -56,19 +55,19 @@
         <th></th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter nombre"
             field="nombre"
             inputmode
             placeholder="Buscar por nombre"
-            ariaLabel="Filter nombre" />
+            type="text"/>
         </th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-editorial>
+    <ng-template let-editorial pTemplate="body">
       <tr>
         <td>
-          <p-tableCheckbox [value]="editorial" />
+          <p-tableCheckbox [value]="editorial"/>
         </td>
         <td>
           {{ editorial.id }}
@@ -78,20 +77,20 @@
         </td>
         <td>
           <p-button
-            pRipple
-            icon="pi pi-pencil"
+            (click)="editEditorial(editorial)"
+            [outlined]="true"
+            [rounded]="true"
             class="mr-2"
-            [rounded]="true"
-            [outlined]="true"
-            severity="info"
-            (click)="editEditorial(editorial)" />
-          <p-button
+            icon="pi pi-pencil"
             pRipple
-            icon="pi pi-trash"
-            severity="danger"
-            [rounded]="true"
+            severity="info"/>
+          <p-button
+            (click)="deleteEditorial(editorial)"
             [outlined]="true"
-            (click)="deleteEditorial(editorial)" />
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
         </td>
       </tr>
     </ng-template>
@@ -102,7 +101,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5" class="text-center text-4xl">No se ha encontrado editoriales.</td>
+        <td class="text-center text-4xl" colspan="5">No se ha encontrado editoriales.</td>
       </tr>
     </ng-template>
 
@@ -112,22 +111,22 @@
   -->
   <p-dialog
     [(visible)]="editorialDialog"
+    [modal]="true"
     [style]="{ width: '450px' }"
     header="Detalle de Editorial"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
 
       <div class="field">
         <label for="nombre">Nombre</label>
         <input
-          type="text"
-          pInputText
-          id="nombre"
           [(ngModel)]="editorial.nombre"
+          autofocus
+          id="nombre"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !editorial.nombre">
+          type="text"/>
+        <small *ngIf="submitted() && !editorial.nombre" class="p-error">
           Nombre es requerido.
         </small>
       </div>
@@ -135,22 +134,22 @@
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveEditorial()"
         [text]="true"
-        (click)="saveEditorial()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

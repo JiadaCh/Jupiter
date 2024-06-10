@@ -31,30 +31,30 @@ public class Libro {
     @Column(name = "id_libro")
     private long id;
 
-    @Column(name="titulo",nullable = false)
+    @Column(name = "titulo", nullable = false)
     @NotBlank(message = "Introduzca un título")
     private String titulo;
 
-    @Column(name="ISBN",unique = true)
+    @Column(name = "ISBN", unique = true)
     private String ISBN;
 
-    @Column(name="sinopsis",nullable = false)
+    @Column(name = "sinopsis", nullable = false)
     @NotBlank(message = "No se puede poner el sinopsis en blanco")
     private String sinopsis;
 
-    @Column(name="idioma",nullable = false)
+    @Column(name = "idioma", nullable = false)
     @NotBlank(message = "Introduzca un idioma")
     private String idioma;
 
-    @Column(name="portada",nullable = false)
+    @Column(name = "portada", nullable = false)
     private String portada;
 
-    @Column(name="num_pag",nullable = false)
+    @Column(name = "num_pag", nullable = false)
     @Min(value = 10, message = "Introduzca el número de página. Mínimo de {min} páginas")
     @Positive
     private int numPag;
 
-    @Column(name="ano_publicacion",nullable = false)
+    @Column(name = "ano_publicacion", nullable = false)
     @Positive
     private int anoPublicacion;
 
@@ -62,7 +62,7 @@ public class Libro {
     @JoinTable(
             name = "libro_genero",
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
-            inverseJoinColumns = @JoinColumn(name="id_genero", referencedColumnName = "id_genero")
+            inverseJoinColumns = @JoinColumn(name = "id_genero", referencedColumnName = "id_genero")
     )
     @NotEmpty(message = "Tienes que poner un genero")
     private Set<Genero> generos = new HashSet<>();
@@ -71,7 +71,7 @@ public class Libro {
     @JoinTable(
             name = "libro_autor",
             joinColumns = @JoinColumn(name = "id_libro", referencedColumnName = "id_libro"),
-            inverseJoinColumns = @JoinColumn(name="id_autor", referencedColumnName = "id_autor")
+            inverseJoinColumns = @JoinColumn(name = "id_autor", referencedColumnName = "id_autor")
     )
     @NotEmpty(message = "Tienes que poner un autor")
     private Set<Autor> autores = new HashSet<>();

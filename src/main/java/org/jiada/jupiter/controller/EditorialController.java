@@ -20,13 +20,13 @@ public class EditorialController {
         this.editorialService = editorialService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Editorial> all() {
         log.info("Accediendo a todas los editoriales");
         return this.editorialService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Editorial newEditorial(@RequestBody @Valid Editorial editorial) {
         return this.editorialService.save(editorial);
     }

@@ -1,24 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.min.css";
-.p-menubar{
-    background:var(--cyan-500);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.158), 0 7px 9px rgba(0, 0, 0, 0.12), 0 20px 25px -8px rgba(0, 0, 0, 0.18);
+
+.p-menubar {
+  background: var(--cyan-500);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.158), 0 7px 9px rgba(0, 0, 0, 0.12), 0 20px 25px -8px rgba(0, 0, 0, 0.18);
 
 }
 
-.p-menubar .p-menuitem > .p-menuitem-content .p-menuitem-link{
+.p-menubar .p-menuitem > .p-menuitem-content .p-menuitem-link {
   color: black;
 }
 
-.p-checkbox .p-checkbox-box{
+.p-checkbox .p-checkbox-box {
   border-color: var(--cyan-300);
 }
 
-img{
+img {
   border-radius: var(--border-radius);
 }
-.p-tag{
+
+.p-tag {
   margin: 10px;
 }
 
@@ -30,4 +32,6 @@ img{
   margin: 10px 0;
   border: 2px solid #91b3f5;
 }
+
+
 

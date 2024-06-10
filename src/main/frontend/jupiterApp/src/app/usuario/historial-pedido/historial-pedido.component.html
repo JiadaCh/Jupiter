@@ -2,31 +2,30 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
 
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="pedidos()"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
     [loading]="loading()"
     [paginator]="true"
-    selectionMode="single"
-    styleClass="p-datatable-striped"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
-
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
     [showCurrentPageReport]="false"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="pedidos()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
+    selectionMode="single"
+
+    styleClass="p-datatable-striped"
   >
-    <ng-template pTemplate="header" let-columns>
-      <tr >
+    <ng-template let-columns pTemplate="header">
+      <tr>
         <th style="width:20%">Fecha</th>
         <th style="width:10%">Estado</th>
-        <th style="width:10%" >Precio</th>
+        <th style="width:10%">Precio</th>
         <th style="width:10%">Comprador</th>
         <th style="width:10%">Vendedor</th>
         <th style="width:22%">
@@ -37,30 +36,31 @@
       <tr>
         <th pSortableColumn="fecha" style="min-width: 10rem">
           <div class="flex justify-content-between align-items-center">
-            <p-sortIcon field="date" />
+            <p-sortIcon field="date"/>
           </div>
         </th>
         <th>
 
-          <p-columnFilter field="estado" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false" class="ml-auto">
+          <p-columnFilter [showAddButton]="false" [showMatchModes]="false" [showOperator]="false" class="ml-auto"
+                          display="menu" field="estado">
             <ng-template pTemplate="header">
               <div class="px-3 pt-3 pb-0">
                 <span class="font-bold">Estado del pedido</span>
               </div>
             </ng-template>
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <ng-template let-filter="filterCallback" let-value pTemplate="filter">
               <p-dropdown
+                (onChange)="filter($event.value)"
                 [ngModel]="value"
                 [options]=" estados"
-                (onChange)="filter($event.value)"
-                placeholder="Filtrar Estado"
-                [showClear]="true">
+                [showClear]="true"
+                placeholder="Filtrar Estado">
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
         </th>
         <th>
-          <p-columnFilter type="numeric" field="precio" display="menu" currency="EUR" />
+          <p-columnFilter currency="EUR" display="menu" field="precio" type="numeric"/>
         </th>
         <th></th>
         <th></th>
@@ -70,36 +70,36 @@
 
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-pedido let-columns="columns">
+    <ng-template let-columns="columns" let-pedido pTemplate="body">
       <tr>
         <td>
           {{ pedido.fecha }}
         </td>
         <td>
-          {{ pedido.estado}}
+          {{ pedido.estado }}
         </td>
         <td>
-          {{ pedido.precio | currency:"EUR":''}}€
+          {{ pedido.precio | currency:"EUR":'' }}€
         </td>
         <td>
-          @if (pedido.comprador.id == usuario?.id){
+          @if (pedido.comprador.id == usuario?.id) {
             Yo
           } @else {
-            <a [href]="'user/'+pedido.comprador.id+'/perfil'">{{ pedido.comprador.nombre}}</a>
+            <a [href]="'user/'+pedido.comprador.id+'/perfil'">{{ pedido.comprador.nombre }}</a>
           }
         </td>
         <td>
-          @if (pedido.vendedor.id == usuario?.id){
+          @if (pedido.vendedor.id == usuario?.id) {
             Yo
           } @else {
-            <a [href]="'user/'+pedido.vendedor.id+'/perfil'">{{ pedido.vendedor.nombre}}</a>
+            <a [href]="'user/'+pedido.vendedor.id+'/perfil'">{{ pedido.vendedor.nombre }}</a>
           }
         </td>
         <td>
-          <a [href]="'tienda/productos/producto/'+pedido.producto.id">{{ pedido.producto.nombre}}</a>
+          <a [href]="'tienda/productos/producto/'+pedido.producto.id">{{ pedido.producto.nombre }}</a>
         </td>
         <td>
-          @if(pedido.vendedor.id == usuario?.id){
+          @if (pedido.vendedor.id == usuario?.id) {
             <p-button
               pRipple
               icon="pi pi-pencil"
@@ -107,7 +107,7 @@
               [rounded]="true"
               [outlined]="true"
               severity="info"
-              (click)="editPedido(pedido)" />
+              (click)="editPedido(pedido)"/>
           }
         </td>
       </tr>
@@ -119,7 +119,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="9" class="text-center text-4xl">No se ha encontrado pedidos.</td>
+        <td class="text-center text-4xl" colspan="9">No se ha encontrado pedidos.</td>
       </tr>
     </ng-template>
 
@@ -129,44 +129,44 @@
   -->
   <p-dialog
     [(visible)]="pedidoDialog"
+    [modal]="true"
     [style]="{ width: '600px' }"
     header="Cambiar el estado del Pedido"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="body">
 
       <div class="field h-12rem">
         <label for="estado">Estado</label>
 
-          <p-dropdown
-            [(ngModel)]="pedido!.estado"
-            inputId="estado"
-            id="estado"
-            required
-            [options]="estados">
-          </p-dropdown>
+        <p-dropdown
+          [(ngModel)]="pedido!.estado"
+          [options]="estados"
+          id="estado"
+          inputId="estado"
+          required>
+        </p-dropdown>
 
       </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="savePedido()"
         [text]="true"
-        (click)="savePedido()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

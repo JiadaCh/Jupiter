@@ -29,8 +29,8 @@ export const routes: Routes = [
     title: 'Libro',
   },
   {
-    path:'tienda',
-    children:[
+    path: 'tienda',
+    children: [
       {
         path: 'productos',
         loadComponent: () => import('./tienda/productos/productos.component').then(m => m.ProductosComponent),
@@ -42,10 +42,10 @@ export const routes: Routes = [
         title: 'Tienda'
       },
       {
-        path:'', redirectTo: 'productos', pathMatch: 'full',
+        path: '', redirectTo: 'productos', pathMatch: 'full',
       },
       {
-        path:'**', redirectTo: 'productos', pathMatch: 'full',
+        path: '**', redirectTo: 'productos', pathMatch: 'full',
       }
     ]
   },
@@ -54,26 +54,26 @@ export const routes: Routes = [
     loadComponent: () => import('./usuario/usuario/usuario.component').then(m => m.UsuarioComponent),
     children: [
       {
-        path:':id/perfil',
+        path: ':id/perfil',
         loadComponent: () => import('./usuario/perfil/perfil.component').then(m => m.PerfilComponent),
         title: 'Perfil',
       },
       {
-        path:':id/pedidos',
+        path: ':id/pedidos',
         loadComponent: () => import('./usuario/historial-pedido/historial-pedido.component').then(m => m.HistorialPedidoComponent),
         title: 'Historial de pedidos',
       },
       {
-        path:':id/productos',
+        path: ':id/productos',
         loadComponent: () => import('./usuario/productos/productos.component').then(m => m.ProductosComponent),
         title: 'Productos',
       },
 
       {
-        path:'', redirectTo: 'login', pathMatch: 'full',
+        path: '', redirectTo: 'login', pathMatch: 'full',
       },
       {
-        path:'**', redirectTo: 'login', pathMatch: 'full',
+        path: '**', redirectTo: 'login', pathMatch: 'full',
       }
     ]
   },
@@ -81,40 +81,40 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
     title: 'Login',
-    canActivate:[
+    canActivate: [
       checkAuthGuard
     ]
   },
   {
     path: 'admin',
-    loadComponent:() =>  import('./admin/pages/admin/admin.component').then(m => m.AdminComponent),
+    loadComponent: () => import('./admin/pages/admin/admin.component').then(m => m.AdminComponent),
     title: 'Panel de administrador',
-    canActivate:[adminGuard],
+    canActivate: [adminGuard],
     children: [
       {
-        path:'autor',
+        path: 'autor',
         title: 'Autor',
-        loadComponent:() =>  import('./admin/pages/autor-crud/autor-crud.component').then(m => m.AutorCrudComponent),
-      },{
-        path:'comic',
+        loadComponent: () => import('./admin/pages/autor-crud/autor-crud.component').then(m => m.AutorCrudComponent),
+      }, {
+        path: 'comic',
         title: 'Comic',
-        loadComponent:() =>  import('./admin/pages/comic-crud/comic-crud.component').then(m => m.ComicCrudComponent),
-      },{
-        path:'libro',
+        loadComponent: () => import('./admin/pages/comic-crud/comic-crud.component').then(m => m.ComicCrudComponent),
+      }, {
+        path: 'libro',
         title: 'Libro',
-        loadComponent:() =>  import('./admin/pages/libro-crud/libro-crud.component').then(m => m.LibroCrudComponent),
-      },{
-        path:'editorial',
+        loadComponent: () => import('./admin/pages/libro-crud/libro-crud.component').then(m => m.LibroCrudComponent),
+      }, {
+        path: 'editorial',
         title: 'Editorial',
-        loadComponent:() =>  import('./admin/pages/editorial-crud/editorial-crud.component').then(m => m.EditorialCrudComponent),
-      },{
-        path:'genero',
+        loadComponent: () => import('./admin/pages/editorial-crud/editorial-crud.component').then(m => m.EditorialCrudComponent),
+      }, {
+        path: 'genero',
         title: 'Genero',
-        loadComponent:() =>  import('./admin/pages/genero-crud/genero-crud.component').then(m => m.GeneroCrudComponent),
-      },{
-        path:'usuario',
+        loadComponent: () => import('./admin/pages/genero-crud/genero-crud.component').then(m => m.GeneroCrudComponent),
+      }, {
+        path: 'usuario',
         title: 'Usuario',
-        loadComponent:() =>  import('./admin/pages/usuario-crud/usuario-crud.component').then(m => m.UsuarioCrudComponent),
+        loadComponent: () => import('./admin/pages/usuario-crud/usuario-crud.component').then(m => m.UsuarioCrudComponent),
       },
       {
         path: '',

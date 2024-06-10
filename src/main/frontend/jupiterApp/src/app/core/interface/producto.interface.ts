@@ -1,9 +1,9 @@
 export interface Producto {
-  id:          number;
+  id: number;
   nombre: string;
   descripcion: string;
-  precio:      number;
-  imagen:      string;
-  comprado:      boolean;
+  precio: number;
+  imagen: string;
+  comprado: boolean;
 }
 

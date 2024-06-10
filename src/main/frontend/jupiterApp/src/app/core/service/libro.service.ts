@@ -11,48 +11,50 @@ import {MessageService} from "primeng/api";
 export class LibroService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getLibro():Observable<Libro[]>{
-    return this.http.get<Libro[]>(this.baseUrl()+'/libros')
+  constructor(private messageService: MessageService) {
   }
 
-  getLibroById(id:string):Observable<Libro|undefined>{
-    return this.http.get<Libro>(this.baseUrl()+'/libros/'+id)
+  getLibro(): Observable<Libro[]> {
+    return this.http.get<Libro[]>(this.baseUrl() + '/libros')
+  }
+
+  getLibroById(id: string): Observable<Libro | undefined> {
+    return this.http.get<Libro>(this.baseUrl() + '/libros/' + id)
       .pipe(
-        catchError(error=> of(undefined))
+        catchError(() => of(undefined))
       );
   }
 
-  deleteLibro(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/libros/'+id)
+  deleteLibro(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + '/libros/' + id)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addLibro(libro:Libro):Observable<Boolean> {
-    return this.http.post<Libro>(this.baseUrl()+'/libros',libro)
+  addLibro(libro: Libro): Observable<Boolean> {
+    return this.http.post<Libro>(this.baseUrl() + '/libros', libro)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  updateLibro(libro:Libro):Observable<Boolean> {
-    if(!libro.id) throw Error('El id es requerido');
-    return this.http.put<Libro>(this.baseUrl()+'/libros/'+libro.id,libro)
+  updateLibro(libro: Libro): Observable<Boolean> {
+    if (!libro.id) throw Error('El id es requerido');
+    return this.http.put<Libro>(this.baseUrl() + '/libros/' + libro.id, libro)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }

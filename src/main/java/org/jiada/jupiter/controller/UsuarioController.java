@@ -26,7 +26,7 @@ public class UsuarioController {
         this.productoService = productoService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Usuario> all() {
         log.info("Accediendo a todas los usuarios");
         return this.usuarioService.all();
@@ -39,19 +39,19 @@ public class UsuarioController {
         return producto.getUsuario();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Usuario newUsuario(@RequestBody @Valid Usuario usuario) {
         return this.usuarioService.save(usuario);
     }
 
     @PostMapping({"/register"})
-    public ResponseEntity<Usuario>  Register(@RequestBody @Valid Usuario usuario) {
-        return  ResponseEntity.ok(this.usuarioService.save(usuario));
+    public ResponseEntity<Usuario> Register(@RequestBody @Valid Usuario usuario) {
+        return ResponseEntity.ok(this.usuarioService.save(usuario));
     }
 
     @GetMapping({"/login"})
     public Usuario Login(@RequestParam("usuario") String usuario, @RequestParam("contrasena") @Valid String contrasena) {
-        return  this.usuarioService.login(usuario,contrasena);
+        return this.usuarioService.login(usuario, contrasena);
     }
 
     @GetMapping("/{id}")

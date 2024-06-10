@@ -19,7 +19,7 @@ import static java.util.UUID.randomUUID;
 import static org.springframework.util.StringUtils.hasText;
 
 @Service
-public class StorageFileService implements StorageService{
+public class StorageFileService implements StorageService {
 
     @Value("${media.location}")
     private String medialocation;
@@ -40,7 +40,7 @@ public class StorageFileService implements StorageService{
 
             String originalFileName = file.getOriginalFilename();
 
-            if (newFileName.isBlank()){
+            if (newFileName.isBlank()) {
                 newFileName = originalFileName;
             }
 
@@ -55,7 +55,7 @@ public class StorageFileService implements StorageService{
             Path destination = subfolderPath.resolve(Paths.get(fileName + ".webp")).normalize().toAbsolutePath();
 
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream,destination, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
             }
 
             return subfolder + "/" + fileName + ".webp";
@@ -67,17 +67,17 @@ public class StorageFileService implements StorageService{
 
     @Override
     public Resource loadAsResource(String filename) {
-        try{
+        try {
             Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
-            if (resource.exists() || resource.isReadable()){
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }else {
+            } else {
                 throw new RuntimeException("Could not read file: " + filename);
             }
 
-        }catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }

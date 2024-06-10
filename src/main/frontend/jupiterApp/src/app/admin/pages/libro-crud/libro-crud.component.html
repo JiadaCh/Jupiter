@@ -2,59 +2,58 @@
   <!--
     mostrar mensajes de error/warn/successful
     -->
-  <p-toast />
+  <p-toast/>
   <!--
     barra de herramientas
     -->
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
       <p-button
-        pRipple
-        severity="success"
-        label="New"
-        icon="pi pi-plus"
+        (click)="openNew()"
         class="mr-2"
-        (click)="openNew()" />
-      <p-button
+        icon="pi pi-plus"
+        label="New"
         pRipple
-        severity="danger"
-        label="Delete"
-        icon="pi pi-trash"
+        severity="success"/>
+      <p-button
         (click)="deleteSelectedLibros()"
-        [disabled]="!selectedLibros || !selectedLibros.length" />
+        [disabled]="!selectedLibros || !selectedLibros.length"
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        severity="danger"/>
     </ng-template>
   </p-toolbar>
   <!--
     tabla  del objeto
     -->
   <p-table
-    #dt2
-    [value]="libros()"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    styleClass="p-datatable-gridlines"
-    [loading]="loading()"
-    [paginator]="true"
-    [scrollable]="true"
-    selectionMode="single"
     [(selection)]="selectedLibros"
     [columns]="selectedColumns"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    [loading]="loading()"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rows]="10"
+    [scrollable]="true"
     [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [value]="libros()"
+    currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+    dataKey="id"
+    selectionMode="single"
+    styleClass="p-datatable-gridlines"
   >
     <ng-template pTemplate="caption">
       <p-multiSelect
-        display="chip"
-        [options]="cols"
         [(ngModel)]="selectedColumns"
-        optionLabel="header"
-        selectedItemsLabel="{0} columns selected"
+        [options]="cols"
         [style]="{'min-width': '200px'}"
-        placeholder="Choose Columns" />
+        display="chip"
+        optionLabel="header"
+        placeholder="Choose Columns"
+        selectedItemsLabel="{0} columns selected"/>
     </ng-template>
-    <ng-template pTemplate="header" let-columns>
+    <ng-template let-columns pTemplate="header">
       <tr>
         <th style="width: 4rem;">
           <p-tableHeaderCheckbox/>
@@ -62,8 +61,8 @@
         <th style="width:8%">Id</th>
         <th style="width:15%">Titulo</th>
         <th style="width:auto">Portada</th>
-        <th style="width:auto" *ngFor="let col of columns">
-          {{col.header}}
+        <th *ngFor="let col of columns" style="width:auto">
+          {{ col.header }}
         </th>
         <th style="width:auto">Acción</th>
       </tr>
@@ -72,28 +71,28 @@
         <th></th>
         <th>
           <p-columnFilter
-            type="text"
+            ariaLabel="Filter titulo"
             field="titulo"
             inputmode
             placeholder="Buscar por titulo"
-            ariaLabel="Filter titulo" />
+            type="text"/>
         </th>
         <th></th>
         <th *ngFor="let col of columns">
           <p-columnFilter
-            type="text"
             [field]="col.field"
             [placeholder]="'Buscar por '+col.header"
+            type="text"
           />
         </th>
         <th></th>
 
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-libro let-columns="columns">
+    <ng-template let-columns="columns" let-libro pTemplate="body">
       <tr>
         <td>
-          <p-tableCheckbox [value]="libro" />
+          <p-tableCheckbox [value]="libro"/>
         </td>
         <td>
           {{ libro.id }}
@@ -102,35 +101,35 @@
           {{ libro.titulo }}
         </td>
         <td>
-          <p-image [src]="libro.portada" [alt]="libro.titulo" width="100"  [preview]="true"></p-image>
+          <p-image [alt]="libro.titulo" [preview]="true" [src]="libro.portada" width="100"></p-image>
         </td>
         <td *ngFor="let col of columns">
           @if (col.field == "editorial.nombre") {
-            {{ libro.editorial.nombre}}
-          } @else if (col.field == "autores.nombre"){
-            <shared-tag-autor [autores]="libro.autores" ></shared-tag-autor>
-          } @else if (col.field =="generos.nombre" ){
-            <shared-tag-genero [generos]="libro.generos" ></shared-tag-genero>
+            {{ libro.editorial.nombre }}
+          } @else if (col.field == "autores.nombre") {
+            <shared-tag-autor [autores]="libro.autores"></shared-tag-autor>
+          } @else if (col.field == "generos.nombre") {
+            <shared-tag-genero [generos]="libro.generos"></shared-tag-genero>
           } @else {
             {{ libro[col.field] }}
           }
         </td>
         <td>
           <p-button
-            pRipple
-            icon="pi pi-pencil"
+            (click)="editLibro(libro)"
+            [outlined]="true"
+            [rounded]="true"
             class="mr-2"
-            [rounded]="true"
-            [outlined]="true"
-            severity="info"
-            (click)="editLibro(libro)" />
-          <p-button
+            icon="pi pi-pencil"
             pRipple
-            icon="pi pi-trash"
-            severity="danger"
-            [rounded]="true"
+            severity="info"/>
+          <p-button
+            (click)="deleteLibro(libro)"
             [outlined]="true"
-            (click)="deleteLibro(libro)" />
+            [rounded]="true"
+            icon="pi pi-trash"
+            pRipple
+            severity="danger"/>
         </td>
       </tr>
     </ng-template>
@@ -141,7 +140,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="9" class="text-center text-4xl">No se ha encontrado libros.</td>
+        <td class="text-center text-4xl" colspan="9">No se ha encontrado libros.</td>
       </tr>
     </ng-template>
 
@@ -151,44 +150,44 @@
   -->
   <p-dialog
     [(visible)]="libroDialog"
+    [modal]="true"
     [style]="{ width: '600px' }"
     header="Detalle de Libro"
-    [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="flex justify-content-around">
-        <p-image [src]="libro.portada" width="300" [alt]="libro.titulo"  [preview]="true"></p-image>
+        <p-image [alt]="libro.titulo" [preview]="true" [src]="libro.portada" width="300"></p-image>
       </div>
 
       <div class="field">
         <label for="titulo">Titulo</label>
         <input
-          type="text"
-          pInputText
-          id="titulo"
           [(ngModel)]="libro.titulo"
+          autofocus
+          id="titulo"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !libro.titulo">
+          type="text"/>
+        <small *ngIf="submitted() && !libro.titulo" class="p-error">
           Titulo es requerido.
         </small>
       </div>
 
       <div class="field">
-        <label for="editorial">Editorial: {{libro!.editorial.nombre}}</label>
+        <label for="editorial">Editorial: {{ libro!.editorial.nombre }}</label>
 
         <p-dropdown
           [(ngModel)]="libro!.editorial"
-          inputId="id"
-          id="editorial"
-          required
-          optionLabel="nombre"
-          variant="filled"
           [filter]="true"
+          [options]="editorial"
           filterBy="nombre"
-          [options]="editorial">
+          id="editorial"
+          inputId="id"
+          optionLabel="nombre"
+          required
+          variant="filled">
         </p-dropdown>
-        <small class="p-error" *ngIf="submitted() && !libro.editorial.nombre">
+        <small *ngIf="submitted() && !libro.editorial.nombre" class="p-error">
           Hay que seleccionar un editorial
         </small>
       </div>
@@ -196,15 +195,15 @@
       <div class="field">
         <label for="generos">Genero</label>
         <p-multiSelect
-          [options]="generos"
           [(ngModel)]="libro.generos"
-          placeholder="Select generos"
-          optionLabel="nombre"
           [filter]="true"
+          [options]="generos"
+          [showClear]="true"
           display="chip"
           id="generos"
-          [showClear]="true" />
-        <small class="p-error" *ngIf="submitted() && libro.generos.length <= 0">
+          optionLabel="nombre"
+          placeholder="Select generos"/>
+        <small *ngIf="submitted() && libro.generos.length <= 0" class="p-error">
           Hay que seleccionar al menos un genero
         </small>
       </div>
@@ -212,15 +211,15 @@
       <div class="field">
         <label for="autor">Autor</label>
         <p-multiSelect
-          id="autor"
           [(ngModel)]="libro.autores"
-          [options]="autores"
-          placeholder="Select Autor"
-          optionLabel="nombre"
-          display="chip"
           [filter]="true"
-          [showClear]="true" />
-        <small class="p-error" *ngIf="submitted() && libro.autores.length <= 0">
+          [options]="autores"
+          [showClear]="true"
+          display="chip"
+          id="autor"
+          optionLabel="nombre"
+          placeholder="Select Autor"/>
+        <small *ngIf="submitted() && libro.autores.length <= 0" class="p-error">
           Hay que seleccionar al menos un autor
         </small>
       </div>
@@ -228,13 +227,13 @@
       <div class="field">
         <label for="idioma">Idioma</label>
         <input
-          type="text"
-          pInputText
-          id="idioma"
           [(ngModel)]="libro.idioma"
+          autofocus
+          id="idioma"
+          pInputText
           required
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && !libro.idioma">
+          type="text"/>
+        <small *ngIf="submitted() && !libro.idioma" class="p-error">
           Idioma es requerido.
         </small>
       </div>
@@ -242,23 +241,23 @@
       <div class="field">
         <label for="isbn">ISBN</label>
         <input
-          type="text"
-          pInputText
-          id="isbn"
           [(ngModel)]="libro.isbn"
-          autofocus />
+          autofocus
+          id="isbn"
+          pInputText
+          type="text"/>
       </div>
 
       <div class="field">
         <label for="numPag">Número de página</label>
         <input
-          type="text"
-          pInputText
-          id="numPag"
           [(ngModel)]="libro.numPag"
-          autofocus />
-        <small class="p-error" *ngIf="submitted() && libro.numPag < 10">
-          Idioma es requerido y tiene que tiener al menos 10.
+          autofocus
+          id="numPag"
+          pInputText
+          type="text"/>
+        <small *ngIf="submitted() && libro.numPag < 10" class="p-error">
+          Idioma es requerido y tiene que tener al menos 10.
         </small>
       </div>
 
@@ -266,12 +265,12 @@
         <label for="anoPublicacion">Año de publicación</label>
         <p-inputMask
           [(ngModel)]="libro.anoPublicacion"
+          id="anoPublicacion"
           mask="9999"
           placeholder="9999"
-          id="anoPublicacion"
-          slotChar="yyyy" />
+          slotChar="yyyy"/>
 
-        <small class="p-error" *ngIf="submitted() && !libro.anoPublicacion">
+        <small *ngIf="submitted() && !libro.anoPublicacion" class="p-error">
           Año de publicación es requerido.
         </small>
       </div>
@@ -279,13 +278,13 @@
       <div class="field">
         <label for="sinopsis">Sinopsis</label>
         <textarea
-          type="text"
-          pInputTextarea
-          id="sinopsis"
           [(ngModel)]="libro.sinopsis"
+          autofocus
+          id="sinopsis"
+          pInputTextarea
           required
-          autofocus ></textarea>
-        <small class="p-error" *ngIf="submitted() && !libro.sinopsis">
+          type="text"></textarea>
+        <small *ngIf="submitted() && !libro.sinopsis" class="p-error">
           Sinopsis es requerido.
         </small>
       </div>
@@ -293,12 +292,12 @@
       <p-fileUpload
         (onSelect)="onUpload($event)"
         [multiple]="false"
-        uploadIcon
+        [showCancelButton]="false"
+        [showUploadButton]="false"
         accept="image/*"
         label="Seleccionar imagen"
-        [showUploadButton]="false"
-        [showCancelButton]="false"
-        maxFileSize="1000000">
+        maxFileSize="1000000"
+        uploadIcon>
         <ng-template pTemplate="content">
           <ul *ngIf="uploadedFiles.length">
             <li *ngFor="let file of uploadedFiles">
@@ -311,22 +310,22 @@
 
     <ng-template pTemplate="footer">
       <p-button
-        pRipple
-        label="Cancel"
+        (click)="hideDialog()"
+        [text]="true"
         icon="pi pi-times"
-        [text]="true"
-        (click)="hideDialog()" />
+        label="Cancel"
+        pRipple/>
       <p-button
-        pRipple
-        label="Save"
-        icon="pi pi-check"
+        (click)="saveLibro()"
         [text]="true"
-        (click)="saveLibro()" />
+        icon="pi pi-check"
+        label="Save"
+        pRipple/>
     </ng-template>
   </p-dialog>
 
   <!--
     confirmación de eleminar
     -->
-  <p-confirmDialog [style]="{ width: '450px' }" />
+  <p-confirmDialog [style]="{ width: '450px' }"/>
 </div>

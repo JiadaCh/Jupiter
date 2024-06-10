@@ -1,17 +1,18 @@
-<p-menubar [model]="menuItems()" >
+<p-menubar [model]="menuItems()">
   <ng-template pTemplate="start">
-    <a routerLink="home" class="col" >
-      <img ngSrc="assets/logox32.png" alt="Jupiter" height="38" width="38" priority >
+    <a class="col" routerLink="home">
+      <img alt="Jupiter" height="32" ngSrc="assets/logox32.png" priority width="32">
     </a>
 
   </ng-template>
-  <ng-template pTemplate="item" let-menuItem let-root="root" class="text-black-alpha-70">
-    @if(menuItem.label != 'Panel de Administrador' || (menuItem.label == 'Panel de Administrador' && usuario() && usuario()?.rol == "admin" )){
+  <ng-template class="text-black-alpha-70" let-menuItem let-root="root" pTemplate="item">
+    @if (menuItem.label != 'Panel de Administrador' || (menuItem.label == 'Panel de Administrador' && usuario() && usuario()?.rol == "admin")) {
       <a pRipple class="flex align-items-center p-menuitem-link" [routerLink]="menuItem.routerLink">
         <span [class]="menuItem.icon"></span>
         <span class="ml-2">{{ menuItem.label }}</span>
-        <p-badge *ngIf="menuItem.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="menuItem.badge" />
-        <span *ngIf="menuItem.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ menuItem.shortcut }}</span>
+        <p-badge *ngIf="menuItem.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="menuItem.badge"/>
+        <span *ngIf="menuItem.shortcut"
+              class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ menuItem.shortcut }}</span>
         <i *ngIf="menuItem.items" [ngClass]="['pi', root ? 'pi-angle-down ml-2' : 'pi-angle-right ml-auto']"></i>
       </a>
     }
@@ -20,18 +21,19 @@
 
   <ng-template pTemplate="end">
     <div class="flex align-items-center gap-2">
-      @if (usuario()){
+      @if (usuario()) {
         <div class="text-black-alpha-70">
-          {{usuario()?.nombre}}
+          {{ usuario()?.nombre }}
         </div>
-        <div class="col-2" >
-          <p-avatar class=" col-1 " [image]="usuario()?.imagen" shape="circle" size="normal" (click)="menu.toggle($event)"/>
-          <p-tieredMenu #menu [model]="items" [popup]="true" />
+        <div class="col-2">
+          <p-avatar class=" col-1 " [image]="usuario()?.imagen" shape="circle" size="normal"
+                    (click)="menu.toggle($event)"/>
+          <p-tieredMenu #menu [model]="items" [popup]="true"/>
         </div>
 
         <p-button class=" col " (onClick)="logout()"><i class="pi pi-sign-out"> Cerrar sesión</i></p-button>
       } @else {
-        <a class=" col " href="./login" >
+        <a class=" col " href="./login">
           <p-button><i class="pi pi-sign-in"> Iniciar sesión</i></p-button>
         </a>
       }

@@ -23,26 +23,26 @@ import {SkeletonModule} from "primeng/skeleton";
   ],
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
+  libros: Libro[] = [];
+  comics: Comic[] = [];
+  productos: Producto[] = [];
   private comicService = inject(ComicService);
   private libroService = inject(LibroService);
   private productoService = inject(ProductoService);
 
-  libros:Libro[] = [];
-  comics:Comic[] = [];
-  productos:Producto[] = [];
   ngOnInit(): void {
-    this.comicService.getComic().subscribe(res =>{
+    this.comicService.getComic().subscribe(res => {
       this.comics = res
-    } );
+    });
 
-    this.libroService.getLibro().subscribe(res =>{
+    this.libroService.getLibro().subscribe(res => {
       this.libros = res
-    } );
+    });
 
-    this.productoService.getProducto().subscribe(res =>{
+    this.productoService.getProducto().subscribe(res => {
       this.productos = res
-    } );
+    });
   }
 
 }

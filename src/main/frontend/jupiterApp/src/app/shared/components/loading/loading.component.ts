@@ -4,9 +4,9 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 @Component({
   selector: 'shared-loading',
   standalone: true,
-    imports: [
-        ProgressSpinnerModule
-    ],
+  imports: [
+    ProgressSpinnerModule
+  ],
   templateUrl: './loading.component.html',
   styles: ``
 })

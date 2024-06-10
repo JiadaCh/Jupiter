@@ -24,22 +24,22 @@ import java.util.Set;
         sequenceName = "autor_seq",
         allocationSize = 1
 )
-public class Autor{
+public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AutorSeq")
     @Column(name = "id_autor")
     private long id;
 
-    @Column(name="nombre",nullable = false)
+    @Column(name = "nombre", nullable = false)
     @NotBlank(message = "Introduzca un nombre")
     private String nombre;
 
-    @Column(name="apellido1",nullable = false)
+    @Column(name = "apellido1", nullable = false)
     @NotBlank(message = "Introduzca un apellido")
     private String apellido1;
 
-    @Column(name="apellido2")
+    @Column(name = "apellido2")
     private String apellido2;
 
     @ManyToMany(mappedBy = "autores")

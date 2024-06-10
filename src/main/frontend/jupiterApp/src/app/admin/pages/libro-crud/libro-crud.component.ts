@@ -58,86 +58,88 @@ import {CommonModule} from "@angular/common";
   templateUrl: './libro-crud.component.html',
   styleUrl: './libro-crud.component.css',
 })
-export class LibroCrudComponent implements OnInit{
+export class LibroCrudComponent implements OnInit {
+  loading = signal(true);
+  libros = signal<Libro[]>([]);
+  editorial: Editorial[] = [];
+  generos: Genero[] = [];
+  autores: Autor[] = [];
+  selectedLibros: Libro[] = [];
+  cols: Column[] = [];
+  selectedColumns: Column[] = [];
+  uploadedFiles: any[] = [];
+  libro!: Libro;
+  editar = signal(false);
+  submitted = signal(false);
+  libroDialog = signal(false);
   private libroService = inject(LibroService);
   private editorialService = inject(EditorialService);
   private autorService = inject(AutorService);
   private mediaService = inject(MediaService);
   private generoService = inject(GeneroService);
 
-  loading= signal(true);
-  libros = signal<Libro[]>([]);
-  editorial:Editorial[] = [];
-  generos:Genero[] = [];
-  autores:Autor[] = [];
-
-  selectedLibros:Libro[] = [];
-
-
-  cols: Column[] = [];
-
-  selectedColumns: Column[] = [];
-
-  uploadedFiles: any[] = [];
-  libro!: Libro;
-
-  editar = signal(false);
-  submitted = signal(false);
-  libroDialog = signal(false);
-
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
 
-    this.editorialService.getEditorial().subscribe(res=> this.editorial = res);
-    this.generoService.getGenero().subscribe(res=> this.generos = res);
-    this.autorService.getAutor().subscribe(res=> this.autores = res);
+    this.editorialService.getEditorial().subscribe(res => this.editorial = res);
+    this.generoService.getGenero().subscribe(res => this.generos = res);
+    this.autorService.getAutor().subscribe(res => this.autores = res);
 
     this.cols = [
-      { field: 'idioma', header: 'Idioma' },
-      { field: 'sinopsis', header: 'Sinopsis' },
-      { field: 'editorial.nombre', header: 'Editorial' },
-      { field: 'anoPublicacion', header: 'Año Publicación' },
-      { field: 'isbn', header: 'ISBN' },
-      { field: 'numPag', header: 'Número de página' },
-      { field: 'generos.nombre', header: 'Géneros' },
-      { field: 'autores.nombre', header: 'Autor' }
+      {field: 'idioma', header: 'Idioma'},
+      {field: 'sinopsis', header: 'Sinopsis'},
+      {field: 'editorial.nombre', header: 'Editorial'},
+      {field: 'anoPublicacion', header: 'Año Publicación'},
+      {field: 'isbn', header: 'ISBN'},
+      {field: 'numPag', header: 'Número de página'},
+      {field: 'generos.nombre', header: 'Géneros'},
+      {field: 'autores.nombre', header: 'Autor'}
     ];
 
     this.selectedColumns = [this.cols[0]];
   }
 
-  cargarDatos(){
+  cargarDatos() {
     this.loading.set(true);
 
     this.libroService.getLibro().pipe(
       delay(500)
-    ).subscribe( libro =>{
+    ).subscribe(libro => {
       this.libros.set(libro)
       this.loading.set(false);
-    } )
+    })
 
   }
 
   onUpload(event: FileSelectEvent) {
 
     const file = event.files[0];
-    if (file){
+    if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
 
       formdata.append('subfolder', "libro");
-      formdata.append('filename', "libro-"+this.libro.titulo+"-"+this.libro.anoPublicacion+"-"+this.libro.numPag);
-      this.mediaService.uploadFile(formdata).subscribe(res=>{
+      formdata.append('filename', "libro-" + this.libro.titulo + "-" + this.libro.anoPublicacion + "-" + this.libro.numPag);
+      this.mediaService.uploadFile(formdata).subscribe(res => {
         this.libro.portada = res.url;
-        this.messageService.add({severity: 'info', summary: 'Cambio realizado con éxito', detail: 'Refresca la pagina para ver el cambio'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cambio realizado con éxito',
+          detail: 'Refresca la pagina para ver el cambio'
+        });
       })
     }
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
@@ -147,10 +149,10 @@ export class LibroCrudComponent implements OnInit{
         nombre: ""
       },
       anoPublicacion: 0, autores: [], generos: [], id: 0, idioma: "", numPag: 0, sinopsis: "", titulo: "",
-      portada:"http://localhost:8080/media/libro/default-image.png"
+      portada: "http://localhost:8080/media/libro/default-image.png"
     };
     this.submitted.set(false);
-    this.libroDialog.set(true) ;
+    this.libroDialog.set(true);
   }
 
   deleteSelectedLibros() {
@@ -159,7 +161,7 @@ export class LibroCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let libro of this.selectedLibros){
+        for (let libro of this.selectedLibros) {
           this.libroService.deleteLibro(libro.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -167,14 +169,14 @@ export class LibroCrudComponent implements OnInit{
           })
         }
         this.selectedLibros = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Libroes Eliminados', life: 3000 });
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Libroes Eliminados', life: 3000});
       }
     });
   }
 
   editLibro(libro: Libro) {
-    this.libro = { ...libro };
-    this.libroDialog.set(true) ;
+    this.libro = {...libro};
+    this.libroDialog.set(true);
     this.editar.set(true)
 
   }
@@ -186,10 +188,15 @@ export class LibroCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.libroService.deleteLibro(libro.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Libro eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Libro eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -198,43 +205,53 @@ export class LibroCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.libroDialog.set(false) ;
+    this.libroDialog.set(false);
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveLibro() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el libro seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.libroService.updateLibro(this.libro).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.libroDialog.set(false) ;
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
+              this.libroDialog.set(false);
               this.editar.set(false);
               this.cargarDatos()
               this.submitted.set(false);
-            }else{
+            } else {
               this.showError()
             }
           })
 
         }
       });
-    }else{
+    } else {
 
       this.libroService.addLibro(this.libro).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.libroDialog.set(false);
           this.cargarDatos();
           this.submitted.set(false);
 
-        }else{
+        } else {
           this.showError();
         }
       })

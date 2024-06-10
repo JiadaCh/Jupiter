@@ -64,23 +64,22 @@ import {Libro} from "../../core/interface/libros.interface";
   templateUrl: './detalle-libro.component.html',
   styles: ``
 })
-export class DetalleLibroComponent implements OnInit{
+export class DetalleLibroComponent implements OnInit {
+  libro: Libro | undefined;
+  calificacion: number = 0;
+  mediaCalificacion: number = 0;
+  resenas: Resena[] = [];
+  resena: Resena | undefined;
+  editar = signal(false);
+  submitted = signal(false);
+  resenaDialog: boolean = false;
   private libroService = inject(LibroService);
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  usuarioLoageado = this.authService.user();
   private resenaService = inject(ResenaService);
   private router = inject(Router);
   private messageService = inject(MessageService);
-  usuarioLoageado = this.authService.user();
-  libro: Libro|undefined;
-  calificacion:number  = 0;
-  mediaCalificacion:number  = 0;
-  resenas:Resena[] = [];
-  resena:Resena|undefined;
-
-  editar = signal(false);
-  submitted = signal(false);
-  resenaDialog:boolean = false;
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -89,13 +88,13 @@ export class DetalleLibroComponent implements OnInit{
     this.activatedRoute.params
       .pipe(
         delay(2500),
-        switchMap(({ id }) => this.libroService.getLibroById(id))
+        switchMap(({id}) => this.libroService.getLibroById(id))
       )
       .subscribe((libro) => {
         if (!libro) return this.router.navigate(['/libros']);
-        this.resenaService.getResenaLibro(libro).subscribe((res)=>{
+        this.resenaService.getResenaLibro(libro).subscribe((res) => {
           this.resenas = res;
-          for (let resena of res){
+          for (let resena of res) {
             this.calificacion += resena.calificacion;
           }
           this.getCalificacion();
@@ -109,27 +108,33 @@ export class DetalleLibroComponent implements OnInit{
         return;
       });
   }
-  getCalificacion(){
-    this.mediaCalificacion = this.calificacion/this.resenas.length;
+
+  getCalificacion() {
+    this.mediaCalificacion = this.calificacion / this.resenas.length;
   }
+
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
-    if (this.usuarioLoageado){
+    if (this.usuarioLoageado) {
       this.resena = {
         calificacion: 0, id: 0, texto: "", usuario: this.usuarioLoageado
       };
       this.submitted.set(false);
-      this.resenaDialog = true ;
-    }else{
-      this.router.navigate(['/login']);
+      this.resenaDialog = true;
+    } else {
+      this.router.navigate(['/login']).then();
     }
   }
 
   editResena() {
-    this.resenaDialog = true ;
+    this.resenaDialog = true;
     this.editar.set(true)
   }
 
@@ -140,12 +145,17 @@ export class DetalleLibroComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.resenaService.deleteResena(resena.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Resena eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Resena eleminado',
+              life: 3000
+            });
             this.resena = undefined;
             this.calificacion -= resena.calificacion;
             this.getCalificacion();
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -154,7 +164,7 @@ export class DetalleLibroComponent implements OnInit{
   }
 
   hideDialog() {
-    this.resenaDialog = false ;
+    this.resenaDialog = false;
     this.submitted.set(false);
     this.editar.set(false);
   }
@@ -162,46 +172,53 @@ export class DetalleLibroComponent implements OnInit{
   saveResena() {
     this.submitted.set(true);
 
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el reseña seleccionados?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.resenaService.updateResena(this.resena!).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
-              this.resenaDialog = false ;
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
+              this.resenaDialog = false;
               this.editar.set(false);
               this.submitted.set(false);
-            }else{
+            } else {
               this.showError()
             }
           })
 
         }
       });
-    }else{
+    } else {
 
-      this.resenaService.addResena(this.resena!,0,this.libro!.id).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+      this.resenaService.addResena(this.resena!, 0, this.libro!.id).subscribe(value => {
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.resenaDialog = false;
           this.submitted.set(false);
-          this.resenaService.getResenaLibroUsuario(this.libro!,this.usuarioLoageado!).subscribe((res)=>{
+          this.resenaService.getResenaLibroUsuario(this.libro!, this.usuarioLoageado!).subscribe((res) => {
             this.resena = res;
             this.calificacion += res.calificacion;
             this.getCalificacion();
           })
-        }else{
+        } else {
           this.showError();
         }
       })
     }
   }
-
-
-
 
 
 }

@@ -26,46 +26,48 @@ import {delay} from "rxjs";
   templateUrl: './genero-crud.component.html',
   styleUrl: './genero-crud.component.css',
 })
-export class GeneroCrudComponent implements OnInit{
-  private generoService = inject(GeneroService);
+export class GeneroCrudComponent implements OnInit {
   generos = signal<Genero[]>([]);
-
-  loading= signal(true);
-  selectedGeneros:Genero[] = [];
-
+  loading = signal(true);
+  selectedGeneros: Genero[] = [];
   genero!: Genero;
-
   editar = signal(false);
   submitted = signal(false);
   generoDialog = signal(false);
+  private generoService = inject(GeneroService);
 
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  }
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  cargarDatos(){
+  cargarDatos() {
 
     this.loading.set(true);
 
     this.generoService.getGenero().pipe(
       delay(500)
-    ).subscribe( genero =>{
+    ).subscribe(genero => {
       this.generos.set(genero)
       this.loading.set(false);
-    } )
+    })
   }
 
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
   openNew() {
     this.genero = {id: 0, nombre: ""};
     this.submitted.set(false);
-    this.generoDialog.set(true) ;
+    this.generoDialog.set(true);
   }
 
   deleteSelectedGeneros() {
@@ -74,7 +76,7 @@ export class GeneroCrudComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        for (let genero of this.selectedGeneros){
+        for (let genero of this.selectedGeneros) {
           this.generoService.deleteGenero(genero.id).subscribe(value => {
             if (!value)
               this.showError()
@@ -83,14 +85,19 @@ export class GeneroCrudComponent implements OnInit{
           })
         }
         this.selectedGeneros = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Generoes Eliminados', life: 3000 });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Generoes Eliminados',
+          life: 3000
+        });
       }
     });
   }
 
   editGenero(genero: Genero) {
-    this.genero = { ...genero };
-    this.generoDialog.set(true) ;
+    this.genero = {...genero};
+    this.generoDialog.set(true);
     this.editar.set(true)
   }
 
@@ -101,10 +108,15 @@ export class GeneroCrudComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.generoService.deleteGenero(genero.id).subscribe(value => {
-          if (value){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Genero eleminado', life: 3000 });
+          if (value) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Genero eleminado',
+              life: 3000
+            });
             this.cargarDatos()
-          }else{
+          } else {
             this.showError()
           }
         })
@@ -113,14 +125,14 @@ export class GeneroCrudComponent implements OnInit{
   }
 
   hideDialog() {
-    this.generoDialog.set(false) ;
+    this.generoDialog.set(false);
     this.submitted.set(false);
     this.editar.set(false);
   }
 
   saveGenero() {
     this.submitted.set(true);
-    if (this.editar()){
+    if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el genero seleccionados?',
         header: 'Confirm',
@@ -128,29 +140,39 @@ export class GeneroCrudComponent implements OnInit{
         accept: () => {
           this.editar.set(false);
           this.generoService.updateGenero(this.genero).subscribe(value => {
-            if (value){
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha realizado el cambio', life: 3000 });
+            if (value) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Se ha realizado el cambio',
+                life: 3000
+              });
               this.submitted.set(true);
-              this.generoDialog.set(false) ;
+              this.generoDialog.set(false);
               this.cargarDatos()
               this.submitted.set(false);
-            }else{
+            } else {
               this.showError()
             }
           })
         },
-        reject:() =>{
+        reject: () => {
           this.editar.set(false);
         }
       });
-    }else{
+    } else {
       this.generoService.addGenero(this.genero).subscribe(value => {
-        if (value){
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado correctamente', life: 3000 });
+        if (value) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Se ha creado correctamente',
+            life: 3000
+          });
           this.generoDialog.set(false);
           this.cargarDatos();
           this.submitted.set(false);
-        }else{
+        } else {
           this.showError();
         }
       })

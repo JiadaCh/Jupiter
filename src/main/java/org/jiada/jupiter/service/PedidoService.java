@@ -23,8 +23,8 @@ public class PedidoService {
     }
 
     public List<Pedido> findByUsuario(Long idUsuario) {
-        this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario,idUsuario).forEach(pedido -> System.out.println(pedido.getFecha()));
-        return this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario,idUsuario);
+        this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario, idUsuario).forEach(pedido -> System.out.println(pedido.getFecha()));
+        return this.pedidoRepository.findDistinctByVendedorIdOrCompradorId(idUsuario, idUsuario);
     }
 
     public Pedido save(Pedido pedido) {
@@ -39,15 +39,17 @@ public class PedidoService {
 
     public Pedido replace(Long id, Pedido pedido) {
 
-        return this.pedidoRepository.findById(id).map( p -> (id.equals(pedido.getId())  ?
-                                                            this.pedidoRepository.save(pedido) : null))
+        return this.pedidoRepository.findById(id).map(p -> (id.equals(pedido.getId()) ?
+                        this.pedidoRepository.save(pedido) : null))
                 .orElseThrow(() -> new EntityNotFoundException(id, new Pedido()));
 
     }
 
     public void delete(Long id) {
-        this.pedidoRepository.findById(id).map(p -> {this.pedidoRepository.delete(p);
-                                                        return p;})
+        this.pedidoRepository.findById(id).map(p -> {
+                    this.pedidoRepository.delete(p);
+                    return p;
+                })
                 .orElseThrow(() -> new EntityNotFoundException(id, new Pedido()));
     }
 

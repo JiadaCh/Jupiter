@@ -28,11 +28,11 @@ import java.util.Set;
 public class Editorial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "editorial_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "editorial_seq")
     @Column(name = "id_editorial")
     private long id;
 
-    @Column(name="nombre",nullable = false)
+    @Column(name = "nombre", nullable = false)
     @NotBlank(message = "Introduzca el nombre del editorial")
     private String nombre;
 

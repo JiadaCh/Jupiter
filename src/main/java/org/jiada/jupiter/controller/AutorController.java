@@ -21,14 +21,14 @@ public class AutorController {
         this.autorService = autorService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Autor> all() {
         System.out.println("ASd");
         log.info("Accediendo a todas los autores");
         return this.autorService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Autor newAutor(@RequestBody @Valid Autor autor) {
         return this.autorService.save(autor);
     }

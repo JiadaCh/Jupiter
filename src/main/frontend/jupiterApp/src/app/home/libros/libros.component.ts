@@ -43,28 +43,28 @@ import {Libro} from "../../core/interface/libros.interface";
   templateUrl: './libros.component.html',
   styles: ``
 })
-export class LibrosComponent implements OnInit{
+export class LibrosComponent implements OnInit {
+  rows: number = 12;
+  layout: "grid" | "list" = 'grid';
+  generos: Genero[] = [];
+  autores: Autor[] = [];
+  libros: Libro[] = [];
+  editoriales: Editorial[] = [];
+  filteredItems: Libro[] = [];
+  selectedAutores: Autor[] = [];
+  selectedGeneros: Genero[] = [];
+  selectedEditorial: Editorial[] = [];
+  searchText: string = '';
   private libroService = inject(LibroService);
   private generoService = inject(GeneroService);
   private autorService = inject(AutorService);
   private editorialService = inject(EditorialService);
-  rows:number=12;
-  layout:"grid" | "list" = 'grid';
-  generos:Genero[] = [];
-  autores: Autor[] = [];
-  libros:Libro[] = [];
-  editoriales:Editorial[] = [];
-  filteredItems: Libro[] = [];
-  selectedAutores: Autor[] = [];
-  selectedGeneros:Genero[] = [];
-  selectedEditorial:Editorial[] = [];
-  searchText: string = '';
 
   ngOnInit(): void {
-    this.libroService.getLibro().subscribe(res =>{
+    this.libroService.getLibro().subscribe(res => {
       this.libros = res
       this.filterItems();
-    } );
+    });
     this.editorialService.getEditorial().subscribe(res => this.editoriales = res);
     this.generoService.getGenero().subscribe(res => this.generos = res);
     this.autorService.getAutor().subscribe(res => this.autores = res);
@@ -78,14 +78,17 @@ export class LibrosComponent implements OnInit{
   onSearchTextChange() {
     this.filterItems();
   }
+
   onFilterAutor(event: MultiSelectChangeEvent) {
     this.selectedAutores = event.value;
     this.filterItems();
   }
+
   onFilterEditorial(event: MultiSelectChangeEvent) {
     this.selectedEditorial = event.value;
     this.filterItems();
   }
+
   filterItems() {
     let filtered = this.libros;
 

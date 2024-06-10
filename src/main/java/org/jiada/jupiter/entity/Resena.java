@@ -2,8 +2,6 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,11 +27,11 @@ public class Resena {
     @Column(name = "id_resena")
     private long id;
 
-    @Column(name="calificacion",nullable = false)
+    @Column(name = "calificacion", nullable = false)
     @Length(min = 1, max = 5, message = "Debe tener una calificación entre {min} y {max}")
     private double calificacion;
 
-    @Column(name="texto",nullable = false)
+    @Column(name = "texto", nullable = false)
     private String texto;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -42,52 +42,68 @@ import {ToastModule} from "primeng/toast";
   styles: ``
 })
 export class LoginComponent {
-  private authService = inject(AuthService);
-  private router=inject(Router);
-  opcion :string = "";
-  contra:string="";
-  usuarioDialog:boolean =false;
-  usuario!:Usuario;
+  opcion: string = "";
+  contra: string = "";
+  usuarioDialog: boolean = false;
+  usuario!: Usuario;
   submitted = signal(false);
-  constructor(private messageService: MessageService,private confirmationService: ConfirmationService) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  onNew(){
-    this.usuario = {
-      contrasena: "", correo: "", id: 0, imagen: "http://localhost:8080/media/usuario/default-perfil.webp", nombre: "", rol: "usuario"
-    };
-    this.submitted.set(false);
-    this.usuarioDialog = true ;
+  constructor(private messageService: MessageService) {
   }
 
-  hideDialog(){
+  onNew() {
+    this.usuario = {
+      contrasena: "",
+      correo: "",
+      id: 0,
+      imagen: "http://localhost:8080/media/usuario/default-perfil.webp",
+      nombre: "",
+      rol: "usuario"
+    };
+    this.submitted.set(false);
+    this.usuarioDialog = true;
+  }
+
+  hideDialog() {
     this.submitted.set(false);
     this.usuarioDialog = false;
   }
 
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Se ha ocurrido un error al hacer la operación' });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Se ha ocurrido un error al hacer la operación'
+    });
   }
 
-  onLogin():void {
-    this.authService.login(this.opcion,this.contra)
-      .subscribe(user=>{
-        if (user){
+  onLogin(): void {
+    this.authService.login(this.opcion, this.contra)
+      .subscribe(user => {
+        if (user) {
           this.authService.saveToLocalStorage(user);
-          this.router.navigate(['']);
+          this.router.navigate(['']).then();
         }
 
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta' });
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta'});
       })
   }
 
-  onRegister(){
+  onRegister() {
     this.submitted.set(true);
     this.authService.register(this.usuario).subscribe(value => {
-      if (value){
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Se ha creado registrado correctamente el usuario', life: 3000 });
+      if (value) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Se ha creado registrado correctamente el usuario',
+          life: 3000
+        });
         this.usuarioDialog = false;
         this.submitted.set(true);
-      }else{
+      } else {
         this.showError();
       }
     })

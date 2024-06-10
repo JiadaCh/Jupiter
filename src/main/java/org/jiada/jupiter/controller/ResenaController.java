@@ -20,15 +20,15 @@ public class ResenaController {
         this.resenaService = resenaService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public List<Resena> all() {
         log.info("Accediendo a todas los resenas");
         return this.resenaService.all();
     }
 
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     public Resena newResena(@RequestBody @Valid Resena resena, @RequestParam("idComic") Long idComic, @RequestParam("idLibro") Long idLibro) {
-        return this.resenaService.save(resena,idComic,idLibro);
+        return this.resenaService.save(resena, idComic, idLibro);
     }
 
     @GetMapping("/comics")
@@ -42,13 +42,13 @@ public class ResenaController {
     }
 
     @GetMapping("/comics/{id}/usuarios")
-    public Resena findByComicUsuario(@PathVariable("id") Long idComic,@RequestParam("id") Long idUsuario) {
-        return this.resenaService.findByComicIdAndUsuarioId(idComic,idUsuario);
+    public Resena findByComicUsuario(@PathVariable("id") Long idComic, @RequestParam("id") Long idUsuario) {
+        return this.resenaService.findByComicIdAndUsuarioId(idComic, idUsuario);
     }
 
     @GetMapping("/libros/{id}/usuarios")
-    public Resena findByLibroUsuario(@PathVariable("id") Long idLibro,@RequestParam("id") Long idUsuario) {
-        return this.resenaService.findByLibroIdAndUsuarioId(idLibro,idUsuario);
+    public Resena findByLibroUsuario(@PathVariable("id") Long idLibro, @RequestParam("id") Long idUsuario) {
+        return this.resenaService.findByLibroIdAndUsuarioId(idLibro, idUsuario);
     }
 
     @GetMapping("/{id}")

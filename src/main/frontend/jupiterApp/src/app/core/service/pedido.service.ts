@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Pedido} from "../interface/pedido.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
-import {Comic} from "../interface/comic.interface";
 import {Usuario} from "../interface/usuario.interface";
 
 @Injectable({
@@ -12,33 +11,31 @@ import {Usuario} from "../interface/usuario.interface";
 export class PedidoService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor() {}
 
-  getPedido():Observable<Pedido[]>{
-    return this.http.get<Pedido[]>(this.baseUrl()+'/pedidos')
+  constructor() {
   }
 
-  getPedidoByUsuario(usuario: Usuario | undefined):Observable<Pedido[]>{
-    if(usuario && !usuario.id) throw Error('Usuario requerido');
+  getPedidoByUsuario(usuario: Usuario | undefined): Observable<Pedido[]> {
+    if (usuario && !usuario.id) throw Error('Usuario requerido');
     // @ts-ignore
-    return this.http.get<Pedido[]>(this.baseUrl()+'/pedidos/usuario?idUsuario='+usuario.id).pipe(
+    return this.http.get<Pedido[]>(this.baseUrl() + '/pedidos/usuario?idUsuario=' + usuario.id).pipe(
       catchError(() => of([]))
     )
   }
 
-  addPedido(pedido:Pedido):Observable<Boolean> {
-    return this.http.post<Pedido>(this.baseUrl()+'/pedidos',pedido)
+  addPedido(pedido: Pedido): Observable<Boolean> {
+    return this.http.post<Pedido>(this.baseUrl() + '/pedidos', pedido)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  updatePedido(pedido:Pedido):Observable<Boolean> {
-    if(!pedido.id) throw Error('El id es requerido');
-    return this.http.put<Pedido>(this.baseUrl()+'/pedidos/'+pedido.id,pedido)
+  updatePedido(pedido: Pedido): Observable<Boolean> {
+    if (!pedido.id) throw Error('El id es requerido');
+    return this.http.put<Pedido>(this.baseUrl() + '/pedidos/' + pedido.id, pedido)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }

@@ -10,49 +10,50 @@ import {MessageService} from "primeng/api";
   providedIn: 'root'
 })
 export class AuthService {
+  user = signal<Usuario | undefined>(undefined);
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
   private usuarioService = inject(UsuarioService);
-  user = signal<Usuario|undefined>(undefined);
 
-  constructor(private messageService: MessageService) {}
-
-  login(usuario:string,contra:string):Observable<Usuario>{
-    return this.http.get<Usuario>(this.baseUrl()+`/usuarios/login?usuario=${usuario}&contrasena=${contra}`)
+  constructor(private messageService: MessageService) {
   }
 
-  register(usuario:Usuario):Observable<Boolean> {
-    return this.http.post<Usuario>(this.baseUrl()+'/usuarios',usuario)
+  login(usuario: string, contra: string): Observable<Usuario> {
+    return this.http.get<Usuario>(this.baseUrl() + `/usuarios/login?usuario=${usuario}&contrasena=${contra}`)
+  }
+
+  register(usuario: Usuario): Observable<Boolean> {
+    return this.http.post<Usuario>(this.baseUrl() + '/usuarios', usuario)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  saveToLocalStorage(usuario:Usuario):void {
+  saveToLocalStorage(usuario: Usuario): void {
     this.user.set(usuario);
     localStorage.setItem('sessionToken', String(usuario.id));
   }
 
-  logout():void {
+  logout(): void {
     this.user.set(undefined);
     localStorage.removeItem('sessionToken');
   }
 
-   loadLocalStorage(){
+  loadLocalStorage() {
     let id = this.getToken();
-    if (id){
-      this.usuarioService.getUsuarioById(id).subscribe(res=>
+    if (id) {
+      this.usuarioService.getUsuarioById(id).subscribe(res =>
         this.user.set(res)
       )
     }
   }
 
-  isAuth(): Observable<boolean>{
+  isAuth(): Observable<boolean> {
     if (!this.getToken()) {
       return of(false);
     }
@@ -60,24 +61,24 @@ export class AuthService {
       .pipe(
         tap(user => this.user.set(user)),
         map(user => !!user),
-        catchError(()=> of(false))
+        catchError(() => of(false))
       );
   }
 
-  isAdmin(): Observable<boolean>{
+  isAdmin(): Observable<boolean> {
     if (!this.getToken()) {
       return of(false);
     }
     return this.http.get<Usuario>(`${this.baseUrl()}/usuarios/${this.getToken()}`)
       .pipe(
         tap(user => this.user.set(user)),
-        map(user => user.rol =="admin"),
-        catchError(()=> of(false))
+        map(user => user.rol == "admin"),
+        catchError(() => of(false))
       );
   }
 
-  private getToken(){
-    return  localStorage.getItem('sessionToken');
+  private getToken() {
+    return localStorage.getItem('sessionToken');
   }
 
 }

@@ -18,25 +18,25 @@ import {AuthService} from "../../core/service/auth.service";
   styles: ``
 })
 export class UsuarioComponent {
-  private authService = inject(AuthService);
 
+  private authService = inject(AuthService);
   usuario = computed(
     this.authService.user
   )
-
   menuItems = signal<MenuItem[]>([
     {
       label: 'Perfil',
       icon: 'pi pi-user',
-      route:`${this.usuario()?.id}/perfil`
-    },{
+      route: `${this.usuario()?.id}/perfil`
+    }, {
       label: 'Historial de pedidos',
       icon: 'pi pi-receipt',
-      route:`${this.usuario()?.id}/pedidos`
-    },{
+      route: `${this.usuario()?.id}/pedidos`
+    }, {
       label: 'Productos',
       icon: 'pi pi-book',
-      route:`${this.usuario()?.id}/productos`
+      route: `${this.usuario()?.id}/productos`
     }
   ]);
+
 }

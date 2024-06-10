@@ -11,41 +11,43 @@ import {MessageService} from "primeng/api";
 export class EditorialService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getEditorial():Observable<Editorial[]>{
-    return this.http.get<Editorial[]>(this.baseUrl()+'/editoriales')
+  constructor(private messageService: MessageService) {
   }
 
-  deleteEditorial(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+'/editoriales/'+id)
+  getEditorial(): Observable<Editorial[]> {
+    return this.http.get<Editorial[]>(this.baseUrl() + '/editoriales')
+  }
+
+  deleteEditorial(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + '/editoriales/' + id)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addEditorial(editorial:Editorial):Observable<Boolean> {
-    return this.http.post<Editorial>(this.baseUrl()+'/editoriales',editorial)
+  addEditorial(editorial: Editorial): Observable<Boolean> {
+    return this.http.post<Editorial>(this.baseUrl() + '/editoriales', editorial)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }
 
-  updateEditorial(editorial:Editorial):Observable<Boolean> {
-    if(!editorial.id) throw Error('El id es requerido');
-    return this.http.put<Editorial>(this.baseUrl()+'/editoriales/'+editorial.id,editorial)
+  updateEditorial(editorial: Editorial): Observable<Boolean> {
+    if (!editorial.id) throw Error('El id es requerido');
+    return this.http.put<Editorial>(this.baseUrl() + '/editoriales/' + editorial.id, editorial)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+          return of(false);
         })
       )
   }

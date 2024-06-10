@@ -11,50 +11,52 @@ import {MessageService} from "primeng/api";
 export class ComicService {
   private baseUrl = signal(environments.baseUrl)
   private http = inject(HttpClient);
-  constructor(private messageService: MessageService) {}
 
-  getComic():Observable<Comic[]>{
-    return this.http.get<Comic[]>(this.baseUrl()+'/comics')
+  constructor(private messageService: MessageService) {
   }
 
-  getComicById(id:string):Observable<Comic|undefined>{
-    return this.http.get<Comic>(this.baseUrl()+'/comics/'+id)
+  getComic(): Observable<Comic[]> {
+    return this.http.get<Comic[]>(this.baseUrl() + '/comics')
+  }
+
+  getComicById(id: string): Observable<Comic | undefined> {
+    return this.http.get<Comic>(this.baseUrl() + '/comics/' + id)
       .pipe(
-        catchError(error=> of(undefined))
+        catchError(() => of(undefined))
       );
   }
 
-  deleteComic(id:number):Observable<Boolean> {
-    return this.http.delete(this.baseUrl()+`/comics/${id}`)
+  deleteComic(id: number): Observable<Boolean> {
+    return this.http.delete(this.baseUrl() + `/comics/${id}`)
       .pipe(
-        map(()=> true),
+        map(() => true),
         catchError(() => of(false))
       )
   }
 
-  addComic(comic:Comic):Observable<Boolean> {
-    return this.http.post<Comic>(this.baseUrl()+'/comics',comic)
+  addComic(comic: Comic): Observable<Boolean> {
+    return this.http.post<Comic>(this.baseUrl() + '/comics', comic)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
-          this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
-          return  of(false);
+            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          return of(false);
         })
       )
   }
 
-  updateComic(comic:Comic):Observable<Boolean> {
-    if(!comic.id && comic.id< 0) throw Error('El id es requerido');
+  updateComic(comic: Comic): Observable<Boolean> {
+    if (!comic.id && comic.id < 0) throw Error('El id es requerido');
 
-    return this.http.put<Comic>(this.baseUrl()+'/comics/'+comic.id,comic)
+    return this.http.put<Comic>(this.baseUrl() + '/comics/' + comic.id, comic)
       .pipe(
-        map(()=> true),
-        catchError((err) =>{
+        map(() => true),
+        catchError((err) => {
           for (let i in err.error)
             this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
 
-          return  of(false);
+          return of(false);
         })
       )
   }

@@ -2,7 +2,6 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,7 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,25 +44,25 @@ public class Usuario {
     @Column(name = "id_usuario")
     private long id;
 
-    @Column(name="correo",nullable = false,unique = true)
-    @Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+    @Column(name = "correo", nullable = false, unique = true)
+    @Email(message = "Formato de email incorrecto", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
     private String correo;
 
-    @Column(name="nombre",nullable = false, unique = true)
+    @Column(name = "nombre", nullable = false, unique = true)
     @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
-    @Column(name="rol", nullable = false)
+    @Column(name = "rol", nullable = false)
     private String rol;
 
-    @Column(name="direccion")
+    @Column(name = "direccion")
     private String direccion;
 
-    @Column(name="contrasena",nullable = false)
-    @Size(min=4, max = 20, message = "La contraseña debe tener entre {min} y {max} caracteres")
+    @Column(name = "contrasena", nullable = false)
+    @Size(min = 4, max = 20, message = "La contraseña debe tener entre {min} y {max} caracteres")
     private String contrasena;
 
-    @Column(name="imagen",nullable = false)
+    @Column(name = "imagen", nullable = false)
     private String imagen;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
