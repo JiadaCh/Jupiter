@@ -1,31 +1,31 @@
 import {Routes} from '@angular/router';
-import {checkAuthGuard} from "./guard/check-auth.guard";
-import {adminGuard} from "./guard/admin.guard";
+import {checkAuthGuard} from "./core/guard/check-auth.guard";
+import {adminGuard} from "./core/guard/admin.guard";
 
 export const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => import('./home/pages/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () => import('./home/home/home.component').then(m => m.HomeComponent),
     title: 'Home',
   },
   {
     path: 'comics',
-    loadComponent: () => import('./home/pages/comics/comics.component').then(m => m.ComicsComponent),
+    loadComponent: () => import('./home/comics/comics.component').then(m => m.ComicsComponent),
     title: 'Comic',
   },
   {
     path: 'comics/comic/:id',
-    loadComponent: () => import('./home/pages/detalle-comic/detalle-comic.component').then(m => m.DetalleComicComponent),
+    loadComponent: () => import('./home/detalle-comic/detalle-comic.component').then(m => m.DetalleComicComponent),
     title: 'Comic',
   },
   {
     path: 'libros',
-    loadComponent: () => import('./home/pages/libros/libros.component').then(m => m.LibrosComponent),
+    loadComponent: () => import('./home/libros/libros.component').then(m => m.LibrosComponent),
     title: 'Libro',
   },
   {
     path: 'libros/libro/:id',
-    loadComponent: () => import('./home/pages/detalle-libro/detalle-libro.component').then(m => m.DetalleLibroComponent),
+    loadComponent: () => import('./home/detalle-libro/detalle-libro.component').then(m => m.DetalleLibroComponent),
     title: 'Libro',
   },
   {
@@ -33,12 +33,12 @@ export const routes: Routes = [
     children:[
       {
         path: 'productos',
-        loadComponent: () => import('./tienda/pages/productos/productos.component').then(m => m.ProductosComponent),
+        loadComponent: () => import('./tienda/productos/productos.component').then(m => m.ProductosComponent),
         title: 'Tienda'
       },
       {
         path: 'productos/producto/:id',
-        loadComponent: () => import('./tienda/pages/detalle-producto/detalle-producto.component').then(m => m.DetalleProductoComponent),
+        loadComponent: () => import('./tienda/detalle-producto/detalle-producto.component').then(m => m.DetalleProductoComponent),
         title: 'Tienda'
       },
       {
@@ -51,21 +51,21 @@ export const routes: Routes = [
   },
   {
     path: 'user',
-    loadComponent: () => import('./usuario/page/usuario/usuario.component').then(m => m.UsuarioComponent),
+    loadComponent: () => import('./usuario/usuario/usuario.component').then(m => m.UsuarioComponent),
     children: [
       {
         path:':id/perfil',
-        loadComponent: () => import('./usuario/page/perfil/perfil.component').then(m => m.PerfilComponent),
+        loadComponent: () => import('./usuario/perfil/perfil.component').then(m => m.PerfilComponent),
         title: 'Perfil',
       },
       {
         path:':id/pedidos',
-        loadComponent: () => import('./usuario/page/historial-pedido/historial-pedido.component').then(m => m.HistorialPedidoComponent),
+        loadComponent: () => import('./usuario/historial-pedido/historial-pedido.component').then(m => m.HistorialPedidoComponent),
         title: 'Historial de pedidos',
       },
       {
         path:':id/productos',
-        loadComponent: () => import('./usuario/page/productos/productos.component').then(m => m.ProductosComponent),
+        loadComponent: () => import('./usuario/productos/productos.component').then(m => m.ProductosComponent),
         title: 'Productos',
       },
 
@@ -79,7 +79,7 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./auth/pages/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
     title: 'Login',
     canActivate:[
       checkAuthGuard

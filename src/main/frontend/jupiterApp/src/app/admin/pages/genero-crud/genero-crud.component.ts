@@ -13,8 +13,8 @@ import {ToastModule} from "primeng/toast";
 import {ToolbarModule} from "primeng/toolbar";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogModule} from "primeng/dialog";
-import {GeneroService} from "@service/genero.service";
-import {Genero} from "@interface/genero.interface";
+import {GeneroService} from "../../../core/service/genero.service";
+import {Genero} from "../../../core/interface/genero.interface";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {delay} from "rxjs";
 

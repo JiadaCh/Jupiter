@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {TagModule} from "primeng/tag";
-import {Genero} from "@interface/genero.interface";
+import {Genero} from "../../../core/interface/genero.interface";
 
 @Component({
   selector: 'shared-tag-genero',

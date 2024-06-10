@@ -8,7 +8,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {RippleModule} from "primeng/ripple";
 import {ButtonModule} from "primeng/button";
 import {BreadcrumbModule} from "primeng/breadcrumb";
-import {AuthService} from "@service/auth.service";
+import {AuthService} from "../../../core/service/auth.service";
 import {TieredMenuModule} from "primeng/tieredmenu";
 import {Router} from "@angular/router";
 

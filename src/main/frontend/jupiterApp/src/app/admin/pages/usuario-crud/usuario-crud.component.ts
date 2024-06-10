@@ -1,8 +1,8 @@
 import {Component, inject, OnInit, signal} from "@angular/core";
-import {UsuarioService} from "@service/usuario.service";
-import {MediaService} from "@service/media.service";
-import {Usuario} from "@interface/usuario.interface";
-import {Rol} from "@interface/autor.interface";
+import {UsuarioService} from "../../../core/service/usuario.service";
+import {MediaService} from "../../../core/service/media.service";
+import {Usuario} from "../../../core/interface/usuario.interface";
+import {Rol} from "../../../core/interface/autor.interface";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {delay} from "rxjs";
 import {FileSelectEvent, FileUploadModule} from "primeng/fileupload";

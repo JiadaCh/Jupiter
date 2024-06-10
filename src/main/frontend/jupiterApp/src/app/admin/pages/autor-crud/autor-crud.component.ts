@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {TableModule} from "primeng/table";
-import {AutorService} from "@service/autor.service";
-import {Autor} from "@interface/autor.interface";
+import {AutorService} from "../../../core/service/autor.service";
+import {Autor} from "../../../core/interface/autor.interface";
 import {delay} from "rxjs";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";

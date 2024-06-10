@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TagModule} from "primeng/tag";
-import {Autor} from "@interface/autor.interface";
+import {Autor} from "../../../core/interface/autor.interface";
 
 @Component({
   selector: 'shared-tag-autor',

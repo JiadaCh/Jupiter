@@ -5,7 +5,7 @@ import {MenuComponent} from "@shared/components/menu/menu.component";
 import {ScrollTopModule} from "primeng/scrolltop";
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {NgClass, NgIf} from "@angular/common";
-import {AuthService} from "@service/auth.service";
+import {AuthService} from "./core/service/auth.service";
 
 @Component({
   selector: 'app-root',
