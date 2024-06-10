@@ -2,6 +2,7 @@ package org.jiada.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,8 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,16 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "correo_unique",
+                columnNames = "correo"
+        ),
+        @UniqueConstraint(
+                name = "nombre_unique",
+                columnNames = "nombre"
+        )
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,7 +52,7 @@ public class Usuario {
     @NotBlank(message = "no se puede poner el nombre en blanco")
     private String nombre;
 
-    @Column(name="rol",nullable = false)
+    @Column(name="rol", nullable = false)
     private String rol;
 
     @Column(name="direccion")
