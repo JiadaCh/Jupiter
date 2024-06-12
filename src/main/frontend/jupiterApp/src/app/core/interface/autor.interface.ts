@@ -5,7 +5,3 @@ export interface Autor {
   apellido2?: string;
 }
 
-export enum Rol {
-  admin = "admin",
-  usuario = "usuario",
-}

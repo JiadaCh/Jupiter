@@ -1,8 +1,7 @@
 import {Component, inject, OnInit, signal} from "@angular/core";
 import {UsuarioService} from "../../../core/service/usuario.service";
 import {MediaService} from "../../../core/service/media.service";
-import {Usuario} from "../../../core/interface/usuario.interface";
-import {Rol} from "../../../core/interface/autor.interface";
+import {Rol, Usuario} from "../../../core/interface/usuario.interface";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {delay} from "rxjs";
 import {FileSelectEvent, FileUploadModule} from "primeng/fileupload";
@@ -112,7 +111,7 @@ export class UsuarioCrudComponent implements OnInit {
       contrasena: "",
       correo: "",
       id: 0,
-      imagen: "http://localhost:8080/media/usuario/default-perfil.webp",
+      imagen: "http://localhost:8080/media/default-perfil.webp",
       nombre: "",
       rol: ""
     };

@@ -24,7 +24,13 @@
                 <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{ vendedor() }}</a>
                 </div>
                 <div style="margin: 20px 0" class="text-2xl">Precio: <br>
-                  <div class="text-red-400 text-6xl">{{ producto.precio |currency:'EUR': '' }}€</div>
+                  <div class="text-red-400 text-6xl">
+                    @if(producto.precio == 0){
+                      Free
+                    } @else {
+                      {{ producto.precio | currency:"EUR":'' }}€
+                    }
+                  </div>
                 </div>
 
                 <div style="margin: 20px 0;" class="flex justify-content-around">
@@ -37,7 +43,9 @@
             </div>
             <p-accordion [activeIndex]="0">
               <p-accordionTab header="Descripción">
-                {{ producto.descripcion }}
+                <div class="desc">
+                  {{ producto.descripcion }}
+                </div>
               </p-accordionTab>
             </p-accordion>
           </p-fieldset>

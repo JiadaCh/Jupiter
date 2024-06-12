@@ -7,3 +7,8 @@ export interface Usuario {
   contrasena: string;
   imagen: string;
 }
+
+export enum Rol {
+  admin = "admin",
+  usuario = "usuario",
+}

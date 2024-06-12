@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.*;
 
@@ -38,7 +39,8 @@ public class Comic {
     @NotBlank(message = "Introduzca un título")
     private String titulo;
 
-    @Column(name = "sinopsis", nullable = false)
+    @Column(name = "sinopsis", nullable = false, length = 5000)
+    @Length(max = 5000, message = "El sinopsis no puede tener más de {max} caracteres")
     @NotBlank(message = "No se puede poner el sinopsis en blanco")
     private String sinopsis;
 

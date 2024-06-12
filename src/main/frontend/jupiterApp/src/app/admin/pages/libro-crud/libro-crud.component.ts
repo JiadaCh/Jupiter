@@ -120,9 +120,8 @@ export class LibroCrudComponent implements OnInit {
     if (file) {
       const formdata = new FormData();
       formdata.append('file', file);
-
       formdata.append('subfolder', "libro");
-      formdata.append('filename', "libro-" + this.libro.titulo + "-" + this.libro.anoPublicacion + "-" + this.libro.numPag);
+      formdata.append('filename', "libro-" + this.libro.titulo.replace(/[\s:]/g, "_") + "-" + this.libro.anoPublicacion + "-" + this.libro.numPag);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.libro.portada = res.url;
         this.messageService.add({
@@ -149,7 +148,7 @@ export class LibroCrudComponent implements OnInit {
         nombre: ""
       },
       anoPublicacion: 0, autores: [], generos: [], id: 0, idioma: "", numPag: 0, sinopsis: "", titulo: "",
-      portada: "http://localhost:8080/media/libro/default-image.png"
+      portada: "http://localhost:8080/media/default-image.webp"
     };
     this.submitted.set(false);
     this.libroDialog.set(true);
@@ -257,5 +256,6 @@ export class LibroCrudComponent implements OnInit {
       })
     }
   }
+
 
 }

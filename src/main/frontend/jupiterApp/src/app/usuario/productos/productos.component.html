@@ -94,7 +94,11 @@
           <p-image [alt]="producto.producto" [preview]="true" [src]="producto.imagen" width="100"></p-image>
         </td>
         <td>
-          {{ producto.precio | currency : 'EUR':'' }}€
+          @if(producto.precio == 0){
+            Free
+          } @else {
+            {{ producto.precio | currency:"EUR":'' }}€
+          }
         </td>
         <td>
           <p-triStateCheckbox

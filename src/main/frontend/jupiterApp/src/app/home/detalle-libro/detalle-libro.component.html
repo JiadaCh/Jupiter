@@ -18,7 +18,7 @@
             <div class="grid  gap-3 m-3">
               <p-image
                 [src]="libro.portada != null? libro.portada : 'http://localhost:8080/media/libro/default-image.png'"
-                styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
+                styleClass="border-round col-6 sm:col-1" imageClass="w-20rem"
               ></p-image>
               <div class="col-6 flex-column justify-content-start">
                 <div>Escrito por:
@@ -46,7 +46,7 @@
                 </div>
 
                 <div style="margin: 10px 0">Número de páginas: {{ libro.numPag }}</div>
-                <div *ngIf="libro.isbn != null" style="margin: 10px 0">ISBN: {{ libro.isbn }} /></div>
+                <div *ngIf="libro.isbn != null" style="margin: 10px 0">ISBN: {{ libro.isbn }}</div>
 
                 <div style="margin: 10px 0">
                   Calificación:
@@ -57,7 +57,9 @@
             </div>
             <p-accordion [activeIndex]="0">
               <p-accordionTab header="Sinopsis">
-                {{ libro.sinopsis }}
+                <div class="desc">
+                  {{ libro.sinopsis }}
+                </div>
               </p-accordionTab>
             </p-accordion>
           </p-fieldset>

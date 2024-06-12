@@ -130,7 +130,7 @@ export class ComicCrudComponent implements OnInit {
       formdata.append('file', file);
 
       formdata.append('subfolder', "comic");
-      formdata.append('filename', "comic-" + this.comic.titulo + "-" + this.comic.tipo + "-" + this.comic.anoPublicacion);
+      formdata.append('filename', "comic-" + this.comic.titulo.replace(/[\s:]/g, "_") + "-" + this.comic.tipo + "-" + this.comic.anoPublicacion);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.comic.portada = res.url;
         this.messageService.add({
@@ -154,7 +154,7 @@ export class ComicCrudComponent implements OnInit {
     this.comic = {
       tipo: TipoComic.Americano,
       autores: [], generos: [],
-      portada: "http://localhost:8080/media/comic/default-image.png", editorial: {
+      portada: "http://localhost:8080/media/default-image.webp", editorial: {
         id: 0,
         nombre: ''
       }, anoPublicacion: 0, id: 0, idioma: "", sinopsis: "", titulo: ""

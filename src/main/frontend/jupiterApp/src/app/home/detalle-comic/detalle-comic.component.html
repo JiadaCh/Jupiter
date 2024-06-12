@@ -18,7 +18,7 @@
             <div class="grid  gap-3 m-3">
               <p-image
                 [src]="comic.portada != null? comic.portada : 'http://localhost:8080/media/comic/default-image.png'"
-                styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
+                styleClass="border-round col-6 sm:col-1" imageClass="w-20rem"
               ></p-image>
               <div class="col-6 flex-column justify-content-start">
                 <div>Escrito por:
@@ -57,7 +57,9 @@
             </div>
             <p-accordion [activeIndex]="0">
               <p-accordionTab header="Sinopsis">
-                {{ comic.sinopsis }}
+                <div class="desc">
+                  {{ comic.sinopsis }}
+                </div>
               </p-accordionTab>
             </p-accordion>
 

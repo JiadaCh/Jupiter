@@ -9,7 +9,7 @@
             currentPageReportTemplate="{currentPage} of {totalPages}">
   <ng-template pTemplate="header">
     <div class="flex flex-column md:flex-row md:justify-content-start ">
-      <input (input)="onSearchTextChange()" [(ngModel)]="searchText" class="mr-3" pInputText placeholder="Buscar por titulo"
+      <input (input)="onSearchTextChange()" [(ngModel)]="searchText" class="mr-3 w-13rem" pInputText placeholder="Buscar por titulo"
              type="text">
 
     </div>
@@ -20,10 +20,10 @@
         <div *ngIf="!producto.comprado" class="p-4 border-1 surface-border surface-card border-round flex flex-column"
         >
           <div class="surface-50 flex justify-content-center border-round p-3">
-            <div class="relative mx-auto" style="width: 300px;height: 300px">
+            <div class="relative mx-auto" style="width: 250px;height: 300px">
               <img [alt]="producto.nombre"
-                   [ngSrc]="producto.imagen || 'http://localhost:8080/media/default-perfil.webp' "
-                   class="border-round w-full" fill
+                   [ngSrc]="producto.imagen"
+                   class="border-round w-full" width="250" height="300"
                    priority/>
             </div>
           </div>
@@ -31,19 +31,18 @@
             <div class="flex flex-row justify-content-between align-items-start gap-2">
               <div>
                 <span class="text-2xl font-semibold">{{ producto.nombre }}</span>
-                <div class="text-lg font-medium text-900 mt-1">
-                  <shared-tag-genero [generos]="producto.generos"></shared-tag-genero>
-                </div>
               </div>
             </div>
           </div>
           <div class="pt-4">
             <div class="flex flex-row justify-content-between align-items-start gap-2">
               <div>
-                <div class="text-lg font-medium text-900 mt-1 text-red-400">
-                  {{
-                    producto.precio | currency:"EUR":""
-                  }}€
+                <div class="text-lg font-semibold text-900 mt-1 text-red-400 ">
+                  @if(producto.precio == 0){
+                    Free
+                  } @else {
+                    {{ producto.precio | currency:"EUR":'' }}€
+                  }
                 </div>
               </div>
             </div>

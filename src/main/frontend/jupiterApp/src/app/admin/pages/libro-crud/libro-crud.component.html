@@ -174,7 +174,7 @@
       </div>
 
       <div class="field">
-        <label for="editorial">Editorial: {{ libro!.editorial.nombre }}</label>
+        <label for="editorial">Editorial: <span class="text-cyan-400">{{ libro!.editorial.nombre }}</span></label>
 
         <p-dropdown
           [(ngModel)]="libro!.editorial"
@@ -185,8 +185,7 @@
           inputId="id"
           optionLabel="nombre"
           required
-          variant="filled">
-        </p-dropdown>
+          placeholder="Selecciona un Editorial"/>
         <small *ngIf="submitted() && !libro.editorial.nombre" class="p-error">
           Hay que seleccionar un editorial
         </small>
@@ -202,7 +201,7 @@
           display="chip"
           id="generos"
           optionLabel="nombre"
-          placeholder="Select generos"/>
+          placeholder="Selecciona un generos"/>
         <small *ngIf="submitted() && libro.generos.length <= 0" class="p-error">
           Hay que seleccionar al menos un genero
         </small>
@@ -215,10 +214,25 @@
           [filter]="true"
           [options]="autores"
           [showClear]="true"
-          display="chip"
           id="autor"
-          optionLabel="nombre"
-          placeholder="Select Autor"/>
+          filterBy="nombre,apellido1,apellido2"
+          placeholder="Selecciona un Autor">
+            <ng-template pTemplate="selectedItems" let-valor >
+              @if (libro.autores.length <= 0){
+                <div class="selected-item">
+                  Filtrar por Autores
+                </div>
+              }
+              <div class="inline-flex align-items-center gap-2 px-1" *ngFor="let autor of valor">
+                {{ autor.nombre }} {{ autor.apellido1 + ( autor.apellido2 != null?' '+autor.apellido2: '')}},
+              </div>
+            </ng-template>
+          <ng-template let-autor pTemplate="item">
+            <div class="flex align-items-center gap-2">
+                {{ autor.nombre }} {{ autor.apellido1 }} {{ autor.apellido2 || ''}}
+            </div>
+          </ng-template>
+        </p-multiSelect>
         <small *ngIf="submitted() && libro.autores.length <= 0" class="p-error">
           Hay que seleccionar al menos un autor
         </small>
@@ -283,6 +297,7 @@
           id="sinopsis"
           pInputTextarea
           required
+          class="h-13rem"
           type="text"></textarea>
         <small *ngIf="submitted() && !libro.sinopsis" class="p-error">
           Sinopsis es requerido.

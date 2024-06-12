@@ -206,11 +206,28 @@
           [(ngModel)]="comic.autores"
           [filter]="true"
           [options]="autores"
-          display="chip"
+          [showClear]="true"
           id="autor"
-          optionLabel="nombre"
-          placeholder="Select Autor"
-          required/>
+          filterBy="nombre,apellido1,apellido2"
+          placeholder="Selecciona un Autor">
+          <ng-template pTemplate="selectedItems" let-valor >
+            @if (comic.autores.length <= 0){
+              <div class="selected-item">
+                Filtrar por Autores
+              </div>
+            }
+            <div class="inline-flex align-items-center gap-2 px-1" *ngFor="let autor of valor">
+              {{ autor.nombre }} {{ autor.apellido1 + ( autor.apellido2 != null?' '+autor.apellido2: '')}},
+            </div>
+          </ng-template>
+          <ng-template let-autor pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>
+                {{ autor.nombre }} {{ autor.apellido1 }} {{ autor.apellido2 || ''}}
+              </div>
+            </div>
+          </ng-template>
+        </p-multiSelect>
         <small *ngIf="submitted() && comic.autores.length <= 0" class="p-error">
           Hay que seleccionar al menos un autor
         </small>
@@ -231,7 +248,7 @@
         </small>
       </div>
       <div class="field">
-        <label for="editorial">Editorial: {{ comic.editorial.nombre }}</label>
+        <label for="editorial">Editorial: <span class="text-cyan-400">{{ comic!.editorial.nombre }}</span></label>
 
         <p-dropdown
           [(ngModel)]="comic!.editorial"
@@ -300,6 +317,7 @@
           autofocus
           id="sinopsis"
           pInputTextarea
+          class="h-13rem"
           required
           type="text"></textarea>
         <small *ngIf="submitted() && !comic.sinopsis" class="p-error">
