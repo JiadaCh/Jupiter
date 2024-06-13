@@ -130,7 +130,7 @@ export class ComicCrudComponent implements OnInit {
       formdata.append('file', file);
 
       formdata.append('subfolder', "comic");
-      formdata.append('filename', "comic-" + this.comic.titulo.replace(/[\s:]/g, "_") + "-" + this.comic.tipo + "-" + this.comic.anoPublicacion);
+      formdata.append('filename', "comic-" + this.comic.titulo.replace(/[\s:/\\¿?]/g, "_") + "-" + this.comic.tipo + "-" + this.comic.anoPublicacion);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.comic.portada = res.url;
         this.messageService.add({

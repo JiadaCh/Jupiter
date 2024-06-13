@@ -2,14 +2,21 @@ package org.jiada.jupiter.service;
 
 
 import jakarta.transaction.Transactional;
+import org.jiada.jupiter.entity.Comic;
 import org.jiada.jupiter.entity.Editorial;
 import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.EditorialRepository;
 import org.jiada.jupiter.repository.LibroRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -26,6 +33,19 @@ public class LibroService {
 
     public List<Libro> all() {
         return this.libroRepository.findAll();
+    }
+
+    public Map<String,Object> all(int pag, int top) {
+        Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
+        Page<Libro> pageAll = this.libroRepository.findAll(pageable);
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("libros", pageAll.getContent());
+        response.put("currentPage", pageAll.getNumber());
+        response.put("total", pageAll.getTotalElements());
+        response.put("pages", pageAll.getTotalPages());
+
+        return response;
     }
 
     public Libro save(Libro Libro) {

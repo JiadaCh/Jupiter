@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
-import {Comic} from "../interface/comic.interface";
+import {Comic, ComicPag} from "../interface/comic.interface";
 import {MessageService} from "primeng/api";
 
 @Injectable({
@@ -18,7 +18,9 @@ export class ComicService {
   getComic(): Observable<Comic[]> {
     return this.http.get<Comic[]>(this.baseUrl() + '/comics')
   }
-
+  getComicPag(pag:number, top:number): Observable<ComicPag> {
+    return this.http.get<ComicPag>(this.baseUrl() + `/comics?pag=${pag}&top=${top}`)
+  }
   getComicById(id: string): Observable<Comic | undefined> {
     return this.http.get<Comic>(this.baseUrl() + '/comics/' + id)
       .pipe(

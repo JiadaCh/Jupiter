@@ -101,7 +101,7 @@ export class ProductosComponent implements OnInit {
       formdata.append('file', file);
 
       formdata.append('subfolder', "producto");
-      formdata.append('filename', "producto-" + this.producto.nombre + "-" + this.usuario?.id + "-" + this.producto.precio);
+      formdata.append('filename', "producto-" + this.producto.nombre.replace(/[\s:/\\¿?]/g, "_") + "-" + this.usuario?.id + "-" + this.producto.precio);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.producto.imagen = res.url;
         this.messageService.add({

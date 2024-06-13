@@ -206,24 +206,23 @@
           [(ngModel)]="comic.autores"
           [filter]="true"
           [options]="autores"
-          [showClear]="true"
           id="autor"
           filterBy="nombre,apellido1,apellido2"
           placeholder="Selecciona un Autor">
           <ng-template pTemplate="selectedItems" let-valor >
             @if (comic.autores.length <= 0){
               <div class="selected-item">
-                Filtrar por Autores
+                Seleccionar por Autores
               </div>
             }
-            <div class="inline-flex align-items-center gap-2 px-1" *ngFor="let autor of valor">
-              {{ autor.nombre }} {{ autor.apellido1 + ( autor.apellido2 != null?' '+autor.apellido2: '')}},
+            <div class="gap-2 px-1">
+              <shared-tag-autor [autores]="valor"></shared-tag-autor>
             </div>
           </ng-template>
           <ng-template let-autor pTemplate="item">
             <div class="flex align-items-center gap-2">
               <div>
-                {{ autor.nombre }} {{ autor.apellido1 }} {{ autor.apellido2 || ''}}
+                {{ autor.apellido1 }} {{ autor.apellido2 || ''}}, {{ autor.nombre }}
               </div>
             </div>
           </ng-template>

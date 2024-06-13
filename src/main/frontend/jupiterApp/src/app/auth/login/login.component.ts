@@ -58,7 +58,7 @@ export class LoginComponent {
       contrasena: "",
       correo: "",
       id: 0,
-      imagen: "http://localhost:8080/media/usuario/default-perfil.webp",
+      imagen: "http://localhost:8080/media/default-perfil.webp",
       nombre: "",
       rol: "usuario"
     };
@@ -84,7 +84,7 @@ export class LoginComponent {
       .subscribe(user => {
         if (user) {
           this.authService.saveToLocalStorage(user);
-          this.router.navigate(['']).then();
+          this.router.navigate(['user']).then();
         }
 
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta'});

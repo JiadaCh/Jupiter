@@ -45,7 +45,7 @@
                   <p-tag [value]="libro.idioma"></p-tag>
                 </div>
 
-                <div style="margin: 10px 0">Número de páginas: {{ libro.numPag }}</div>
+                <div *ngIf="libro.numPag>0" style="margin: 10px 0">Número de páginas: {{ libro.numPag }}</div>
                 <div *ngIf="libro.isbn != null" style="margin: 10px 0">ISBN: {{ libro.isbn }}</div>
 
                 <div style="margin: 10px 0">
@@ -101,7 +101,7 @@
                     </div>
                   </div>
                 </ng-template>
-                <p class="m-0">
+                <p class="m-0 desc">
                   {{ resena.texto }}
                 </p>
               </p-fieldset>

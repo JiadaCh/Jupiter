@@ -65,6 +65,13 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   styles: ``
 })
 export class DetalleComicComponent implements OnInit {
+  private resenaService = inject(ResenaService);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
+  private comicService = inject(ComicService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  private userCalf = signal(0);
   comic: Comic | undefined;
   calificacion: number = 0;
   mediaCalificacion: number = 0;
@@ -73,13 +80,7 @@ export class DetalleComicComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   resenaDialog: boolean = false;
-  private comicService = inject(ComicService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
   usuarioLoageado = this.authService.user();
-  private resenaService = inject(ResenaService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -168,6 +169,7 @@ export class DetalleComicComponent implements OnInit {
     this.resenaDialog = false;
     this.submitted.set(false);
     this.editar.set(false);
+    this.userCalf.set(this.resena!.calificacion)
   }
 
   saveResena() {
@@ -190,6 +192,9 @@ export class DetalleComicComponent implements OnInit {
               this.resenaDialog = false;
               this.editar.set(false);
               this.submitted.set(false);
+              let calf = this.resena!.calificacion;
+              this.calificacion -= this.userCalf() - calf;
+              this.getCalificacion();
             } else {
               this.showError()
             }
@@ -211,6 +216,7 @@ export class DetalleComicComponent implements OnInit {
           this.submitted.set(false);
           this.resenaService.getResenaComicUsuario(this.comic!, this.usuarioLoageado!).subscribe((res) => {
             this.resena = res;
+            this.resenas.push(res);
             this.calificacion += res.calificacion;
             this.getCalificacion();
           })

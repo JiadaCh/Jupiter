@@ -213,8 +213,8 @@
           [(ngModel)]="libro.autores"
           [filter]="true"
           [options]="autores"
-          [showClear]="true"
           id="autor"
+          display="chip"
           filterBy="nombre,apellido1,apellido2"
           placeholder="Selecciona un Autor">
             <ng-template pTemplate="selectedItems" let-valor >
@@ -223,13 +223,13 @@
                   Filtrar por Autores
                 </div>
               }
-              <div class="inline-flex align-items-center gap-2 px-1" *ngFor="let autor of valor">
-                {{ autor.nombre }} {{ autor.apellido1 + ( autor.apellido2 != null?' '+autor.apellido2: '')}},
+              <div class="gap-2 px-1" >
+                <shared-tag-autor [autores]="valor"></shared-tag-autor>
               </div>
             </ng-template>
           <ng-template let-autor pTemplate="item">
             <div class="flex align-items-center gap-2">
-                {{ autor.nombre }} {{ autor.apellido1 }} {{ autor.apellido2 || ''}}
+              {{ autor.apellido1 }} {{ autor.apellido2 || ''}}, {{ autor.nombre }}
             </div>
           </ng-template>
         </p-multiSelect>
@@ -270,8 +270,8 @@
           id="numPag"
           pInputText
           type="text"/>
-        <small *ngIf="submitted() && libro.numPag < 10" class="p-error">
-          Idioma es requerido y tiene que tener al menos 10.
+        <small *ngIf="submitted() && libro.numPag < 0" class="p-error">
+          Número de página debe ser positivo
         </small>
       </div>
 

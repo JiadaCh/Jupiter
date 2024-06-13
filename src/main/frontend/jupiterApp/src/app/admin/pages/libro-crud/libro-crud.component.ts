@@ -121,7 +121,7 @@ export class LibroCrudComponent implements OnInit {
       const formdata = new FormData();
       formdata.append('file', file);
       formdata.append('subfolder', "libro");
-      formdata.append('filename', "libro-" + this.libro.titulo.replace(/[\s:]/g, "_") + "-" + this.libro.anoPublicacion + "-" + this.libro.numPag);
+      formdata.append('filename', "libro-" + this.libro.titulo.replace(/[\s:/\\¿?]/g, "_") + "-" + this.libro.anoPublicacion + "-" + this.libro.numPag);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.libro.portada = res.url;
         this.messageService.add({

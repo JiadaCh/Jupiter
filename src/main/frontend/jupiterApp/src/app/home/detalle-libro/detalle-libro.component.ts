@@ -65,6 +65,13 @@ import {Libro} from "../../core/interface/libros.interface";
   styles: ``
 })
 export class DetalleLibroComponent implements OnInit {
+  private libroService = inject(LibroService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  usuarioLogeado = this.authService.user();
+  private resenaService = inject(ResenaService);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
   libro: Libro | undefined;
   calificacion: number = 0;
   mediaCalificacion: number = 0;
@@ -73,13 +80,7 @@ export class DetalleLibroComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   resenaDialog: boolean = false;
-  private libroService = inject(LibroService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
-  usuarioLogeado = this.authService.user();
-  private resenaService = inject(ResenaService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
+  userCalf = signal(0);
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -136,6 +137,7 @@ export class DetalleLibroComponent implements OnInit {
   editResena() {
     this.resenaDialog = true;
     this.editar.set(true)
+    this.userCalf.set(this.resena!.calificacion)
   }
 
   deleteResena(resena: Resena) {
@@ -171,7 +173,6 @@ export class DetalleLibroComponent implements OnInit {
 
   saveResena() {
     this.submitted.set(true);
-
     if (this.editar()) {
       this.confirmationService.confirm({
         message: '¿Estás seguro de editar el reseña seleccionados?',
@@ -189,6 +190,9 @@ export class DetalleLibroComponent implements OnInit {
               this.resenaDialog = false;
               this.editar.set(false);
               this.submitted.set(false);
+              let calf = this.resena!.calificacion;
+              this.calificacion -= this.userCalf() - calf;
+              this.getCalificacion();
             } else {
               this.showError()
             }
@@ -210,6 +214,7 @@ export class DetalleLibroComponent implements OnInit {
           this.submitted.set(false);
           this.resenaService.getResenaLibroUsuario(this.libro!, this.usuarioLogeado!).subscribe((res) => {
             this.resena = res;
+            this.resenas.push(res);
             this.calificacion += res.calificacion;
             this.getCalificacion();
           })

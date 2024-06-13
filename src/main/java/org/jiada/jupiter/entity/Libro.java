@@ -52,8 +52,7 @@ public class Libro {
     private String portada;
 
     @Column(name = "num_pag", nullable = false)
-    @Min(value = 10, message = "Introduzca el número de página. Mínimo de {min} páginas")
-    @Positive
+    @PositiveOrZero
     private int numPag;
 
     @Column(name = "ano_publicacion", nullable = false)

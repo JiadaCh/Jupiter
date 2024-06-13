@@ -2,8 +2,9 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
-import {Libro} from "../interface/libros.interface";
+import {Libro, LibroPag} from "../interface/libros.interface";
 import {MessageService} from "primeng/api";
+import {ComicPag} from "../interface/comic.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class LibroService {
 
   getLibro(): Observable<Libro[]> {
     return this.http.get<Libro[]>(this.baseUrl() + '/libros')
+  }
+
+  getLibroPag(pag:number, top:number): Observable<LibroPag> {
+    return this.http.get<LibroPag>(this.baseUrl() + `/libros?pag=${pag}&top=${top}`)
   }
 
   getLibroById(id: string): Observable<Libro | undefined> {

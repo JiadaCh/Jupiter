@@ -7,3 +7,9 @@ export interface Producto {
   comprado: boolean;
 }
 
+export interface ProductoPag{
+  total:number;
+  pages:number;
+  currentPage:number;
+  productos: Producto[];
+}

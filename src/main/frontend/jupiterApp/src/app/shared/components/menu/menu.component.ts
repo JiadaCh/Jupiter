@@ -31,6 +31,11 @@ import {Router} from "@angular/router";
   styles: ``
 })
 export class MenuComponent implements OnInit {
+  private authService = inject(AuthService);
+  usuario = computed(
+    this.authService.user
+  )
+  private router: Router = inject(Router);
   menuItems = signal<MenuItem[]>([
     {
       label: 'Home',
@@ -59,11 +64,7 @@ export class MenuComponent implements OnInit {
     },
   ]);
   items: MenuItem[] = [];
-  private authService = inject(AuthService);
-  usuario = computed(
-    this.authService.user
-  )
-  private router: Router = inject(Router);
+
 
   constructor() {
 
@@ -97,8 +98,7 @@ export class MenuComponent implements OnInit {
           icon: 'pi pi-receipt',
           routerLink: `user/${this.usuario()?.id}/productos`
         }
-
       ];
-    }, 100)
+    }, 200)
   }
 }

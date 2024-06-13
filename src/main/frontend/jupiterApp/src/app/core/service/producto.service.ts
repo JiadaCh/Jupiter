@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Producto} from "../interface/producto.interface";
+import {Producto, ProductoPag} from "../interface/producto.interface";
 import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
 import {Usuario} from "../interface/usuario.interface";
@@ -18,6 +18,10 @@ export class ProductoService {
 
   getProducto(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.baseUrl() + '/productos')
+  }
+
+  getProductoPag(pag:number, top:number): Observable<ProductoPag> {
+    return this.http.get<ProductoPag>(this.baseUrl() + `/productos?pag=${pag}&top=${top}`)
   }
 
   getProductoByUsuario(id: number): Observable<Producto[]> {

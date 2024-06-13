@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.service.LibroService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -20,10 +22,17 @@ public class LibroController {
         this.libroService = libroService;
     }
 
-    @GetMapping({"", "/"})
+    @GetMapping(value = {"", "/"},params = {"!pag","!top"})
     public List<Libro> all() {
         log.info("Accediendo a todas los libros");
         return this.libroService.all();
+    }
+
+    @GetMapping({"", "/"})
+    public ResponseEntity<Map<String,Object>> all(@RequestParam(value = "pag", defaultValue = "0") int pag, @RequestParam(value = "top", defaultValue = "10") int top) {
+        log.info("Accediendo a todas los libros");
+        Map<String,Object> response = this.libroService.all(pag, top);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping({"", "/"})

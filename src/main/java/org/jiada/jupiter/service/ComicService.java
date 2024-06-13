@@ -7,9 +7,15 @@ import org.jiada.jupiter.entity.Editorial;
 import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.ComicRepository;
 import org.jiada.jupiter.repository.EditorialRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -28,6 +34,20 @@ public class ComicService {
     public List<Comic> all() {
         return this.comicRepository.findAll();
     }
+
+    public Map<String,Object> all(int pag, int top) {
+        Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
+        Page<Comic> pageAll = this.comicRepository.findAll(pageable);
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("comics", pageAll.getContent());
+        response.put("currentPage", pageAll.getNumber());
+        response.put("total", pageAll.getTotalElements());
+        response.put("pages", pageAll.getTotalPages());
+
+        return response;
+    }
+
 
     public Comic save(Comic comic) {
 

@@ -1,14 +1,21 @@
 package org.jiada.jupiter.service;
 
 
+import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.entity.Producto;
 import org.jiada.jupiter.entity.Usuario;
 import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.ProductoRepository;
 import org.jiada.jupiter.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,6 +35,19 @@ public class ProductoService {
 
     public List<Producto> all() {
         return this.productoRepository.findAllByComprado(false);
+    }
+
+    public Map<String,Object> all(int pag, int top) {
+        Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
+        Page<Producto> pageAll = this.productoRepository.findAll(pageable);
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("productos", pageAll.getContent());
+        response.put("currentPage", pageAll.getNumber());
+        response.put("total", pageAll.getTotalElements());
+        response.put("pages", pageAll.getTotalPages());
+
+        return response;
     }
 
     public Producto save(Producto producto, Long userId) {

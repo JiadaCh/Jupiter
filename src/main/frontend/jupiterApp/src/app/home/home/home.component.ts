@@ -4,9 +4,9 @@ import {CarouselModule} from "primeng/carousel";
 import {ComicService} from "../../core/service/comic.service";
 import {LibroService} from "../../core/service/libro.service";
 import {ProductoService} from "../../core/service/producto.service";
-import {Comic} from "../../core/interface/comic.interface";
-import {Libro} from "../../core/interface/libros.interface";
-import {Producto} from "../../core/interface/producto.interface";
+import {ComicPag} from "../../core/interface/comic.interface";
+import {LibroPag} from "../../core/interface/libros.interface";
+import {ProductoPag} from "../../core/interface/producto.interface";
 import {ButtonModule} from "primeng/button";
 import {NgOptimizedImage} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
@@ -24,24 +24,24 @@ import {SkeletonModule} from "primeng/skeleton";
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  libros: Libro[] = [];
-  comics: Comic[] = [];
-  productos: Producto[] = [];
   private comicService = inject(ComicService);
   private libroService = inject(LibroService);
   private productoService = inject(ProductoService);
+  libroPag!: LibroPag;
+  comicPag!: ComicPag;
+  productoPag!: ProductoPag;
 
   ngOnInit(): void {
-    this.comicService.getComic().subscribe(res => {
-      this.comics = res
+    this.comicService.getComicPag(0,10).subscribe(res => {
+      this.comicPag = res
     });
 
-    this.libroService.getLibro().subscribe(res => {
-      this.libros = res
+    this.libroService.getLibroPag(0,10).subscribe(res => {
+      this.libroPag = res
     });
 
-    this.productoService.getProducto().subscribe(res => {
-      this.productos = res
+    this.productoService.getProductoPag(0,10).subscribe(res => {
+      this.productoPag = res
     });
   }
 

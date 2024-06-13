@@ -2,7 +2,7 @@
   [circular]="true"
   [numScroll]="1"
   [numVisible]="5"
-  [value]="comics"
+  [value]="comicPag.comics"
   styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Cómics</p>
@@ -35,7 +35,7 @@
   [circular]="true"
   [numScroll]="1"
   [numVisible]="5"
-  [value]="libros"
+  [value]="libroPag.libros"
   styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Libros</p>
@@ -66,10 +66,9 @@
 
 <p-carousel
   [circular]="true"
-  [hidden]="productos.length<=0"
   [numScroll]="1"
   [numVisible]="5"
-  [value]="productos"
+  [value]="productoPag.productos"
   styleClass="m-6">
   <ng-template pTemplate="header">
     <p class="ml-8 text-2xl ">Productos</p>
