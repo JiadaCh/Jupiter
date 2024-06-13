@@ -51,15 +51,15 @@ import {delay, switchMap} from "rxjs";
   styles: ``
 })
 export class PerfilComponent implements OnInit {
+  private usuarioService = inject(UsuarioService);
+  private mediaService = inject(MediaService);
+  private authService = inject(AuthService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   usuario!: Usuario;
   editar = signal(false);
   submitted = signal(false);
-  private authService = inject(AuthService);
   usuarioLogeado = this.authService.user();
-  private usuarioService = inject(UsuarioService);
-  private mediaService = inject(MediaService);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
 
   constructor(private messageService: MessageService) {
 

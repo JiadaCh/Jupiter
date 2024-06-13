@@ -84,7 +84,7 @@ export class LoginComponent {
       .subscribe(user => {
         if (user) {
           this.authService.saveToLocalStorage(user);
-          this.router.navigate(['user']).then();
+          this.router.navigate([`user/${user.id}/perfil`]).then();
         }
 
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta'});

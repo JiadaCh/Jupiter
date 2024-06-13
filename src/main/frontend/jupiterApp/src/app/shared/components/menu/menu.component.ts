@@ -82,21 +82,21 @@ export class MenuComponent implements OnInit {
         {
           label: 'Perfil',
           icon: 'pi pi-user',
-          routerLink: `user/${this.usuario()?.id}/perfil`
+          routerLink: `user/${this.usuario()!.id}/perfil`
         }, {
           separator: true
         },
         {
           label: 'Historial de pedidos',
           icon: 'pi pi-receipt',
-          routerLink: `user/${this.usuario()?.id}/pedidos`
+          routerLink: `user/${this.usuario()!.id}/pedidos`
         }, {
           separator: true
         },
         {
           label: 'Productos',
           icon: 'pi pi-box',
-          routerLink: `user/${this.usuario()?.id}/productos`
+          routerLink: `user/${this.usuario()!.id}/productos`
         }
       ];
     }, 200)

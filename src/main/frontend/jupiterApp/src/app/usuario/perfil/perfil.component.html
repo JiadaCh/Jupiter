@@ -8,13 +8,13 @@
   <ng-template pTemplate>
     <div class="col ">
       <p-splitter
-        [panelSizes]="[20,20,50]"
+        [panelSizes]="[50,50]"
         [style]="{ height: '300px' }"
-        styleClass="mb-5 mt-5">
-        <ng-template pTemplate>
-        </ng-template>
-        <ng-template pTemplate>
-          <p-image  [preview]="true" [src]="usuario!.imagen" [alt]="usuario!.nombre" height="250" width="250"></p-image>
+        styleClass="mb-5 mt-5 grid">
+        <ng-template pTemplate >
+          <div style="margin: 0 auto" >
+            <p-image  [preview]="true" [src]="usuario!.imagen" [alt]="usuario!.nombre" height="250" width="250" imageClass></p-image>
+          </div>
         </ng-template>
         <ng-template pTemplate>
           <p-fieldset legend="Datos personales">
