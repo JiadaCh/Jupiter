@@ -1,4 +1,4 @@
-@if (!producto) {
+@if (loading()) {
   <shared-loading></shared-loading>
 } @else {
   <p-toast/>
@@ -12,16 +12,15 @@
     </ng-template>
     <ng-template pTemplate>
       <div class="col ">
-        <p-panel [header]="producto.nombre" styleClass="text-2xl ">
-
+        <p-panel [header]="producto!.nombre" styleClass="text-2xl ">
           <p-fieldset legend="Detalle del producto">
             <div class="grid  gap-3 m-3">
               <p-image
                 [src]="producto.imagen != null? producto.imagen : 'http://localhost:8080/media/producto/default-image.png'"
-                styleClass="border-round col-6 sm:col-1" imageClass="w-30rem"
+                styleClass="border-round col-6 sm:col-1" imageClass="w-25rem"
               ></p-image>
               <div class="col-6 flex-column justify-content-start">
-                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario?.id+'/perfil'">{{ vendedor() }}</a>
+                <div style="margin: 10px 0">Vendedor: <a [href]="'user/'+usuario!.id+'/perfil'">{{ vendedor() }}</a>
                 </div>
                 <div style="margin: 20px 0" class="text-2xl">Precio: <br>
                   <div class="text-red-400 text-6xl">
@@ -68,8 +67,8 @@
     [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <div class="flex justify-content-around">
-        <p-image [src]="producto!.imagen" [alt]="producto!.nombre" [preview]="true"></p-image>
+      <div class="flex justify-content-around mb-2">
+        <p-image [src]="producto!.imagen" [alt]="producto!.nombre" [preview]="true" width="250"></p-image>
       </div>
 
 
