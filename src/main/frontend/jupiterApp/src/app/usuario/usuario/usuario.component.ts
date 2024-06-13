@@ -34,7 +34,7 @@ export class UsuarioComponent {
       route: `${this.usuario()?.id}/pedidos`
     }, {
       label: 'Productos',
-      icon: 'pi pi-book',
+      icon: 'pi pi-box',
       route: `${this.usuario()?.id}/productos`
     }
   ]);

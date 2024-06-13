@@ -95,7 +95,7 @@ export class MenuComponent implements OnInit {
         },
         {
           label: 'Productos',
-          icon: 'pi pi-receipt',
+          icon: 'pi pi-box',
           routerLink: `user/${this.usuario()?.id}/productos`
         }
       ];
