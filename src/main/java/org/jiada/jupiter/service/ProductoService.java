@@ -1,7 +1,6 @@
 package org.jiada.jupiter.service;
 
 
-import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.entity.Producto;
 import org.jiada.jupiter.entity.Usuario;
 import org.jiada.jupiter.exception.EntityNotFoundException;

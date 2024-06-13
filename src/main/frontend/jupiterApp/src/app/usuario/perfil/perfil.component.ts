@@ -22,7 +22,7 @@ import {FileSelectEvent, FileUploadModule} from "primeng/fileupload";
 import {MediaService} from "../../core/service/media.service";
 import {ToastModule} from "primeng/toast";
 import {ActivatedRoute, Router} from "@angular/router";
-import {delay, switchMap} from "rxjs";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'user-perfil',

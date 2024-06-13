@@ -59,7 +59,6 @@ export class HistorialPedidoComponent implements OnInit {
   private pedidoService = inject(PedidoService);
   usuario = this.authService.user();
 
-  protected readonly EstadoPedido = EstadoPedido;
   loading = signal(true);
   pedidos = signal<Pedido[]>([]);
   estados: EstadoPedido[] = [EstadoPedido.Pediente, EstadoPedido.Enviado, EstadoPedido.Entregado];

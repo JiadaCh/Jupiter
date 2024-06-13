@@ -2,14 +2,12 @@ package org.jiada.jupiter.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.jiada.jupiter.entity.Comic;
 import org.jiada.jupiter.service.ComicService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

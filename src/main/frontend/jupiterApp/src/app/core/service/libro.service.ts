@@ -4,7 +4,6 @@ import {environments} from "../../../../environments/enviroments.prod";
 import {catchError, map, Observable, of} from "rxjs";
 import {Libro, LibroPag} from "../interface/libros.interface";
 import {MessageService} from "primeng/api";
-import {ComicPag} from "../interface/comic.interface";
 
 @Injectable({
   providedIn: 'root'

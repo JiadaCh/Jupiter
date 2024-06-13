@@ -2,7 +2,6 @@ package org.jiada.jupiter.service;
 
 
 import jakarta.transaction.Transactional;
-import org.jiada.jupiter.entity.Comic;
 import org.jiada.jupiter.entity.Editorial;
 import org.jiada.jupiter.entity.Libro;
 import org.jiada.jupiter.exception.EntityNotFoundException;

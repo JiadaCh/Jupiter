@@ -80,7 +80,7 @@ export class DetalleComicComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   resenaDialog: boolean = false;
-  usuarioLoageado = this.authService.user();
+  usuarioLogeado = this.authService.user();
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -100,8 +100,8 @@ export class DetalleComicComponent implements OnInit {
           }
           this.getCalificacion();
         })
-        if (this.usuarioLoageado) {
-          this.resenaService.getResenaComicUsuario(comic, this.usuarioLoageado).subscribe((res) => {
+        if (this.usuarioLogeado) {
+          this.resenaService.getResenaComicUsuario(comic, this.usuarioLogeado).subscribe((res) => {
             this.resena = res;
           })
         }
@@ -124,9 +124,9 @@ export class DetalleComicComponent implements OnInit {
   }
 
   openNew() {
-    if (this.usuarioLoageado) {
+    if (this.usuarioLogeado) {
       this.resena = {
-        calificacion: 0, id: 0, texto: "", usuario: this.usuarioLoageado
+        calificacion: 0, id: 0, texto: "", usuario: this.usuarioLogeado
       };
       this.submitted.set(false);
       this.resenaDialog = true;
@@ -214,7 +214,7 @@ export class DetalleComicComponent implements OnInit {
           });
           this.resenaDialog = false;
           this.submitted.set(false);
-          this.resenaService.getResenaComicUsuario(this.comic!, this.usuarioLoageado!).subscribe((res) => {
+          this.resenaService.getResenaComicUsuario(this.comic!, this.usuarioLogeado!).subscribe((res) => {
             this.resena = res;
             this.resenas.push(res);
             this.calificacion += res.calificacion;

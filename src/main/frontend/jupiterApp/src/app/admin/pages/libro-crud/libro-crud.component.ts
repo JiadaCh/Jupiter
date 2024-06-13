@@ -168,7 +168,7 @@ export class LibroCrudComponent implements OnInit {
           })
         }
         this.selectedLibros = [];
-        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Libroes Eliminados', life: 3000});
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Libros Eliminados', life: 3000});
       }
     });
   }

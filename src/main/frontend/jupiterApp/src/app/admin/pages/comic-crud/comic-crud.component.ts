@@ -177,7 +177,7 @@ export class ComicCrudComponent implements OnInit {
           })
         }
         this.selectedComics = [];
-        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Comices Eliminados', life: 3000});
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Comics Eliminados', life: 3000});
       }
     });
   }
