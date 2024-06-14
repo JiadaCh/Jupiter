@@ -12,8 +12,8 @@
         [style]="{ height: '300px' }"
         styleClass="mb-5 mt-5 grid">
         <ng-template pTemplate >
-          <div style="margin: 0 auto" >
-            <p-image  [preview]="true" [src]="usuario!.imagen" [alt]="usuario!.nombre" height="250" width="250" imageClass></p-image>
+          <div style="margin: 0 auto;border-color: var(--cyan-300);" class="border-cyan-400 border-200" >
+            <p-avatar class=" col-1 " [image]="usuario!.imagen" shape="circle" styleClass="w-13rem h-13rem"/>
           </div>
         </ng-template>
         <ng-template pTemplate>

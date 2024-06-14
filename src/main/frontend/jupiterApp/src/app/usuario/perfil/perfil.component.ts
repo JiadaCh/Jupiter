@@ -23,6 +23,7 @@ import {MediaService} from "../../core/service/media.service";
 import {ToastModule} from "primeng/toast";
 import {ActivatedRoute, Router} from "@angular/router";
 import {switchMap} from "rxjs";
+import {AvatarModule} from "primeng/avatar";
 
 @Component({
   selector: 'user-perfil',
@@ -45,7 +46,8 @@ import {switchMap} from "rxjs";
     ButtonModule,
     ToastModule,
     FileUploadModule,
-    NgForOf
+    NgForOf,
+    AvatarModule
   ],
   templateUrl: './perfil.component.html',
   styles: ``

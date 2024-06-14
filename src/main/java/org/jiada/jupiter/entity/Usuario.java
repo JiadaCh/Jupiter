@@ -45,14 +45,16 @@ public class Usuario {
     private long id;
 
     @Column(name = "correo", nullable = false, unique = true)
-    @Email(message = "Formato de email incorrecto", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+    @NotBlank(message = "Introduzca un correo")
+    @Email(message = "Formato del correo incorrecto: example@example.com", regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String correo;
 
     @Column(name = "nombre", nullable = false, unique = true)
-    @NotBlank(message = "no se puede poner el nombre en blanco")
+    @NotBlank(message = "Introduzca un nombre de usuario")
     private String nombre;
 
     @Column(name = "rol", nullable = false)
+    @NotBlank(message = "Introduzca un rol")
     private String rol;
 
     @Column(name = "direccion")

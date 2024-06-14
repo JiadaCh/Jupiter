@@ -41,3 +41,7 @@ img {
 .p-tag{
   margin: 0 2px;
 }
+
+.p-avatar{
+  border: 2px solid var(--text-color-secondary);
+}
