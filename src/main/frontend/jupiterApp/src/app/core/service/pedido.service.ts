@@ -17,8 +17,7 @@ export class PedidoService {
 
   getPedidoByUsuario(usuario: Usuario | undefined): Observable<Pedido[]> {
     if (usuario && !usuario.id) throw Error('Usuario requerido');
-    // @ts-ignore
-    return this.http.get<Pedido[]>(this.baseUrl() + '/pedidos/usuario?idUsuario=' + usuario.id).pipe(
+    return this.http.get<Pedido[]>(this.baseUrl() + '/pedidos/usuario?idUsuario=' + usuario!.id).pipe(
       catchError(() => of([]))
     )
   }

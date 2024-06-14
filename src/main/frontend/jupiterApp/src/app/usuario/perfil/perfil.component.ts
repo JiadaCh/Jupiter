@@ -85,13 +85,13 @@ export class PerfilComponent implements OnInit {
       const formdata = new FormData();
       formdata.append('file', file);
       formdata.append('subfolder', "usuario");
-      formdata.append('filename', "usuario-" + this.usuario!.nombre + "-" + this.usuario!.correo);
+      formdata.append('filename', "usuario-" + this.usuario!.id);
       this.mediaService.uploadFile(formdata).subscribe(res => {
         this.usuario!.imagen = res.url;
         this.messageService.add({
           severity: 'info',
           summary: 'Se ha cambiado el perfil',
-          detail: 'Refresca la pagina para ver el cambio'
+          detail: 'Por favor, pulse save y refresca la pagina para ver el cambio'
         });
       })
     }

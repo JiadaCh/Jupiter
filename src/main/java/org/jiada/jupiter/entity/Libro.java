@@ -15,7 +15,12 @@ import java.util.*;
 
 
 @Entity
-@Table(name = "libro")
+@Table(name = "libro", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "isbn_unique",
+                columnNames = "ISBN"
+        )
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

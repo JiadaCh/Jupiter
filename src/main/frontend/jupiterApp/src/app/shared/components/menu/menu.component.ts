@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {MenubarModule} from "primeng/menubar";
 import {AvatarModule} from "primeng/avatar";
 import {BadgeModule} from "primeng/badge";
@@ -30,7 +30,7 @@ import {Router} from "@angular/router";
   templateUrl: './menu.component.html',
   styles: ``
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   usuario = computed(
     this.authService.user
@@ -67,38 +67,44 @@ export class MenuComponent implements OnInit {
 
 
   constructor() {
-
   }
 
   logout(): void {
     this.authService.logout();
-
     this.router.navigate(['/login']).then();
   }
 
   ngOnInit(): void {
+    this.cargarMenu()
+  }
+
+  ngOnDestroy(): void {
+    this.items = [];
+  }
+
+  cargarMenu(){
     setTimeout(() => {
       this.items = [
         {
           label: 'Perfil',
           icon: 'pi pi-user',
-          routerLink: `user/${this.usuario()!.id}/perfil`
+          routerLink: `user/${this.authService.user()!.id}/perfil`
         }, {
           separator: true
         },
         {
           label: 'Historial de pedidos',
           icon: 'pi pi-receipt',
-          routerLink: `user/${this.usuario()!.id}/pedidos`
+          routerLink: `user/${this.authService.user()!.id}/pedidos`
         }, {
           separator: true
         },
         {
           label: 'Productos',
           icon: 'pi pi-box',
-          routerLink: `user/${this.usuario()!.id}/productos`
+          routerLink: `user/${this.authService.user()!.id}/productos`
         }
       ];
-    }, 300)
+    }, 500)
   }
 }

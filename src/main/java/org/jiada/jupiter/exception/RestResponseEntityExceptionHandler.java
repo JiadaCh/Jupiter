@@ -22,10 +22,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         Set<ErrorMessage> errorMessage = new HashSet<>();
         if (ex.getMessage().equals("usuario.correo_unique")) {
             errorMessage.add(new ErrorMessage("El correo ya existe"));
-        }
-        if (ex.getMessage().equals("usuario.nombre_unique")) {
+        } else if (ex.getMessage().equals("usuario.nombre_unique")) {
             errorMessage.add(new ErrorMessage("El nombre del usuario ya existe"));
+        }else if (ex.getMessage().contains("libro")) {
+            errorMessage.add(new ErrorMessage("El ISBN del libro ya existe"));
+        }else {
+            errorMessage.add(new ErrorMessage(ex.getMessage()));
         }
+
+
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 

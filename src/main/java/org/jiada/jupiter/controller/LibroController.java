@@ -3,6 +3,7 @@ package org.jiada.jupiter.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jiada.jupiter.entity.Libro;
+import org.jiada.jupiter.exception.ConstraintViolationException;
 import org.jiada.jupiter.service.LibroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,9 @@ public class LibroController {
 
     @PostMapping({"", "/"})
     public Libro newLibro(@RequestBody @Valid Libro libro) {
+        if (libroService.existsByIsbn(libro.getISBN())) {
+            throw new ConstraintViolationException("ISBN existente");
+        }
         return this.libroService.save(libro);
     }
 

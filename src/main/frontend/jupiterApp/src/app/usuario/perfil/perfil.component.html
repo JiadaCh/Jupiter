@@ -1,6 +1,6 @@
 <p-toast/>
 <p-splitter
-  [panelSizes]="[7, 84, 7]"
+  [panelSizes]="[10, 80, 10]"
   [style]="{ height: '300px' }"
   styleClass="mb-5">
   <ng-template pTemplate>
@@ -8,70 +8,72 @@
   <ng-template pTemplate>
     <div class="col ">
       <p-splitter
-        [panelSizes]="[50,50]"
         [style]="{ height: '300px' }"
-        styleClass="mb-5 mt-5 grid">
+        layout="horizontal"
+        styleClass="mb-5 mt-5 ">
         <ng-template pTemplate >
-          <div style="margin: 0 auto;border-color: var(--cyan-300);" class="border-cyan-400 border-200" >
+          <div class="border-cyan-400 border-200 flex xl:justify-content-end md:justify-content-end sm:justify-content-center" >
             <p-avatar class=" col-1 " [image]="usuario!.imagen" shape="circle" styleClass="w-13rem h-13rem"/>
           </div>
         </ng-template>
         <ng-template pTemplate>
-          <p-fieldset legend="Datos personales">
-            <div class="m-4 mb-6">
-              <p-floatLabel>
-                <input [(ngModel)]="usuario!.nombre" [readOnly]="!editar()" class="w-24rem" id="username" pInputText/>
-                <label for="username">Username</label>
-              </p-floatLabel>
-              <small *ngIf="submitted() && !usuario.nombre" class="p-error">
-                Usuario es requerido.
-              </small>
-            </div>
-            <div class="m-4 mb-6">
-              <p-floatLabel>
-                <input #email="ngModel" [(ngModel)]="usuario!.correo" [readOnly]="!editar()"
-                       class="w-24rem"
+          <div class="col-auto">
+            <p-fieldset legend="Datos personales">
+              <div class="m-4 mb-6">
+                <p-floatLabel>
+                  <input [(ngModel)]="usuario!.nombre" [readOnly]="!editar()" class="w-24rem" id="username" pInputText/>
+                  <label for="username">Username</label>
+                </p-floatLabel>
+                <small *ngIf="submitted() && !usuario.nombre" class="p-error">
+                  Usuario es requerido.
+                </small>
+              </div>
+              <div class="m-4 mb-6">
+                <p-floatLabel>
+                  <input #email="ngModel" [(ngModel)]="usuario!.correo" [readOnly]="!editar()"
+                         class="w-24rem"
 
-                       id="correo"
-                       pInputText pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"/>
-                <label for="correo">Correo</label>
-              </p-floatLabel>
-              <small *ngIf="submitted() && !usuario.correo" class="p-error">
-                Correo es requerido.
-              </small>
-              <small *ngIf="submitted() && email.errors" class="p-error">
-                Formato del correo incorrecto: example&commat;example.com
-              </small>
-            </div>
-            <div class="m-4 mb-6">
-              <p-floatLabel>
-                <input [(ngModel)]="usuario!.direccion" [readOnly]="!editar()" class="w-24rem" id="direccion"
-                       pInputText/>
-                <label for="direccion">Direccion</label>
-              </p-floatLabel>
-            </div>
-            <div class="flex justify-content-around">
+                         id="correo"
+                         pInputText pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"/>
+                  <label for="correo">Correo</label>
+                </p-floatLabel>
+                <small *ngIf="submitted() && !usuario.correo" class="p-error">
+                  Correo es requerido.
+                </small>
+                <small *ngIf="submitted() && email.errors" class="p-error">
+                  Formato del correo incorrecto: example&commat;example.com
+                </small>
+              </div>
+              <div class="m-4 mb-6">
+                <p-floatLabel>
+                  <input [(ngModel)]="usuario!.direccion" [readOnly]="!editar()" class="w-24rem" id="direccion"
+                         pInputText/>
+                  <label for="direccion">Direccion</label>
+                </p-floatLabel>
+              </div>
+              <div class="flex justify-content-around">
 
 
-              @if (!editar() && usuario.id == usuarioLogeado?.id) {
+                @if (!editar() && usuario.id == usuarioLogeado?.id) {
 
-                <p-button label="Editar" (onClick)="editar.set(true)"/>
+                  <p-button label="Editar" (onClick)="editar.set(true)"/>
 
-              } @else if (usuario.id == usuarioLogeado?.id) {
-                <p-fileUpload
-                  (onSelect)="onUpload($event)"
-                  url="https://www.primefaces.org/cdn/api/upload.php"
-                  [auto]="true"
-                  mode="basic"
-                  accept="image/*"
-                  chooseLabel="Cambiar imagen"
-                  chooseIcon="pi pi-upload"
-                  maxFileSize="1000000">
-                </p-fileUpload>
-                <p-button label="Save" severity="success" (onClick)="saveUsuario()"/>
-              }
-            </div>
-          </p-fieldset>
+                } @else if (usuario.id == usuarioLogeado?.id) {
+                  <p-fileUpload
+                    (onSelect)="onUpload($event)"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    [auto]="true"
+                    mode="basic"
+                    accept="image/*"
+                    chooseLabel="Cambiar imagen"
+                    chooseIcon="pi pi-upload"
+                    maxFileSize="1000000">
+                  </p-fileUpload>
+                  <p-button label="Save" severity="success" (onClick)="saveUsuario()"/>
+                }
+              </div>
+            </p-fieldset>
+          </div>
         </ng-template>
       </p-splitter>
 

@@ -3,7 +3,8 @@
 @import "primeflex/primeflex.min.css";
 
 body{
-  text-align: justify;
+  margin: 0;
+  padding: 0;
 }
 .p-dialog .p-dialog-header .p-dialog-header-icon {
   display: none !important;
@@ -36,6 +37,7 @@ img {
 
 .desc {
   white-space: pre-line;
+  text-align: justify;
 }
 
 .p-tag{

@@ -227,8 +227,8 @@ export class LibroCrudComponent implements OnInit {
               });
               this.libroDialog.set(false);
               this.editar.set(false);
-              this.cargarDatos()
               this.submitted.set(false);
+              window.location.reload();
             } else {
               this.showError()
             }
@@ -247,8 +247,8 @@ export class LibroCrudComponent implements OnInit {
             life: 3000
           });
           this.libroDialog.set(false);
-          this.cargarDatos();
           this.submitted.set(false);
+          window.location.reload();
 
         } else {
           this.showError();

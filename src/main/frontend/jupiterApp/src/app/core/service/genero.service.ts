@@ -32,8 +32,10 @@ export class GeneroService {
       .pipe(
         map(() => true),
         catchError((err) => {
-          for (let i in err.error)
-            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          if (!err.error.message)
+            for (let i in err.error)
+              this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+
           return of(false);
         })
       )
@@ -45,8 +47,9 @@ export class GeneroService {
       .pipe(
         map(() => true),
         catchError((err) => {
-          for (let i in err.error)
-            this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
+          if (!err.error.message)
+            for (let i in err.error)
+              this.messageService.add({severity: 'info', summary: 'No valido', detail: err.error[i].message});
           return of(false);
         })
       )

@@ -23,14 +23,11 @@ public class UsuarioService {
         return this.usuarioRepository.findAll();
     }
 
-    public Usuario save(Usuario Usuario) {
+    public Usuario save(Usuario usuario) {
         try {
-            return this.usuarioRepository.save(Usuario);
+            this.existsUsuario(usuario);
+            return this.usuarioRepository.save(usuario);
         } catch (DataIntegrityViolationException e) {
-            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-                throw new ConstraintViolationException(((org.hibernate.exception.ConstraintViolationException) e.getCause()).getConstraintName());
-            }
-
             throw e;
         }
     }
@@ -42,15 +39,12 @@ public class UsuarioService {
 
     public Usuario replace(Long id, Usuario usuario) {
         try {
+            this.existsUsuario(usuario);
             return this.usuarioRepository.findById(id).map(p -> (id.equals(usuario.getId()) ?
                             this.usuarioRepository.save(usuario) : null))
                     .orElseThrow(() -> new EntityNotFoundException(id, new Usuario()));
 
         } catch (DataIntegrityViolationException e) {
-            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-                throw new ConstraintViolationException(((org.hibernate.exception.ConstraintViolationException) e.getCause()).getConstraintName());
-            }
-
             throw e;
         }
 
@@ -75,5 +69,15 @@ public class UsuarioService {
 
         return null;
 
+    }
+
+    public void existsUsuario(Usuario usuario) {
+        if (usuarioRepository.existsUsuarioByNombreAndCorreo(usuario.getNombre(),usuario.getCorreo())) {
+            throw new ConstraintViolationException("Usuario ya existe");
+        } else if (usuarioRepository.existsUsuarioByNombre(usuario.getNombre())) {
+            throw new ConstraintViolationException("Usuario ya existe");
+        }else if (usuarioRepository.existsUsuarioByCorreo(usuario.getCorreo())){
+            throw new ConstraintViolationException("El correo ya existe");
+        }
     }
 }

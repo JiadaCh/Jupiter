@@ -59,6 +59,11 @@ import {DropdownModule} from "primeng/dropdown";
   styleUrl: './comic-crud.component.css',
 })
 export class ComicCrudComponent implements OnInit {
+  private comicService = inject(ComicService);
+  private editorialService = inject(EditorialService);
+  private autorService = inject(AutorService);
+  private mediaService = inject(MediaService);
+  private generoService = inject(GeneroService);
   loading = signal(true);
   comics = signal<Comic[]>([]);
   editorial: Editorial[] = [];
@@ -73,11 +78,6 @@ export class ComicCrudComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   comicDialog: boolean = false;
-  private comicService = inject(ComicService);
-  private editorialService = inject(EditorialService);
-  private autorService = inject(AutorService);
-  private mediaService = inject(MediaService);
-  private generoService = inject(GeneroService);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
@@ -202,7 +202,7 @@ export class ComicCrudComponent implements OnInit {
               detail: 'Comic eleminado',
               life: 3000
             });
-            this.cargarDatos()
+            this.cargarDatos();
           } else {
             this.showError()
           }
@@ -236,7 +236,7 @@ export class ComicCrudComponent implements OnInit {
               this.comicDialog = false;
               this.submitted.set(false);
               this.editar.set(false);
-              this.cargarDatos()
+              window.location.reload();
             } else {
               this.showError()
             }
@@ -257,7 +257,6 @@ export class ComicCrudComponent implements OnInit {
           this.submitted.set(false);
           this.comicDialog = false;
           this.cargarDatos();
-
         } else {
           this.showError();
         }

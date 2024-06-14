@@ -42,13 +42,13 @@ import {ToastModule} from "primeng/toast";
   styles: ``
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
   opcion: string = "";
   contra: string = "";
   usuarioDialog: boolean = false;
   usuario!: Usuario;
   submitted = signal(false);
-  private authService = inject(AuthService);
-  private router = inject(Router);
 
   constructor(private messageService: MessageService) {
   }
@@ -84,7 +84,9 @@ export class LoginComponent {
       .subscribe(user => {
         if (user) {
           this.authService.saveToLocalStorage(user);
-          this.router.navigate([`user/${user.id}/perfil`]).then();
+            this.router.navigate([`user/${user.id}/perfil`]).then(()=>{
+              window.location.reload();
+            });
         }
 
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'Usuario/contraseña incorrecta'});
