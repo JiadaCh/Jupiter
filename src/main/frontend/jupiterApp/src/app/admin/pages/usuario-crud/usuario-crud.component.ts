@@ -47,17 +47,17 @@ import {PasswordModule} from "primeng/password";
   styleUrl: './usuario-crud.component.css',
 })
 export class UsuarioCrudComponent implements OnInit {
+  private usuarioService = inject(UsuarioService);
+  private mediaService = inject(MediaService);
   loading = signal(true);
   usuarios = signal<Usuario[]>([]);
+  editar = signal(false);
+  submitted = signal(false);
   selectedUsuarios: Usuario[] = [];
   rol: Rol[] = [Rol.admin, Rol.usuario];
   uploadedFiles: any[] = [];
   usuario!: Usuario;
-  editar = signal(false);
-  submitted = signal(false);
   usuarioDialog: boolean = false;
-  private usuarioService = inject(UsuarioService);
-  private mediaService = inject(MediaService);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }

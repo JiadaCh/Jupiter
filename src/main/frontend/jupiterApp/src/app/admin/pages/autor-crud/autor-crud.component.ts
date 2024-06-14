@@ -33,15 +33,14 @@ import {CommonModule} from "@angular/common";
   styleUrl: './autor-crud.component.css',
 })
 export class AutorCrudComponent implements OnInit {
+  private autorService = inject(AutorService);
   autores = signal<Autor[]>([]);
   loading = signal(true);
-  selectedAutors: Autor[] = [];
-  autor!: Autor;
   editar = signal(false);
   submitted = signal(false);
   autorDialog = signal(false);
-  private autorService = inject(AutorService);
-
+  selectedAutors: Autor[] = [];
+  autor!: Autor;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 

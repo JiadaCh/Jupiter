@@ -65,22 +65,22 @@ import {Libro} from "../../core/interface/libros.interface";
   styles: ``
 })
 export class DetalleLibroComponent implements OnInit {
+  private resenaService = inject(ResenaService);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
+  private libroService = inject(LibroService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  editar = signal(false);
+  submitted = signal(false);
+  userCalf = signal(0);
   libro: Libro | undefined;
   calificacion: number = 0;
   mediaCalificacion: number = 0;
   resenas: Resena[] = [];
   resena: Resena | undefined;
-  editar = signal(false);
-  submitted = signal(false);
   resenaDialog: boolean = false;
-  userCalf = signal(0);
-  private libroService = inject(LibroService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
   usuarioLogeado = this.authService.user();
-  private resenaService = inject(ResenaService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
 
   constructor(private confirmationService: ConfirmationService) {
   }

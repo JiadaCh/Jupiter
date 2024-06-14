@@ -33,14 +33,14 @@ import {CommonModule} from "@angular/common";
   styleUrl: './editorial-crud.component.css',
 })
 export class EditorialCrudComponent implements OnInit {
+  private editorialService = inject(EditorialService);
   editoriales = signal<Editorial[]>([]);
   loading = signal(true);
-  selectedEditorials: Editorial[] = [];
-  editorial!: Editorial;
   editar = signal(false);
   submitted = signal(false);
   editorialDialog = signal(false);
-  private editorialService = inject(EditorialService);
+  selectedEditorials: Editorial[] = [];
+  editorial!: Editorial;
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }

@@ -53,16 +53,15 @@ import {AvatarModule} from "primeng/avatar";
   styles: ``
 })
 export class PerfilComponent implements OnInit {
-  usuario!: Usuario;
-  editar = signal(false);
-  submitted = signal(false);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   private usuarioService = inject(UsuarioService);
   private mediaService = inject(MediaService);
   private authService = inject(AuthService);
+  usuario!: Usuario;
+  editar = signal(false);
+  submitted = signal(false);
   usuarioLogeado = this.authService.user();
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-
   constructor(private messageService: MessageService) {
 
   }

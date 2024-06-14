@@ -19,6 +19,10 @@ import {AuthService} from "../../core/service/auth.service";
 })
 export class UsuarioComponent {
 
+  private authService = inject(AuthService);
+  usuario = computed(
+    this.authService.user
+  )
   menuItems = signal<MenuItem[]>([
     {
       label: 'Perfil',
@@ -34,9 +38,5 @@ export class UsuarioComponent {
       route: `${this.usuario()?.id}/productos`
     }
   ]);
-  private authService = inject(AuthService);
-  usuario = computed(
-    this.authService.user
-  )
 
 }

@@ -42,13 +42,13 @@ import {ToastModule} from "primeng/toast";
   styles: ``
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  submitted = signal(false);
   opcion: string = "";
   contra: string = "";
   usuarioDialog: boolean = false;
   usuario!: Usuario;
-  submitted = signal(false);
-  private authService = inject(AuthService);
-  private router = inject(Router);
 
   constructor(private messageService: MessageService) {
   }

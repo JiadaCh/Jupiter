@@ -51,6 +51,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   styles: ``
 })
 export class ProductosComponent implements OnInit {
+  private authService = inject(AuthService);
+  private productoService = inject(ProductoService);
+  private mediaService = inject(MediaService);
   loading = signal(true);
   productos = signal<Producto[]>([]);
   selectedProductos: Producto[] = [];
@@ -60,10 +63,7 @@ export class ProductosComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   productoDialog: boolean = false;
-  private authService = inject(AuthService);
   usuario = this.authService.user();
-  private productoService = inject(ProductoService);
-  private mediaService = inject(MediaService);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }

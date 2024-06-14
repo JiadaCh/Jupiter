@@ -44,6 +44,10 @@ import {RouterLink} from "@angular/router";
   styles: ``
 })
 export class ComicsComponent implements OnInit {
+  private comicService = inject(ComicService);
+  private generoService = inject(GeneroService);
+  private autorService = inject(AutorService);
+  private editorialService = inject(EditorialService);
   rows: number = 12;
   layout: "grid" | "list" = 'grid';
   generos: Genero[] = [];
@@ -57,10 +61,6 @@ export class ComicsComponent implements OnInit {
   selectedEditorial: Editorial[] = [];
   selectedTipo: string = '';
   searchText: string = '';
-  private comicService = inject(ComicService);
-  private generoService = inject(GeneroService);
-  private autorService = inject(AutorService);
-  private editorialService = inject(EditorialService);
 
   ngOnInit(): void {
     this.comicService.getComic().subscribe(res => {

@@ -65,22 +65,22 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   styles: ``
 })
 export class DetalleComicComponent implements OnInit {
-  comic: Comic | undefined;
-  calificacion: number = 0;
-  mediaCalificacion: number = 0;
-  resenas: Resena[] = [];
-  resena: Resena | undefined;
-  editar = signal(false);
-  submitted = signal(false);
-  resenaDialog: boolean = false;
   private resenaService = inject(ResenaService);
   private router = inject(Router);
   private messageService = inject(MessageService);
   private comicService = inject(ComicService);
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthService);
-  usuarioLogeado = this.authService.user();
   private userCalf = signal(0);
+  editar = signal(false);
+  submitted = signal(false);
+  comic: Comic | undefined;
+  calificacion: number = 0;
+  mediaCalificacion: number = 0;
+  resenas: Resena[] = [];
+  resena: Resena | undefined;
+  resenaDialog: boolean = false;
+  usuarioLogeado = this.authService.user();
 
   constructor(private confirmationService: ConfirmationService) {
   }

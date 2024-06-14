@@ -32,12 +32,12 @@ import {RouterLink} from "@angular/router";
   styles: ``
 })
 export class ProductosComponent implements OnInit {
+  private productoService = inject(ProductoService);
   rows: number = 12;
   layout: "grid" | "list" = 'grid';
   productos: Producto[] = [];
   filteredItems: Producto[] = [];
   searchText: string = '';
-  private productoService = inject(ProductoService);
 
   ngOnInit(): void {
     this.productoService.getProducto().subscribe(res => {

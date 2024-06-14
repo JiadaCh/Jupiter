@@ -54,16 +54,15 @@ import {TagModule} from "primeng/tag";
   }`
 })
 export class HistorialPedidoComponent implements OnInit {
-
+  private pedidoService = inject(PedidoService);
+  private authService = inject(AuthService);
   loading = signal(true);
   pedidos = signal<Pedido[]>([]);
   estados: EstadoPedido[] = [EstadoPedido.Pediente, EstadoPedido.Enviado, EstadoPedido.Entregado];
   pedido!: Pedido;
   submitted = signal(false);
   pedidoDialog: boolean = false;
-  private authService = inject(AuthService);
   usuario = this.authService.user();
-  private pedidoService = inject(PedidoService);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
 

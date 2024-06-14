@@ -66,23 +66,23 @@ import {ToastModule} from "primeng/toast";
   }`
 })
 export class DetalleProductoComponent implements OnInit {
-  propietario = signal<boolean>(false);
-  compraDialog: boolean = false;
-  producto!: Producto;
-  usuario!: Usuario | undefined;
-  vendedor = computed(() => {
-    if (this.propietario()) return "Yo";
-
-    return this.usuario!.nombre;
-  })
-  submitted = signal(false);
-  loading = signal(true);
   private productoService = inject(ProductoService);
   private usuarioService = inject(UsuarioService);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
   private pedidoService = inject(PedidoService);
   private router = inject(Router);
+  propietario = signal<boolean>(false);
+  submitted = signal(false);
+  loading = signal(true);
+  vendedor = computed(() => {
+    if (this.propietario()) return "Yo";
+
+    return this.usuario!.nombre;
+  })
+  compraDialog: boolean = false;
+  producto!: Producto;
+  usuario!: Usuario | undefined;
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }

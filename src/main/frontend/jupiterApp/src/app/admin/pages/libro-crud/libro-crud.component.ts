@@ -59,7 +59,15 @@ import {CommonModule} from "@angular/common";
   styleUrl: './libro-crud.component.css',
 })
 export class LibroCrudComponent implements OnInit {
+  private libroService = inject(LibroService);
+  private editorialService = inject(EditorialService);
+  private autorService = inject(AutorService);
+  private mediaService = inject(MediaService);
+  private generoService = inject(GeneroService);
   loading = signal(true);
+  editar = signal(false);
+  submitted = signal(false);
+  libroDialog = signal(false);
   libros = signal<Libro[]>([]);
   editorial: Editorial[] = [];
   generos: Genero[] = [];
@@ -69,14 +77,6 @@ export class LibroCrudComponent implements OnInit {
   selectedColumns: Column[] = [];
   uploadedFiles: any[] = [];
   libro!: Libro;
-  editar = signal(false);
-  submitted = signal(false);
-  libroDialog = signal(false);
-  private libroService = inject(LibroService);
-  private editorialService = inject(EditorialService);
-  private autorService = inject(AutorService);
-  private mediaService = inject(MediaService);
-  private generoService = inject(GeneroService);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }

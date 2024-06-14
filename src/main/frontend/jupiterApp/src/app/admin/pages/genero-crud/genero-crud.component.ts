@@ -27,14 +27,14 @@ import {delay} from "rxjs";
   styleUrl: './genero-crud.component.css',
 })
 export class GeneroCrudComponent implements OnInit {
+  private generoService = inject(GeneroService);
   generos = signal<Genero[]>([]);
   loading = signal(true);
-  selectedGeneros: Genero[] = [];
-  genero!: Genero;
   editar = signal(false);
   submitted = signal(false);
   generoDialog = signal(false);
-  private generoService = inject(GeneroService);
+  selectedGeneros: Genero[] = [];
+  genero!: Genero;
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
