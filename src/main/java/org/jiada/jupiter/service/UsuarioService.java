@@ -67,7 +67,6 @@ public class UsuarioService {
     public Usuario login(String usuario, String contrasena) {
         Usuario user = this.usuarioRepository.findByNombreOrCorreo(usuario, usuario);
 
-        System.out.println(usuario);
         if (user != null && user.getContrasena().equals(contrasena)) {
             System.out.println("Usuario encontrado");
             return user;

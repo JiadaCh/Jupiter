@@ -99,6 +99,6 @@ export class MenuComponent implements OnInit {
           routerLink: `user/${this.usuario()!.id}/productos`
         }
       ];
-    }, 200)
+    }, 300)
   }
 }

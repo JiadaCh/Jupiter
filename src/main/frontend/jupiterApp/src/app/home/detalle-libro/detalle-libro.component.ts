@@ -154,8 +154,9 @@ export class DetalleLibroComponent implements OnInit {
               detail: 'Resena eleminado',
               life: 3000
             });
-            this.resena = undefined;
+            this.resenas = this.resenas.filter(value => value.id !== resena.id);
             this.calificacion -= resena.calificacion;
+            this.resena = undefined;
             this.getCalificacion();
           } else {
             this.showError()
@@ -168,6 +169,9 @@ export class DetalleLibroComponent implements OnInit {
   hideDialog() {
     this.resenaDialog = false;
     this.submitted.set(false);
+    if (!this.editar()){
+      this.resena=undefined;
+    }
     this.editar.set(false);
   }
 
@@ -193,6 +197,7 @@ export class DetalleLibroComponent implements OnInit {
               let calf = this.resena!.calificacion;
               this.calificacion -= this.userCalf() - calf;
               this.getCalificacion();
+              this.userCalf.set(calf);
             } else {
               this.showError()
             }

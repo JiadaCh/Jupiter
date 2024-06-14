@@ -103,6 +103,7 @@ export class DetalleComicComponent implements OnInit {
         if (this.usuarioLogeado) {
           this.resenaService.getResenaComicUsuario(comic, this.usuarioLogeado).subscribe((res) => {
             this.resena = res;
+            this.userCalf.set(res.calificacion);
           })
         }
         this.comic = comic;
@@ -154,8 +155,9 @@ export class DetalleComicComponent implements OnInit {
               detail: 'Resena eleminado',
               life: 3000
             });
-            this.resena = undefined;
+            this.resenas = this.resenas.filter(value => value.id !== resena.id);
             this.calificacion -= resena.calificacion;
+            this.resena = undefined;
             this.getCalificacion();
           } else {
             this.showError()
@@ -168,8 +170,10 @@ export class DetalleComicComponent implements OnInit {
   hideDialog() {
     this.resenaDialog = false;
     this.submitted.set(false);
+    if (!this.editar()){
+      this.resena=undefined;
+    }
     this.editar.set(false);
-    this.userCalf.set(this.resena!.calificacion)
   }
 
   saveResena() {
@@ -195,6 +199,7 @@ export class DetalleComicComponent implements OnInit {
               let calf = this.resena!.calificacion;
               this.calificacion -= this.userCalf() - calf;
               this.getCalificacion();
+              this.userCalf.set(calf);
             } else {
               this.showError()
             }
