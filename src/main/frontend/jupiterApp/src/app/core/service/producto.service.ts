@@ -20,21 +20,21 @@ export class ProductoService {
     return this.http.get<Producto[]>(this.baseUrl() + '/productos')
   }
 
-  getProductoPag(pag:number, top:number): Observable<ProductoPag> {
+  getProductoPag(pag: number, top: number): Observable<ProductoPag> {
     return this.http.get<ProductoPag>(this.baseUrl() + `/productos?pag=${pag}&top=${top}`)
   }
 
   getProductoByUsuario(id: number): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.baseUrl() + '/productos/usuario?id=' + id)
       .pipe(
-        catchError(()  => of([]))
+        catchError(() => of([]))
       );
   }
 
   getProductoById(id: string): Observable<Producto | undefined> {
     return this.http.get<Producto>(this.baseUrl() + '/productos/' + id)
       .pipe(
-        catchError(()  => of(undefined))
+        catchError(() => of(undefined))
       );
   }
 

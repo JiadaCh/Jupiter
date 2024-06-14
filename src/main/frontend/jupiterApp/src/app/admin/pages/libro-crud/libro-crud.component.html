@@ -184,8 +184,8 @@
           id="editorial"
           inputId="id"
           optionLabel="nombre"
-          required
-          placeholder="Selecciona un Editorial"/>
+          placeholder="Selecciona un Editorial"
+          required/>
         <small *ngIf="submitted() && !libro.editorial.nombre" class="p-error">
           Hay que seleccionar un editorial
         </small>
@@ -213,23 +213,23 @@
           [(ngModel)]="libro.autores"
           [filter]="true"
           [options]="autores"
-          id="autor"
           display="chip"
           filterBy="nombre,apellido1,apellido2"
+          id="autor"
           placeholder="Selecciona un Autor">
-            <ng-template pTemplate="selectedItems" let-valor >
-              @if (libro.autores.length <= 0){
-                <div class="selected-item">
-                  Filtrar por Autores
-                </div>
-              }
-              <div class="gap-2 px-1" >
-                <shared-tag-autor [autores]="valor"></shared-tag-autor>
+          <ng-template let-valor pTemplate="selectedItems">
+            @if (libro.autores.length <= 0) {
+              <div class="selected-item">
+                Filtrar por Autores
               </div>
-            </ng-template>
+            }
+            <div class="gap-2 px-1">
+              <shared-tag-autor [autores]="valor"></shared-tag-autor>
+            </div>
+          </ng-template>
           <ng-template let-autor pTemplate="item">
             <div class="flex align-items-center gap-2">
-              {{ autor.apellido1 }} {{ autor.apellido2 || ''}}, {{ autor.nombre }}
+              {{ autor.apellido1 }} {{ autor.apellido2 || '' }}, {{ autor.nombre }}
             </div>
           </ng-template>
         </p-multiSelect>
@@ -294,10 +294,10 @@
         <textarea
           [(ngModel)]="libro.sinopsis"
           autofocus
+          class="h-13rem"
           id="sinopsis"
           pInputTextarea
           required
-          class="h-13rem"
           type="text"></textarea>
         <small *ngIf="submitted() && !libro.sinopsis" class="p-error">
           Sinopsis es requerido.

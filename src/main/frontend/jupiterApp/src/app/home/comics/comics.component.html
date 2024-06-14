@@ -10,7 +10,8 @@
             filterBy="">
   <ng-template pTemplate="header">
     <div class="flex flex-column md:flex-row md:justify-content-start ">
-      <input (input)="onSearchTextChange()" [(ngModel)]="searchText" class="mr-3 w-13rem" pInputText placeholder="Buscar por titulo"
+      <input (input)="onSearchTextChange()" [(ngModel)]="searchText" class="mr-3 w-13rem" pInputText
+             placeholder="Buscar por titulo"
              type="text">
       <p-multiSelect
         (onChange)="onFilterGenero($event)"
@@ -27,24 +28,24 @@
         (onChange)="onFilterAutor($event)"
         [(ngModel)]="selectedAutores"
         [options]="autores"
-        optionLabel="nombre"
         filterBy="nombre,apellido1,apellido2"
+        optionLabel="nombre"
         placeholder="Filtrar por Autores"
         styleClass="mr-3 w-18rem">
-        <ng-template pTemplate="selectedItems" let-valor >
-          @if (selectedAutores.length <= 0){
+        <ng-template let-valor pTemplate="selectedItems">
+          @if (selectedAutores.length <= 0) {
             <div class="selected-item">
               Filtrar por Autores
             </div>
           }
-          <div class="inline-flex align-items-center gap-2 px-1" *ngFor="let autor of valor">
+          <div *ngFor="let autor of valor" class="inline-flex align-items-center gap-2 px-1">
             <shared-tag-autor [autores]="valor"></shared-tag-autor>
           </div>
         </ng-template>
         <ng-template let-autor pTemplate="item">
           <div class="flex align-items-center gap-2">
             <div>
-              {{ autor.apellido1 }} {{ autor.apellido2 || ''}}, {{ autor.nombre }}
+              {{ autor.apellido1 }} {{ autor.apellido2 || '' }}, {{ autor.nombre }}
             </div>
           </div>
         </ng-template>
@@ -77,8 +78,8 @@
         <div class="p-4 border-1 surface-border surface-card border-round flex flex-column  shadow-3">
           <div class="surface-50 flex justify-content-center border-round p-3">
             <div class="relative mx-auto" style="width: 250px;height: 300px">
-              <img [alt]="comic.titulo" [ngSrc]="comic.portada " class="border-round w-full" width="250" height="300"
-                   priority/>
+              <img [alt]="comic.titulo" [ngSrc]="comic.portada " class="border-round w-full" height="300" priority
+                   width="250"/>
             </div>
           </div>
           <div class="pt-4">
@@ -86,7 +87,8 @@
               <div>
                 <span class="text-2xl font-semibold">{{ comic.titulo }}</span>
                 <div class="text-lg font-medium text-900 mt-1">
-                  Géneros: <shared-tag-genero [generos]="comic.generos"></shared-tag-genero>
+                  Géneros:
+                  <shared-tag-genero [generos]="comic.generos"></shared-tag-genero>
                 </div>
               </div>
             </div>

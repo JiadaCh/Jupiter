@@ -22,14 +22,14 @@ export class UsuarioService {
   getUsuarioByProducto(idProducto: number): Observable<Usuario | undefined> {
     return this.http.get<Usuario>(this.baseUrl() + `/usuarios/producto?productoId=${idProducto}`)
       .pipe(
-        catchError(()  => of(undefined))
+        catchError(() => of(undefined))
       );
   }
 
   getUsuarioById(id: string): Observable<Usuario | undefined> {
     return this.http.get<Usuario>(this.baseUrl() + '/usuarios/' + id)
       .pipe(
-        catchError(()  => of(undefined))
+        catchError(() => of(undefined))
       );
   }
 

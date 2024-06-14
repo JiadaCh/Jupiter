@@ -94,7 +94,7 @@
           <p-image [alt]="producto.producto" [preview]="true" [src]="producto.imagen" width="100"></p-image>
         </td>
         <td>
-          @if(producto.precio == 0){
+          @if (producto.precio == 0) {
             Free
           } @else {
             {{ producto.precio | currency:"EUR":'' }}€

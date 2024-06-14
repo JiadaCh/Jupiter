@@ -35,10 +35,10 @@ public class ComicService {
         return this.comicRepository.findAll();
     }
 
-    public Map<String,Object> all(int pag, int top) {
+    public Map<String, Object> all(int pag, int top) {
         Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
         Page<Comic> pageAll = this.comicRepository.findAll(pageable);
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
         response.put("comics", pageAll.getContent());
         response.put("currentPage", pageAll.getNumber());

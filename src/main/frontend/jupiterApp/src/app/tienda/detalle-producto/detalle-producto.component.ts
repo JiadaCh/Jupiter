@@ -66,12 +66,6 @@ import {ToastModule} from "primeng/toast";
   }`
 })
 export class DetalleProductoComponent implements OnInit {
-  private productoService = inject(ProductoService);
-  private usuarioService = inject(UsuarioService);
-  private authService = inject(AuthService);
-  private activatedRoute = inject(ActivatedRoute);
-  private pedidoService = inject(PedidoService);
-  private router = inject(Router);
   propietario = signal<boolean>(false);
   compraDialog: boolean = false;
   producto!: Producto;
@@ -82,8 +76,13 @@ export class DetalleProductoComponent implements OnInit {
     return this.usuario!.nombre;
   })
   submitted = signal(false);
-
   loading = signal(true);
+  private productoService = inject(ProductoService);
+  private usuarioService = inject(UsuarioService);
+  private authService = inject(AuthService);
+  private activatedRoute = inject(ActivatedRoute);
+  private pedidoService = inject(PedidoService);
+  private router = inject(Router);
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
@@ -107,9 +106,9 @@ export class DetalleProductoComponent implements OnInit {
             }
           });
         this.producto = producto;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.loading.set(false);
-        },1000)
+        }, 1000)
         return;
       });
 

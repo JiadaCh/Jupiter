@@ -24,9 +24,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             errorMessage.add(new ErrorMessage("El correo ya existe"));
         } else if (ex.getMessage().equals("usuario.nombre_unique")) {
             errorMessage.add(new ErrorMessage("El nombre del usuario ya existe"));
-        }else if (ex.getMessage().contains("libro")) {
+        } else if (ex.getMessage().contains("libro")) {
             errorMessage.add(new ErrorMessage("El ISBN del libro ya existe"));
-        }else {
+        } else {
             errorMessage.add(new ErrorMessage(ex.getMessage()));
         }
 

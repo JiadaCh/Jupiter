@@ -2,13 +2,15 @@
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.min.css";
 
-body{
+body {
   margin: 0;
   padding: 0;
 }
+
 .p-dialog .p-dialog-header .p-dialog-header-icon {
   display: none !important;
 }
+
 .p-menubar {
   background: var(--cyan-500);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.158), 0 7px 9px rgba(0, 0, 0, 0.12), 0 20px 25px -8px rgba(0, 0, 0, 0.18);
@@ -40,10 +42,10 @@ img {
   text-align: justify;
 }
 
-.p-tag{
+.p-tag {
   margin: 0 2px;
 }
 
-.p-avatar{
+.p-avatar {
   border: 2px solid var(--text-color-secondary);
 }

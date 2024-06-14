@@ -65,13 +65,6 @@ import {Libro} from "../../core/interface/libros.interface";
   styles: ``
 })
 export class DetalleLibroComponent implements OnInit {
-  private libroService = inject(LibroService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
-  usuarioLogeado = this.authService.user();
-  private resenaService = inject(ResenaService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
   libro: Libro | undefined;
   calificacion: number = 0;
   mediaCalificacion: number = 0;
@@ -81,6 +74,13 @@ export class DetalleLibroComponent implements OnInit {
   submitted = signal(false);
   resenaDialog: boolean = false;
   userCalf = signal(0);
+  private libroService = inject(LibroService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  usuarioLogeado = this.authService.user();
+  private resenaService = inject(ResenaService);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -169,8 +169,8 @@ export class DetalleLibroComponent implements OnInit {
   hideDialog() {
     this.resenaDialog = false;
     this.submitted.set(false);
-    if (!this.editar()){
-      this.resena=undefined;
+    if (!this.editar()) {
+      this.resena = undefined;
     }
     this.editar.set(false);
   }

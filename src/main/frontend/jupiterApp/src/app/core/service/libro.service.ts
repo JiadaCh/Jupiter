@@ -19,7 +19,7 @@ export class LibroService {
     return this.http.get<Libro[]>(this.baseUrl() + '/libros')
   }
 
-  getLibroPag(pag:number, top:number): Observable<LibroPag> {
+  getLibroPag(pag: number, top: number): Observable<LibroPag> {
     return this.http.get<LibroPag>(this.baseUrl() + `/libros?pag=${pag}&top=${top}`)
   }
 

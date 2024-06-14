@@ -31,11 +31,6 @@ import {Router} from "@angular/router";
   styles: ``
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  private authService = inject(AuthService);
-  usuario = computed(
-    this.authService.user
-  )
-  private router: Router = inject(Router);
   menuItems = signal<MenuItem[]>([
     {
       label: 'Home',
@@ -64,7 +59,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     },
   ]);
   items: MenuItem[] = [];
-
+  private authService = inject(AuthService);
+  usuario = computed(
+    this.authService.user
+  )
+  private router: Router = inject(Router);
 
   constructor() {
   }
@@ -82,7 +81,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.items = [];
   }
 
-  cargarMenu(){
+  cargarMenu() {
     setTimeout(() => {
       this.items = [
         {

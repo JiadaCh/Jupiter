@@ -22,16 +22,16 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping(value = {"", "/"},params = {"!pag","!top"})
+    @GetMapping(value = {"", "/"}, params = {"!pag", "!top"})
     public List<Producto> all() {
         log.info("Accediendo a todas los productos");
         return this.productoService.all();
     }
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Map<String,Object>> all(@RequestParam(value = "pag", defaultValue = "0") int pag, @RequestParam(value = "top", defaultValue = "10") int top) {
+    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "pag", defaultValue = "0") int pag, @RequestParam(value = "top", defaultValue = "10") int top) {
         log.info("Accediendo a todas los productos");
-        Map<String,Object> response = this.productoService.all(pag, top);
+        Map<String, Object> response = this.productoService.all(pag, top);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

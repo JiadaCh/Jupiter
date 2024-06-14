@@ -8,12 +8,12 @@ import org.jiada.jupiter.exception.ConstraintViolationException;
 import org.jiada.jupiter.exception.EntityNotFoundException;
 import org.jiada.jupiter.repository.EditorialRepository;
 import org.jiada.jupiter.repository.LibroRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +36,10 @@ public class LibroService {
         return this.libroRepository.findAll();
     }
 
-    public Map<String,Object> all(int pag, int top) {
+    public Map<String, Object> all(int pag, int top) {
         Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
         Page<Libro> pageAll = this.libroRepository.findAll(pageable);
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
         response.put("libros", pageAll.getContent());
         response.put("currentPage", pageAll.getNumber());
@@ -50,7 +50,7 @@ public class LibroService {
     }
 
     public Libro save(Libro Libro) {
-        try{
+        try {
             return this.libroRepository.save(Libro);
         } catch (DataIntegrityViolationException e) {
             if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
@@ -67,7 +67,7 @@ public class LibroService {
 
     public Libro replace(Long id, Libro libro) {
 
-        try{
+        try {
             Editorial editorial = libro.getEditorial();
             if (editorial.getId() == 0 && !editorial.getNombre().isBlank()) {
                 editorial = editorialRepository.save(editorial);

@@ -65,13 +65,6 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   styles: ``
 })
 export class DetalleComicComponent implements OnInit {
-  private resenaService = inject(ResenaService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
-  private comicService = inject(ComicService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
-  private userCalf = signal(0);
   comic: Comic | undefined;
   calificacion: number = 0;
   mediaCalificacion: number = 0;
@@ -80,7 +73,14 @@ export class DetalleComicComponent implements OnInit {
   editar = signal(false);
   submitted = signal(false);
   resenaDialog: boolean = false;
+  private resenaService = inject(ResenaService);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
+  private comicService = inject(ComicService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
   usuarioLogeado = this.authService.user();
+  private userCalf = signal(0);
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -170,8 +170,8 @@ export class DetalleComicComponent implements OnInit {
   hideDialog() {
     this.resenaDialog = false;
     this.submitted.set(false);
-    if (!this.editar()){
-      this.resena=undefined;
+    if (!this.editar()) {
+      this.resena = undefined;
     }
     this.editar.set(false);
   }

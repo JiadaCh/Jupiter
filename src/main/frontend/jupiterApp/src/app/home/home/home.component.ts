@@ -24,23 +24,23 @@ import {SkeletonModule} from "primeng/skeleton";
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  private comicService = inject(ComicService);
-  private libroService = inject(LibroService);
-  private productoService = inject(ProductoService);
   libroPag!: LibroPag;
   comicPag!: ComicPag;
   productoPag!: ProductoPag;
+  private comicService = inject(ComicService);
+  private libroService = inject(LibroService);
+  private productoService = inject(ProductoService);
 
   ngOnInit(): void {
-    this.comicService.getComicPag(0,10).subscribe(res => {
+    this.comicService.getComicPag(0, 10).subscribe(res => {
       this.comicPag = res
     });
 
-    this.libroService.getLibroPag(0,10).subscribe(res => {
+    this.libroService.getLibroPag(0, 10).subscribe(res => {
       this.libroPag = res
     });
 
-    this.productoService.getProductoPag(0,10).subscribe(res => {
+    this.productoService.getProductoPag(0, 10).subscribe(res => {
       this.productoPag = res
     });
   }

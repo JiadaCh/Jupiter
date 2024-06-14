@@ -12,10 +12,10 @@
       <div class="mb-3">
         <div class="relative mx-auto">
           <img
-            [ngSrc]="comic.portada"
             [alt]="comic.titulo"
-            priority
-            class="w-full h-fit border-round h-12rem" width="200" height="250"/>
+            [ngSrc]="comic.portada"
+            class="w-full h-fit border-round h-12rem"
+            height="250" priority width="200"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
@@ -45,9 +45,9 @@
       <div class="mb-3">
         <div class="relative mx-auto">
           <img
-            [ngSrc]="libro.portada"
             [alt]="libro.titulo"
-            class="w-full h-fit border-round h-12rem" width="200" height="250"/>
+            [ngSrc]="libro.portada"
+            class="w-full h-fit border-round h-12rem" height="250" width="200"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
@@ -82,7 +82,7 @@
             [alt]="producto.nombre"
             [ngSrc]="producto.imagen"
 
-            class="w-full h-fit border-round h-12rem" width="250" height="260"/>
+            class="w-full h-fit border-round h-12rem" height="260" width="250"/>
         </div>
       </div>
       <div class="mb-3 font-medium">
@@ -90,14 +90,14 @@
       </div>
       <div class="flex justify-content-between align-items-center">
         <div class="mt-0 font-semibold text-xl text-red-400">
-          @if(producto.precio == 0){
+          @if (producto.precio == 0) {
             Free
           } @else {
             {{ producto.precio | currency:"EUR":'' }}€
           }
         </div>
         <a [href]="'productos/producto/'+producto.id">
-          <p-button icon="pi pi-shopping-cart" styleClass="ml-2" label="Comprar"/>
+          <p-button icon="pi pi-shopping-cart" label="Comprar" styleClass="ml-2"/>
         </a>
       </div>
     </div>

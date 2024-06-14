@@ -24,7 +24,7 @@
                 </div>
                 <div style="margin: 20px 0" class="text-2xl">Precio: <br>
                   <div class="text-red-400 text-6xl">
-                    @if(producto.precio == 0){
+                    @if (producto.precio == 0) {
                       Free
                     } @else {
                       {{ producto.precio | currency:"EUR":'' }}€

@@ -22,16 +22,16 @@ public class ComicController {
         this.comicService = comicService;
     }
 
-    @GetMapping(value = {"", "/"},params = {"!pag","!top"})
+    @GetMapping(value = {"", "/"}, params = {"!pag", "!top"})
     public List<Comic> all() {
         log.info("Accediendo a todas los comics");
         return this.comicService.all();
     }
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Map<String,Object>> all(@RequestParam(value = "pag", defaultValue = "0") int pag, @RequestParam(value = "top", defaultValue = "10") int top) {
+    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "pag", defaultValue = "0") int pag, @RequestParam(value = "top", defaultValue = "10") int top) {
         log.info("Accediendo a todas los comics");
-        Map<String,Object> response = this.comicService.all(pag, top);
+        Map<String, Object> response = this.comicService.all(pag, top);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

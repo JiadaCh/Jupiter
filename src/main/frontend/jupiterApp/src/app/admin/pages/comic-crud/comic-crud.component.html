@@ -79,7 +79,8 @@
             type="text"/>
         </th>
         <th>
-          <p-columnFilter [showAddButton]="false" [showMatchModes]="false" [showOperator]="false" class="ml-auto" display="menu"
+          <p-columnFilter [showAddButton]="false" [showMatchModes]="false" [showOperator]="false" class="ml-auto"
+                          display="menu"
                           field="tipo" matchMode="equals">
             <ng-template pTemplate="header">
               <div class="px-3 pt-3 pb-0">
@@ -206,11 +207,11 @@
           [(ngModel)]="comic.autores"
           [filter]="true"
           [options]="autores"
-          id="autor"
           filterBy="nombre,apellido1,apellido2"
+          id="autor"
           placeholder="Selecciona un Autor">
-          <ng-template pTemplate="selectedItems" let-valor >
-            @if (comic.autores.length <= 0){
+          <ng-template let-valor pTemplate="selectedItems">
+            @if (comic.autores.length <= 0) {
               <div class="selected-item">
                 Seleccionar por Autores
               </div>
@@ -222,7 +223,7 @@
           <ng-template let-autor pTemplate="item">
             <div class="flex align-items-center gap-2">
               <div>
-                {{ autor.apellido1 }} {{ autor.apellido2 || ''}}, {{ autor.nombre }}
+                {{ autor.apellido1 }} {{ autor.apellido2 || '' }}, {{ autor.nombre }}
               </div>
             </div>
           </ng-template>
@@ -314,9 +315,9 @@
         <textarea
           [(ngModel)]="comic.sinopsis"
           autofocus
+          class="h-13rem"
           id="sinopsis"
           pInputTextarea
-          class="h-13rem"
           required
           type="text"></textarea>
         <small *ngIf="submitted() && !comic.sinopsis" class="p-error">
@@ -326,11 +327,11 @@
 
       <p-fileUpload
         (onSelect)="onUpload($event)"
+        [auto]="true"
         [multiple]="false"
         [showCancelButton]="false"
         [showUploadButton]="false"
         accept="image/*"
-        [auto]="true"
         label="Seleccionar imagen"
         maxFileSize="1000000"
         uploadIcon>

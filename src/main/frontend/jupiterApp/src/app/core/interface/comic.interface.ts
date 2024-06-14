@@ -2,10 +2,10 @@ import {Editorial} from "./editorial.interface";
 import {Genero} from "./genero.interface";
 import {Autor} from "./autor.interface";
 
-export interface ComicPag{
-  total:number;
-  pages:number;
-  currentPage:number;
+export interface ComicPag {
+  total: number;
+  pages: number;
+  currentPage: number;
   comics: Comic[];
 }
 

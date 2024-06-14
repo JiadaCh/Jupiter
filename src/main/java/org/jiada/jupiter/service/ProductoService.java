@@ -36,10 +36,10 @@ public class ProductoService {
         return this.productoRepository.findAllByComprado(false);
     }
 
-    public Map<String,Object> all(int pag, int top) {
+    public Map<String, Object> all(int pag, int top) {
         Pageable pageable = PageRequest.of(pag, top, Sort.by("id").ascending());
         Page<Producto> pageAll = this.productoRepository.findAll(pageable);
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
         response.put("productos", pageAll.getContent());
         response.put("currentPage", pageAll.getNumber());

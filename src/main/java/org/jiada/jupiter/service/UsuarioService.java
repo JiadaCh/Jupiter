@@ -72,11 +72,11 @@ public class UsuarioService {
     }
 
     public void existsUsuario(Usuario usuario) {
-        if (usuarioRepository.existsUsuarioByNombreAndCorreo(usuario.getNombre(),usuario.getCorreo())) {
+        if (usuarioRepository.existsUsuarioByNombreAndCorreo(usuario.getNombre(), usuario.getCorreo())) {
             throw new ConstraintViolationException("Usuario ya existe");
         } else if (usuarioRepository.existsUsuarioByNombre(usuario.getNombre())) {
             throw new ConstraintViolationException("Usuario ya existe");
-        }else if (usuarioRepository.existsUsuarioByCorreo(usuario.getCorreo())){
+        } else if (usuarioRepository.existsUsuarioByCorreo(usuario.getCorreo())) {
             throw new ConstraintViolationException("El correo ya existe");
         }
     }
